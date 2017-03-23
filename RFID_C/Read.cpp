@@ -18,6 +18,10 @@ void delay(int ms){
 #include<stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+
 
 const char * PATH_SCRIPT="/home/pi/scripts/";
 const char * ALLON ="14922213120";
@@ -163,7 +167,8 @@ int main(){
 			sprintf(request," curl --data \"card_id=%s\" http://127.0.0.1/ivrogne_api_raspberry/web/app.php/api/rfid-auth-tokens > /home/pi/RFID_C/token.txt", uid);
 			printf("%s\n",request); 
 			system(request);
-	
+			system("/home/pi/RFID_C/order.py");
+
 		}
 
 		delay(1000);
