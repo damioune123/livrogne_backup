@@ -1,0 +1,2 @@
+
+{"id":80,"value":"htydxqxs3vP97dl1jHVdcqYTrIEEA1k2Qi\/dN309lM\/rUkiAqwA5NQ8RewjWNmbj\/XQ=","created_at":"2017-03-22T19:46:16-0400","user":{"id":1,"firstname":"Julien","lastname":"Daniello","username":"dani","role":"ROLE_SUPER_ADMIN","user_accounts":[{"id":3},{"id":4},{"id":5}],"email":"juliendaniello@gmail.com","nefews":[],"promotion":{"id":2,"user_promotion":10,"promotion_name":"admin"},"money_limit":0},"is_log_with_rfid":true}
