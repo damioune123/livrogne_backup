@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from dateutil import parser
 import re
 import math
 import sys
@@ -7,7 +8,7 @@ import time
 import signal
 import requests
 import json
-
+from datetime import datetime
 tMax=15 # temps commande max
 token=None
 
@@ -49,25 +50,19 @@ def lectureBarcode(timeout):
 	return ss
 
 with open("token.txt","r") as f:
-	token=f.read();
-m=re.search("user_accounts", token);
+	tokenPayload=f.read();
+m=re.search("user_accounts", tokenPayload);
 if m==None:
 	exit(0)
-words = re.split(",", token)
-print(words)
-tokenTemp=re.split(":",words[1])
+tokenPyth =json.loads(tokenPayload)
+for ac in tokenPyth["user"]["user_accounts"]:
+	if ac["type"] == "somebody":
+		uAccount=ac["id"]
+tokenTemp=tokenPyth["value"]
 token = tokenTemp[1][1:len(tokenTemp[1])-1]
-print("1qsdqsdqsds",token)
-token = token.replace("\\", "")
+token = tokenTemp.replace("\\", "")
 
-print("qsdqsd", token)
-firstNameTemp=re.split(":", words[4])
-firstName=firstNameTemp[1][1:len(firstNameTemp[1])-1]
-print(firstName)
-
-uAccountTemp= re.split(":", words[8])
-uAccount = uAccountTemp[2][:len(uAccountTemp[2])-1]
-
+firstname=tokenPyth["user"]["firstname"]
 t_end = time.time() + tMax 
  
 barcodes={}
