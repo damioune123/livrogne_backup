@@ -8,6 +8,8 @@ import time
 import signal
 import requests
 import json
+import os
+import time
 from datetime import datetime
 tMax=15 # temps commande max
 token=None
@@ -63,6 +65,8 @@ token = tokenTemp[1][1:len(tokenTemp[1])-1]
 token = tokenTemp.replace("\\", "")
 
 firstname=tokenPyth["user"]["firstname"]
+
+os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py Bienvenue~"+firstname)
 t_end = time.time() + tMax 
  
 barcodes={}
@@ -74,9 +78,12 @@ while t_end > time.time() :
 	
 	print barcode
 	if barcode not in barcodes:
+		os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py "+ barcode+"~x"+str(1))
 		barcodes[barcode]=1
 	else:
 		barcodes[barcode]+=1
+		print("yo", str(barcodes[barcode]))
+		os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py "+barcode+"~x"+str(barcodes[barcode]))
 print barcodes
 orderlines=[]
 for key in barcodes:
@@ -90,6 +97,9 @@ headers = {
 print(json.dumps(payload))
 if orderlines:
 	r = requests.post(url, data=json.dumps(payload), headers=headers)
-	print(r.content)
+	tokenRetour = json.loads(r.content)
+	os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py TOTAL:~"+str(tokenRetour["order_price"])+" euro")
+	time.sleep(3)
+	
 print("fini!")
 

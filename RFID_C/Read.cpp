@@ -52,6 +52,7 @@ int main(){
 		exit(1);
 	}
 
+	system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py Bienvenue a~l ivrogne");
 	while(1){
 		delay(250);
 		// Look for a card
@@ -168,7 +169,10 @@ int main(){
 			printf("%s\n",request); 
 			system(request);
 			system("/home/pi/RFID_C/order.py");
-
+			system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py Commande~terminee");
+			sleep(2);
+			system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py Bienvenue a~l ivrogne");
+			
 		}
 
 		delay(1000);
