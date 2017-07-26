@@ -1,3 +1,4 @@
+
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -44,32 +45,41 @@ int main(){
 		exit(3);
 	}
 	MFRC522 mfrc;
+	MFRC522 mfrc2;
 	char* uid;
 	pid_t pid;
 	mfrc.PCD_Init();
+	mfrc2.PCD_Init();
 	if( (uid =(char *)malloc(sizeof(char)*255))== NULL){
 		fprintf(stderr,"Erreur malloc\n");
 		exit(1);
 	}
 
-	system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py Bienvenue a~l ivrogne");
 	while(1){
 		delay(250);
 		// Look for a card
-		if(!mfrc.PICC_IsNewCardPresent())
+		if(!mfrc.PICC_IsNewCardPresent() && !mfrc2.PICC_IsNewCardPresent())
 			continue;
-
-		if( !mfrc.PICC_ReadCardSerial())
-			continue;
-		// Print UID
 		*uid='\0';
-		for(byte i = 0; i < mfrc.uid.size; ++i){
-			if(mfrc.uid.uidByte[i] < 0x10){
+		if( mfrc.PICC_ReadCardSerial()){
+			for(byte i = 0; i < mfrc.uid.size; ++i){
+				if(mfrc.uid.uidByte[i] < 0x10){
+					sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
+				}
+				else{
+					sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
+				}
 
-				sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
 			}
-			else{
-				sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
+		}	
+		if(mfrc2.PICC_ReadCardSerial()){
+			for(byte i = 0; i < mfrc2.uid.size; ++i){
+				if(mfrc2.uid.uidByte[i] < 0x10){
+					sprintf(uid,"%s%d",uid, mfrc2.uid.uidByte[i]);
+				}       
+				else{   
+					sprintf(uid,"%s%d",uid, mfrc2.uid.uidByte[i]);
+				}
 			}
 
 		}
@@ -86,6 +96,7 @@ int main(){
 			}
 			else{
 				system("/home/pi/scripts/ALLrelaispriseOFF.py");
+				system("gpio mode 25 in"); 
 			}
 		}
 		else if(strcmp(ALLON, uid)==0){
@@ -100,6 +111,8 @@ int main(){
 			}
 			else{
 				system("/home/pi/scripts/ALLrelaispriseON.py");
+				system("gpio mode 25 out");
+				system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py Commandes~fonctionnelles &");
 		
 			}
 		}
@@ -144,7 +157,7 @@ int main(){
                                 pid=0;
                         }
                         else{
-                                system("/home/pi/scripts/relaisFrigoON.py");
+                                system("sudo /home/pi/scripts/relaisFrigoON.py");
 
                         }
                 }
@@ -168,7 +181,7 @@ int main(){
 			sprintf(request," curl --data \"card_id=%s\" http://127.0.0.1/ivrogne_api_raspberry/web/app.php/api/rfid-auth-tokens > /home/pi/RFID_C/token.txt", uid);
 			printf("%s\n",request); 
 			system(request);
-			system("/home/pi/RFID_C/order.py");
+			system("sudo /home/pi/scripts/order.py");
 			system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py Commande~terminee");
 			sleep(2);
 			system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py Bienvenue a~l ivrogne");
