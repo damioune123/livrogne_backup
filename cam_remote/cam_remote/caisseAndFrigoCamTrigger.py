@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import RPi.GPIO as GPIO
-import time, os, signal, subprocess
+import time, os, signal, subprocess, fcntl
 import sys, paramiko
 port_caisse = 4
 port_frigo_1 = 14
@@ -67,11 +67,23 @@ def child():
                 os._exit(0)
 
 def parent():
+    fname = 'cam_pid.lock'
+    try:
+       fd = os.open(fname, os.O_CREAT|os.O_WRONLY|os.O_EXCL)
+    except OSError:
+       # failed to open, another process is running
+        with open(fname) as f:
+            print "other process running:", f.readline()
+            sys.exit()
+    os.write(fd, '%d\n' % os.getpid())
+    os.fsync(fd)
     while True:
         try:
             time.sleep(0.5)
         except KeyboardInterrupt:
             print("Exiting frigo/caisse sensors daemon ...")
+            os.close(fd)
+            os.remove(fname)
             os._exit(0)
         if caisseOrFrigoOpened() == True:
             print('Caisse et/ou frigo  ouverts')
