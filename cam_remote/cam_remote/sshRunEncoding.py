@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, paramiko
-hostname = "192.168.0.233"
+hostname = "192.168.0.214"
 password = "raspberry"
 username = "pi"
 port = 22
