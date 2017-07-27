@@ -21,7 +21,7 @@ def closeSSH():
     ssh.close()
 openSSH()
 execComm('/home/pi/livrogne_backup/cam/stream_to_avi.sh')
-execComm('sleep 10')
+execComm('sleep 20')
 execComm('killall avconv')
 closeSSH()
 
