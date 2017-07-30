@@ -9,7 +9,7 @@ hostname = "192.168.0.214"
 password = "raspberry"
 username = "pi"
 port = 22
-fname = 'cam_pid.lock'
+fname = '/home/pi/cam_remote/cam_pid.lock'
 ssh=None
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(port_caisse, GPIO.IN, pull_up_down=GPIO.PUD_UP)

@@ -2,7 +2,7 @@
 # ------------
 name="`date +%Y-%m-%d_%H:%M:%S`"
 
-BASEpath='/home/pi/livrogne_backup/cam'
+BASEpath='/mnt/cam_hdd'
 RECpath=$BASEpath'/video'
 
 # Save the streams using ffmpeg at 30 fps, stopping the capture after 300 seconds (15 minutes). Add more lines if you have more than 2 cameras
