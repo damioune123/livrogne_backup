@@ -4,18 +4,17 @@
 import RPi.GPIO as GPIO
 import MFRC522
 import signal
+import sys
 import time
 
 # Capture SIGINT for cleanup when the script is aborted
 def end_read(signal,frame):
     global continue_reading
-    print("Ctrl+C captured, ending read.")
-    continue_reading = False
+    print("Ctrl+C captured, ending  insertion produit.")
     GPIO.cleanup()
+    sys.exit(0)
 
 def main():
-    global continue_reading
-    continue_reading = True
 
     # Hook the SIGINT
     signal.signal(signal.SIGINT, end_read)
@@ -24,7 +23,7 @@ def main():
     MIFAREReader = MFRC522.MFRC522()
 
 
-    while continue_reading:
+    while True:
          # Scan for cards    
         (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
