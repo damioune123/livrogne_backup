@@ -14,7 +14,7 @@ import json
 import os
 import time
 from datetime import datetime
-tMax=15 # temps commande max
+tMax=30 # temps commande max
 token=None
 
 def lectureBarcode(timeout):
@@ -68,16 +68,21 @@ token = tokenTemp.replace("\\", "")
 
 firstname=tokenPyth["user"]["firstname"]
 
-os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py Bienvenue~"+firstname)
-t_end = time.time() + tMax 
-os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py DEBUG")
-barcodes={}
+os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py "+firstname[:16]+":~Authenticated\ !")
 
 headers = {
         "X-Auth-Token": token,
         "Content-Type": "application/json",
 }
 url = 'http://localhost/ivrogne_api_raspberry/web/app.php/api/client-self-order'
+t_end = time.time() + tMax 
+products ={}
+def count_items(products):
+    total = 0
+    for key in products:
+        total+=products[key][0]
+    return total
+
 
 while t_end > time.time() :
 	try:
@@ -85,39 +90,42 @@ while t_end > time.time() :
 		print barcode
 		url = 'http://localhost/ivrogne_api_raspberry/web/app.php/api/products/'+barcode
 		r =  requests.get(url, headers=headers)
-		print r.content
 		tokenVerif = json.loads(r.content)
 		if "message" not in tokenVerif: #si barcode valide	
-			if barcode not in barcodes:
-				os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py "+ barcode+"~x"+str(1))
-				barcodes[barcode]=1
+			if barcode not in products:
+                                products[barcode]=[1, tokenVerif["name"]]
 			else:
-				barcodes[barcode]+=1
-				os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py "+barcode+"~x"+str(barcodes[barcode]))
+			        products[barcode][0]+=1
+
+                        os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py "+products[barcode][1][:13]+"x"+str(products[barcode][0])+"~Amount\ Items:"+str(count_items(products)))
+                else :
+                    print "non valide"
+                    os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py "+barcode[:16]+":~NOT\ AVAILABLE")
+
 
 	except IOError:
 		break
 orderlines=[]
 try:
-	for key in barcodes:
-		orderlines.append({"product":key, "quantity" :barcodes[key]})
+	for key in products:
+		orderlines.append({"product":key, "quantity" :products[key][0]})
 	payload={"order":{"customerUserAccount":uAccount}, "orderlines": orderlines}
 	url = 'http://localhost/ivrogne_api_raspberry/web/app.php/api/client-self-order'
 except IOError:
 	for key in barcodes:
-		orderlines.append({"product":key, "quantity" :barcodes[key]})
+		orderlines.append({"product":key, "quantity" :products[key][0]})
 		payload={"order":{"customerUserAccount":uAccount}, "orderlines": orderlines}
 		url = 'http://localhost/ivrogne_api_raspberry/web/app.php/api/client-self-order'
 	if orderlines:
 		r = requests.post(url, data=json.dumps(payload), headers=headers)
 		tokenRetour = json.loads(r.content)
-		print r.content
-		os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py TOTAL:~"+str(tokenRetour["order_price"])+" euro")
+		os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py TOTAL:~"+str(tokenRetour["order_price"])+"euro")
+                time.sleep(5)
 if orderlines:
 	r = requests.post(url, data=json.dumps(payload), headers=headers)
 	tokenRetour = json.loads(r.content)
-	print r.content
-	os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py TOTAL:~"+str(tokenRetour["order_price"])+" euro")
+	os.system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py TOTAL:~"+str(tokenRetour["order_price"])+"euro")
+        time.sleep(5)
 		
 
 		
