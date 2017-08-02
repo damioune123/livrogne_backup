@@ -1,7 +1,7 @@
 #!/bin/bash
 start()
 {
- sudo /home/pi/RFID_C/rfid & || echo "Une seule instance a la fois"
+ sudo /home/pi/RFID_C/rfid & 
 }
 
 stop()
