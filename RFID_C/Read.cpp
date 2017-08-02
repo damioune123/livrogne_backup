@@ -33,7 +33,6 @@ const char * MUSIC_ON ="18122563120";
 const char * MUSIC_OFF ="24554180120";
 
 
-void executePython(char *);
 int main(){
 	int fd = open("/home/pi/RFID_C/rfid.lock", O_RDWR);
 	if (fd == -1) { 
@@ -41,7 +40,7 @@ int main(){
 		exit(50);
 	}
 	if (flock(fd, LOCK_EX | LOCK_NB) == -1) { 
-		fprintf(stderr,"Ce daemon ne peut pas être ouvert plusieurs  fois, une autre instance est en cours\n");
+		fprintf(stderr,"Ce daemon ne peut pas etre ouvert plusieurs  fois, une autre instance est en cours\n");
 		exit(3);
 	}
 	MFRC522 mfrc;
@@ -113,7 +112,7 @@ int main(){
 			else{
 				system("/home/pi/scripts/ALLrelaispriseON.py");
 				system("gpio mode 25 out");
-				system("/home/pi/RFID_C/displayC.py WELCOME! &");
+				system("/home/pi/RFID_C/displayC.py WELCOME! ");
 		
 			}
 		}
@@ -182,32 +181,28 @@ int main(){
 			sprintf(request," curl --data \"card_id=%s\" http://127.0.0.1/ivrogne_api_raspberry/web/app.php/api/rfid-auth-tokens > /home/pi/RFID_C/token.txt", uid);
 			printf("%s\n",request); 
                         system(request);
-                        system("/home/pi/RFID_C/displayC.py ORDER~STARTING &");
-                        sleep(1);
-                        system("/home/pi/RFID_C/order.py &");
-                        wait(NULL);
-			system("/home/pi/RFID_C/displayC.py ORDER~FINISHED &");
-                        sleep(2);
-			system("/home/pi/RFID_C/displayC.py CARD...PLEASE &");
-
+                        if( (pid=fork())==-1){
+                                perror("Erreur fork\n");
+                                exit(43);
+                        }
+                        if(pid){
+                                int status;
+                                waitpid(pid, &status, 0);
+                                pid=0;
+                        }
+                        else{
+                                system("/home/pi/RFID_C/displayC.py ORDER~STARTING");
+                                sleep(1);
+                                system("/home/pi/RFID_C/order.py ");
+                                wait(NULL);
+                                system("/home/pi/RFID_C/displayC.py ORDER~FINISHED ");
+                                sleep(2);
+                                system("/home/pi/RFID_C/displayC.py CARD...PLEASE ");
+                        }
 			
 		}
 
 		delay(1000);
 	}
 	return 0;
-}
-void executePython(char* calledPython){
-	printf("df");
-	char* realCalledPython;
-	if( (realCalledPython =(char *) malloc(sizeof(char) *255))==NULL){
-		fprintf(stderr,"Erreur malloc \n");
-		exit(2);
-	}
-	realCalledPython=strcat( calledPython, PATH_SCRIPT);
-	char* pythonArgs[]={realCalledPython, NULL};
-//	execvp(realCalledPython, pythonArgs);
-	printf("kaka");
-	system("/home/pi/scripts/ALLrelaispriseOFF.py");
-	perror("Erreur : python  execution\n");
 }
