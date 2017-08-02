@@ -54,6 +54,7 @@ int main(){
 		fprintf(stderr,"Erreur malloc\n");
 		exit(1);
 	}
+	system("/home/pi/RFID_C/displayC.py CARD...PLEASE &");
 
 	while(1){
 		delay(250);
@@ -112,7 +113,7 @@ int main(){
 			else{
 				system("/home/pi/scripts/ALLrelaispriseON.py");
 				system("gpio mode 25 out");
-				system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py Commandes~fonctionnelles &");
+				system("/home/pi/RFID_C/displayC.py WELCOME! &");
 		
 			}
 		}
@@ -157,7 +158,7 @@ int main(){
                                 pid=0;
                         }
                         else{
-                                system("sudo /home/pi/scripts/relaisFrigoON.py");
+                                system("/home/pi/scripts/relaisFrigoON.py");
 
                         }
                 }
@@ -180,11 +181,15 @@ int main(){
 			char request[500];
 			sprintf(request," curl --data \"card_id=%s\" http://127.0.0.1/ivrogne_api_raspberry/web/app.php/api/rfid-auth-tokens > /home/pi/RFID_C/token.txt", uid);
 			printf("%s\n",request); 
-			system(request);
-			system("sudo /home/pi/scripts/order.py");
-			system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py Commande~terminee");
-			sleep(2);
-			system("sudo /home/pi/RFID_C/python-i2c-lcd/display.py Bienvenue a~l ivrogne");
+                        system(request);
+                        system("/home/pi/RFID_C/displayC.py ORDER~STARTING &");
+                        sleep(1);
+                        system("/home/pi/RFID_C/order.py &");
+                        wait(NULL);
+			system("/home/pi/RFID_C/displayC.py ORDER~FINISHED &");
+                        sleep(2);
+			system("/home/pi/RFID_C/displayC.py CARD...PLEASE &");
+
 			
 		}
 
