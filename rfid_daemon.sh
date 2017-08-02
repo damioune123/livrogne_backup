@@ -1,12 +1,12 @@
 #!/bin/bash
 start()
 {
- sudo /home/pi/RFID_C/rfid &
+ sudo /home/pi/RFID_C/rfid & || echo "Une seule instance a la fois"
 }
 
 stop()
 {
-  kill `head -1 /var/run/rfid.pid`
+  kill -s "SIGKILL" `head -1 /var/run/rfid.pid`
 
 }
 
