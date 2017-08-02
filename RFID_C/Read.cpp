@@ -34,7 +34,7 @@ const char * MUSIC_OFF ="24554180120";
 
 
 int main(){
-	int fd = open("/home/pi/RFID_C/rfid.lock", O_RDWR);
+	int fd = open("/var/lock/rfid.lock", O_RDWR|O_CREAT);
 	if (fd == -1) { 
 		perror("Erreur ouverture fichier lock\n");
 		exit(50);
@@ -42,6 +42,18 @@ int main(){
 	if (flock(fd, LOCK_EX | LOCK_NB) == -1) { 
 		fprintf(stderr,"Ce daemon ne peut pas etre ouvert plusieurs  fois, une autre instance est en cours\n");
 		exit(3);
+	}
+	int fd2 = open("/var/run/rfid.pid", O_RDWR|O_CREAT|O_TRUNC);
+	if (fd == -1) { 
+		perror("Erreur ouverture fichier lock\n");
+		exit(50);
+	}
+        int current_pid = getpid();
+        char cPid[255];
+        sprintf(cPid, "%d", current_pid);
+	if (write(fd2, &cPid, strlen(cPid)) == -1) { 
+		fprintf(stderr,"Erreur ecriture pid file\n");
+		exit(4);
 	}
 	MFRC522 mfrc;
 	MFRC522 mfrc2;

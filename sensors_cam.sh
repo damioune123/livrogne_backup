@@ -6,7 +6,7 @@ pgrep script.bash && echo "already running" || ( sudo /home/pi/cam_remote/caisse
 
 stop()
 {
-   kill `head -1 /home/pi/cam_remote/cam_pid.lock`
+   kill `head -1 /var/lock/cam_pid.lock`
 
 }
 

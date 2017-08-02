@@ -1,12 +1,12 @@
 #!/bin/bash
 start()
 {
-pgrep script.bash && echo "already running" || ( sudo /home/pi/RFID_C/rfid &)
+ sudo /home/pi/RFID_C/rfid &
 }
 
 stop()
 {
-  pkill rfid
+  kill `head -1 /var/run/rfid.pid`
 
 }
 
@@ -26,7 +26,7 @@ restart)
 force-reload)
 	restart;;
 status)
-	echo /var/run/mydaemon/rfid.pid;;
+	head -1 /var/run/rfid.pid;;
 *)
 	start;;
 esac
