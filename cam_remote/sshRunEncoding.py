@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, paramiko
+import sys, paramiko, time, os
 hostname = "192.168.0.214"
 password = "raspberry"
 username = "pi"
@@ -20,4 +20,12 @@ def closeSSH():
     global ssh
     ssh.close()
 
-
+newpid = os.fork()
+if newpid ==0:
+    openSSH()
+    execComm("/home/pi/livrogne_backup/cam/stream_to_avi.sh ")
+else:
+    time.sleep(5)
+    openSSH()
+    execComm("killall avconv")
+    closeSSH()

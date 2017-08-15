@@ -1,17 +1,4 @@
-
-#ifdef WIN32
-#include <windows.h>
-#else
 #include <unistd.h>
-#endif
-
-void delay(int ms){
-#ifdef WIN32
-	Sleep(ms);
-#else
-	usleep(ms*1000);
-#endif
-}
 #include <sys/file.h>
 #include "MFRC522.h"
 #include<string.h>
@@ -21,19 +8,17 @@ void delay(int ms){
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
-
-
-const char * PATH_SCRIPT="/home/pi/scripts/";
-const char * ALLON ="14922213120";
-const char * ALLOFF ="37195201120";
-const char * FRIGO_ON ="181249204120";
-const char * FRIGO_OFF ="6983209120";
-const char * MUSIC_ON ="18122563120";
-const char * MUSIC_OFF ="24554180120";
-
-
+static const char * CURRENT_DIR="/home/pi/RFID_C";
+static const char * SCRIPTS_DIR="/home/pi/scripts";
+static const char * ALLON ="14922213120";
+static const char * ALLOFF ="37195201120";
+static const char * FRIGO_ON ="181249204120";
+static const char * FRIGO_OFF ="6983209120";
+static const char * MUSIC_ON ="18122563120";
+static const char * MUSIC_OFF ="24554180120";
 int main(){
+        char buffer[512];
+        char uid[521];
 	int fd = open("/var/lock/rfid.lock", O_RDWR|O_CREAT);
 	if (fd == -1) { 
 		perror("Erreur ouverture fichier lock\n");
@@ -45,7 +30,7 @@ int main(){
 	}
 	int fd2 = open("/var/run/rfid.pid", O_RDWR|O_CREAT|O_TRUNC);
 	if (fd == -1) { 
-		perror("Erreur ouverture fichier lock\n");
+		perror("Erreur ouverture fichier pid\n");
 		exit(50);
 	}
         int current_pid = getpid();
@@ -57,164 +42,73 @@ int main(){
 	}
 	MFRC522 mfrc;
 	MFRC522 mfrc2;
-	char* uid;
-	pid_t pid;
 	mfrc.PCD_Init();
 	mfrc2.PCD_Init();
-	if( (uid =(char *)malloc(sizeof(char)*255))== NULL){
-		fprintf(stderr,"Erreur malloc\n");
-		exit(1);
-	}
-	system("/home/pi/RFID_C/displayC.py CARD...PLEASE &");
-
+        pid_t child_pid;
 	while(1){
-		delay(250);
+		usleep(250*1000);
 		// Look for a card
 		if(!mfrc.PICC_IsNewCardPresent() && !mfrc2.PICC_IsNewCardPresent())
 			continue;
 		*uid='\0';
 		if( mfrc.PICC_ReadCardSerial()){
 			for(byte i = 0; i < mfrc.uid.size; ++i){
-				if(mfrc.uid.uidByte[i] < 0x10){
-					sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
-				}
-				else{
-					sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
-				}
-
+                            sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
 			}
 		}	
 		if(mfrc2.PICC_ReadCardSerial()){
 			for(byte i = 0; i < mfrc2.uid.size; ++i){
-				if(mfrc2.uid.uidByte[i] < 0x10){
-					sprintf(uid,"%s%d",uid, mfrc2.uid.uidByte[i]);
-				}       
-				else{   
-					sprintf(uid,"%s%d",uid, mfrc2.uid.uidByte[i]);
-				}
+                            sprintf(uid,"%s%d",uid, mfrc2.uid.uidByte[i]);
 			}
-
 		}
 		printf("%s\n", uid);
 		if(strcmp(ALLOFF, uid)==0){
-			if( (pid=fork())==-1){
-				perror("Erreur fork\n");
-				exit(43);
-			}
-			if(pid > 0){
-				
-				int status;
-				waitpid(pid, &status, 0);
-			}
-			else{
-				system("/home/pi/scripts/ALLrelaispriseOFF.py");
-				system("gpio mode 25 in"); 
-			}
+                    sprintf(buffer,"%s/ALLrelaispriseOFF.py", SCRIPTS_DIR);
+                    system(buffer);
 		}
 		else if(strcmp(ALLON, uid)==0){
-			if( (pid=fork())==-1){
-				perror("Erreur fork\n");
-				exit(43);
-			}
-			if(pid){
-				int status;
-				waitpid(pid, &status, 0);
-				pid=0;	
-			}
-			else{
-				system("/home/pi/scripts/ALLrelaispriseON.py");
-				system("gpio mode 25 out");
-				system("/home/pi/RFID_C/displayC.py WELCOME! ");
+                    sprintf(buffer,"%s/displayC.py CARD...PLEASE &", CURRENT_DIR);
+                    system(buffer);
+                    sprintf(buffer,"%s/ALLrelaispriseON.py", SCRIPTS_DIR);
+                    system(buffer);
 		
-			}
 		}
 		else if(strcmp(MUSIC_ON, uid)==0){
-                        if( (pid=fork())==-1){
-                                perror("Erreur fork\n");
-                                exit(43);
-                        }
-                        if(pid){
-                                int status;
-                                waitpid(pid, &status, 0);
-                                pid=0;
-                        }
-                        else{
-                                system("/home/pi/scripts/relaisMusicON.py");
-
-                        }
+                    sprintf(buffer,"%s/relaisMusicON.py", SCRIPTS_DIR);
+                    system(buffer);
                 }
 		 else if(strcmp(MUSIC_OFF, uid)==0){
-                        if( (pid=fork())==-1){
-                                perror("Erreur fork\n");
-                                exit(43);
-                        }
-                        if(pid){
-                                int status;
-                                waitpid(pid, &status, 0);
-                                pid=0;
-                        }
-                        else{
-                                system("/home/pi/scripts/relaisMusicOFF.py");
-
-                        }
+                     sprintf(buffer,"%s/relaisMusicOFF.py", SCRIPTS_DIR);
+                     system(buffer);
                 }
 		 else if(strcmp(FRIGO_ON, uid)==0){
-                        if( (pid=fork())==-1){
-                                perror("Erreur fork\n");
-                                exit(43);
-                        }
-                        if(pid){
-                                int status;
-                                waitpid(pid, &status, 0);
-                                pid=0;
-                        }
-                        else{
-                                system("/home/pi/scripts/relaisFrigoON.py");
-
-                        }
+                     sprintf(buffer,"%s/relaisFrigoON.py", SCRIPTS_DIR);
+                     system(buffer);
                 }
 		 else if(strcmp(FRIGO_OFF, uid)==0){
-                        if( (pid=fork())==-1){
-                                perror("Erreur fork\n");
-                                exit(43);
-                        }
-                        if(pid){
-                                int status;
-                                waitpid(pid, &status, 0);
-                                pid=0;
-                        }
-                        else{
-                                system("/home/pi/scripts/relaisFrigoOFF.py");
-
-                        }
+                     sprintf(buffer,"%s/relaisFrigoOFF.py", SCRIPTS_DIR);
+                     system(buffer);
                 }
 		else{
-			char request[500];
-			sprintf(request," curl --data \"card_id=%s\" http://127.0.0.1/ivrogne_api_raspberry/web/app.php/api/rfid-auth-tokens > /home/pi/RFID_C/token.txt", uid);
-			printf("%s\n",request); 
-                        system(request);
-                        if( (pid=fork())==-1){
-                                perror("Erreur fork\n");
-                                exit(43);
-                        }
-                        if(pid){
-                                int status;
-                                waitpid(pid, &status, 0);
-                                pid=0;
-                        }
-                        else{
-                                system("/home/pi/RFID_C/displayC.py ORDER~STARTING");
-                                sleep(1);
-                                system("/home/pi/RFID_C/order.py ");
-                                wait(NULL);
-                                system("/home/pi/RFID_C/displayC.py ORDER~FINISHED ");
-                                sleep(2);
-                                system("/home/pi/RFID_C/displayC.py CARD...PLEASE ");
-                        }
-			
-		}
+                    sprintf(buffer,"%s/order.py", CURRENT_DIR);
+                    wait(NULL);
+                    printf("%s\n", buffer); 
+                    if ((child_pid = fork())== -1){
+                        perror("Erreur fork\n");
+                        exit(1);
+                    }
+                    if(child_pid == 0){
+                        execl(buffer,"order.py", uid, NULL);
+                    }
+                    wait(NULL);
+                    sprintf(buffer,"%s/displayC.py ORDER~FINISHED &", CURRENT_DIR);
+                    system(buffer);
+                    sleep(2);
+                    sprintf(buffer,"%s/displayC.py CARD...PLEASE &", CURRENT_DIR);
+                    system(buffer);
 
-		delay(1000);
+		}
+		usleep(1250*1000);
 	}
 	return 0;
 }

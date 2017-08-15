@@ -1,19 +1,48 @@
 #!/usr/bin/python
-import re, math, sys, threading, time, signal, requests, json, os, time
+import re, math, sys, threading, time, signal, requests, json, os, time, psutil
 import RPi.GPIO as GPIO
 from dateutil import parser
 from datetime import datetime
-from display import printLCD
+from display import printLCD as pLCD
 products ={}
 tMax=120 # temps commande max
-baseURL="http://192.168.0.210/ivrogne_api_raspberry/web/app.php/api"
+serverIP="192.168.0.210"
+baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
+currentDir="/home/pi/RFID_C"
+uName="NO AUTHENTICATION YET"
+delayBeforeOrder=10
+port_GPIO_BUTTON=18
+port_GPIO_LIGHT_BUTTON=13
+port_GPIO_FRIGO_LOCK=20
 
-def handler(signum, frame):
+def handler_barcode(signum, frame):
     raise IOError("No input on barcode scan")
 
-def handler_child(signum, frame):
+def handler_child_leave_order(signum, frame):
     validate_order()
+    lightButtonOff()
+    closeFrigo()
+    printLCD("ORDER_FINISHED")
+    time.sleep(2)
     exit(0)
+
+def handler_child_enter_order(signum, frame):
+    os.kill(os.getppid(), signal.SIGTERM)
+    printLCD("ORDER_STARTED")
+    lightButtonOn()
+    openFrigo()
+    order()
+
+def printLCD(string):
+    print(string)
+    with open (currentDir+"/rfid.log", "a") as f:
+        f.write(uName+" at "+datetime.now().strftime("%Y-%m-%d %H:%M:%S")+" : "+string+"\n")
+    try:
+        pLCD(string)
+    except:
+        print("ERREUR LCD NON BRANCHE, VERIFIEZ BUS I2C")
+        exit(1)
+
 
 def lectureBarcode(timeout):
 	hid = { 4: 'a', 5: 'b', 6: 'c', 7: 'd', 8: 'e', 9: 'f', 10: 'g', 11: 'h', 12: 'i', 13: 'j', 14: 'k', 15: 'l', 16: 'm', 17: 'n', 18: 'o', 19: 'p', 20: 'q', 21: 'r', 22: 's', 23: 't', 24: 'u', 25: 'v', 26: 'w', 27: 'x', 28: 'y', 29: 'z', 30: '1', 31: '2', 32: '3', 33: '4', 34: '5', 35: '6', 36: '7', 37: '8', 38: '9', 39: '0', 44: ' ', 45: '-', 46: '=', 47: '[', 48: ']', 49: '\\', 51: ';' , 52: '\'', 53: '~', 54: ',', 55: '.', 56: '/'  }
@@ -25,7 +54,7 @@ def lectureBarcode(timeout):
 	shift = False
 	done = False
 	while done==False:
-		signal.signal(signal.SIGALRM, handler)
+		signal.signal(signal.SIGALRM, handler_barcode)
 		signal.alarm(timeout)
 		buffer = fp.read(8)
 		for c in buffer:
@@ -53,10 +82,27 @@ def count_items(products):
         total+=products[key][0]
     return total
 
+def lightButtonOn():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(port_GPIO_LIGHT_BUTTON, GPIO.OUT)
+    GPIO.output(port_GPIO_LIGHT_BUTTON, GPIO.LOW)
+
+def lightButtonOff():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(port_GPIO_LIGHT_BUTTON, GPIO.OUT)
+    GPIO.output(port_GPIO_LIGHT_BUTTON, GPIO.HIGH)
+
+def openFrigo():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(port_GPIO_FRIGO_LOCK, GPIO.OUT)
+    GPIO.output(port_GPIO_FRIGO_LOCK, GPIO.LOW)
+
+def closeFrigo():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(port_GPIO_FRIGO_LOCK, GPIO.OUT)
+    GPIO.output(port_GPIO_FRIGO_LOCK, GPIO.HIGH)
+
 def validate_order():
-    global products
-    global headers
-    global uAccount
     orderlines=[]
     try:
 	for key in products:
@@ -72,49 +118,29 @@ def validate_order():
 		r = requests.post(url=url, data=json.dumps(payload), headers=headers)
 		tokenRetour = json.loads(r.content)
                 printLCD("TOTAL:~"+str(tokenRetour["order_price"])+"euro")
-                time.sleep(5)
+                time.sleep(3)
     if orderlines:
         r = requests.post(url=url, data=json.dumps(payload), headers=headers)
         tokenRetour = json.loads(r.content)
         printLCD("TOTAL:~"+str(tokenRetour["order_price"])+"euro")
-    time.sleep(5)
+    time.sleep(3)
 
 def listen_button():
     GPIO.setmode(GPIO.BCM)
-    port=18
-    GPIO.setup(port, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(port_GPIO_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     while True:
         time.sleep(0.5)
-        input_state = GPIO.input(port)
+        input_state = GPIO.input(port_GPIO_BUTTON)
         if input_state == False:
            print('Button Pressed')
            os.kill(os.getppid(), signal.SIGUSR1)
            exit(0)
-
-def main():
-    global tMax
+def order():
     global products
-    global headers
-    global uAccount
-    with open("token.txt","r") as f:
-    	tokenPayload=f.read();
-    m=re.search("user_accounts", tokenPayload);
-    if m==None:
-    	exit(0)
-    signal.signal(signal.SIGUSR1, handler_child)
+    signal.signal(signal.SIGUSR1, handler_child_leave_order)
     newpid = os.fork()
     if newpid ==0:
        listen_button()
-    tokenPyth =json.loads(tokenPayload)
-    for ac in tokenPyth["user"]["user_accounts"]:
-	if ac["type"] == "somebody":
-	    uAccount=ac["id"]
-    tokenTemp=tokenPyth["value"]
-    token = tokenTemp[1][1:len(tokenTemp[1])-1]
-    token = tokenTemp.replace("\\", "")
-    firstname=tokenPyth["user"]["firstname"]
-    printLCD(firstname[:15]+":~Authenticated_!")
-    headers = {"X-Auth-Token": token,"Content-Type": "application/json"}
     t_end = time.time() + tMax 
     while t_end > time.time() :
 	try:
@@ -137,7 +163,46 @@ def main():
 		break
     validate_order()
     sys.exit(0)
+
+def auth():
+    global headers
+    global uAccount
+    global uName
+    uid = sys.argv[1]
+    url=baseURL+"/rfid-auth-tokens"
+    data={"card_id":uid}
+    r=requests.post(url=url, data=json.dumps(data))
+    tokenPyth=json.loads(r.content)
+    if "value" not in tokenPyth:
+        printLCD("WRONG_CARD_!")
+        exit(0)
+    for ac in tokenPyth["user"]["user_accounts"]:
+	if ac["type"] == "somebody":
+	    uAccount=ac["id"]
+    tokenTemp=tokenPyth["value"]
+    token = tokenTemp[1][1:len(tokenTemp[1])-1]
+    token = tokenTemp.replace("\\", "")
+    uName=tokenPyth["user"]["firstname"]
+    printLCD(uName[:15]+":~Authenticated_!")
+    time.sleep(1)
+    headers = {"X-Auth-Token": token,"Content-Type": "application/json"}
+
+def enter_order():
+    signal.signal(signal.SIGUSR1, handler_child_enter_order)
+    newpid = os.fork()
+    if newpid ==0:
+       listen_button()
+    else:
+        for i in range(0, delayBeforeOrder):
+            printLCD("TO_START_ORDER~PRESS-BUTTON")
+            time.sleep(0.5)
+            printLCD("TIME-LEFT:~"+str(delayBeforeOrder-i))
+            time.sleep(0.5)
+        sys.exit(0)
+
+def main():
+    auth()
+    enter_order()
+    order()
 		
 main()
-		
-

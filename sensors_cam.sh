@@ -1,7 +1,7 @@
 #!/bin/bash
 start()
 {
-pgrep script.bash && echo "already running" || ( sudo /home/pi/cam_remote/caisseAndFrigoCamTrigger.py & )
+pgrep caisseAndFrigoCamTrigger.py && echo "already running" || ( sudo /home/pi/cam_remote/caisseAndFrigoCamTrigger.py & )
 }
 
 stop()

@@ -6,7 +6,7 @@ start()
 
 stop()
 {
-  kill -s "SIGKILL" `head -1 /var/run/rfid.pid`
+  killall rfid
 
 }
 

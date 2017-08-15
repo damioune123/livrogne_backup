@@ -6,26 +6,21 @@ GPIO.setmode(GPIO.BCM)
 
 # init list with pin numbers
 
-pinList = [20, 26, 19, 16]
-
+pinList = [13]
 # loop through pins and set mode and state to 'low'
-
 for i in pinList: 
     GPIO.setup(i, GPIO.OUT) 
     GPIO.output(i, GPIO.HIGH)
-
 # time to sleep between operations in the main loop
 
-SleepTimeL=0.2
+SleepTimeL=2
 
 # main loop
-
 try:
-  GPIO.output(20, GPIO.LOW)
-  print "Caisse"
-  time.sleep(SleepTimeL);  
-  print "Good bye!"
-  GPIO.cleanup()
+  for i in pinList:
+    GPIO.output(i, GPIO.LOW)
+    print i
+    time.sleep(SleepTimeL);  
 
 # End program cleanly with keyboard
 except KeyboardInterrupt:
