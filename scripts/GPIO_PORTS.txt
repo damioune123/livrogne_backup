@@ -1,0 +1,14 @@
+5 musique
+6 lumiere
+12 ecran
+17 rasp cock
+19 locket frigo
+20 light boutton
+21 caisse ?
+23 frigo
+26 lcd
+27 : switch :lcd, light button +locket +(caisse ?)
+
+13, 24 ?
+
+

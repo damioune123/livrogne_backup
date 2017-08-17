@@ -3,8 +3,8 @@
 import RPi.GPIO as GPIO
 import time, os, signal, subprocess, fcntl, sys, paramiko
 port_caisse = 4
-port_frigo_1 = 15
-port_frigo_2 = 15
+port_frigo_1 = 14
+port_frigo_2 = 14
 hostname = "192.168.0.214"
 password = "raspberry"
 username = "pi"

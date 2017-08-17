@@ -46,7 +46,7 @@ int main(){
 	mfrc2.PCD_Init();
         pid_t child_pid;
 	while(1){
-		usleep(250*1000);
+		usleep(275*1000);
 		// Look for a card
 		if(!mfrc.PICC_IsNewCardPresent() && !mfrc2.PICC_IsNewCardPresent())
 			continue;
@@ -67,11 +67,10 @@ int main(){
                     system(buffer);
 		}
 		else if(strcmp(ALLON, uid)==0){
-                    sprintf(buffer,"%s/displayC.py CARD...PLEASE &", CURRENT_DIR);
-                    system(buffer);
                     sprintf(buffer,"%s/ALLrelaispriseON.py", SCRIPTS_DIR);
                     system(buffer);
-		
+                    sprintf(buffer,"%s/displayC.py CARD...PLEASE &", CURRENT_DIR);
+                    system(buffer);
 		}
 		else if(strcmp(MUSIC_ON, uid)==0){
                     sprintf(buffer,"%s/relaisMusicON.py", SCRIPTS_DIR);
@@ -101,14 +100,10 @@ int main(){
                         execl(buffer,"order.py", uid, NULL);
                     }
                     wait(NULL);
-                    sprintf(buffer,"%s/displayC.py ORDER~FINISHED &", CURRENT_DIR);
-                    system(buffer);
-                    sleep(2);
                     sprintf(buffer,"%s/displayC.py CARD...PLEASE &", CURRENT_DIR);
                     system(buffer);
 
 		}
-		usleep(1250*1000);
 	}
 	return 0;
 }

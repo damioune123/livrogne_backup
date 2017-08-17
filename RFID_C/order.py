@@ -12,22 +12,25 @@ currentDir="/home/pi/RFID_C"
 uName="NO AUTHENTICATION YET"
 delayBeforeOrder=10
 port_GPIO_BUTTON=18
-port_GPIO_LIGHT_BUTTON=13
-port_GPIO_FRIGO_LOCK=20
+port_GPIO_LIGHT_BUTTON=20
+port_GPIO_FRIGO_LOCK=19
+listen_button_pid=0
 
 def handler_barcode(signum, frame):
     raise IOError("No input on barcode scan")
 
 def handler_child_leave_order(signum, frame):
-    validate_order()
+    os.kill(listen_button_pid, signal.SIGTERM)
+    os.wait()
     lightButtonOff()
     closeFrigo()
+    validate_order()
     printLCD("ORDER_FINISHED")
     time.sleep(2)
-    exit(0)
+    sys.exit(0)
 
 def handler_child_enter_order(signum, frame):
-    os.kill(os.getppid(), signal.SIGTERM)
+    os.kill(listen_button_pid, signal.SIGTERM)
     printLCD("ORDER_STARTED")
     lightButtonOn()
     openFrigo()
@@ -37,11 +40,11 @@ def printLCD(string):
     print(string)
     with open (currentDir+"/rfid.log", "a") as f:
         f.write(uName+" at "+datetime.now().strftime("%Y-%m-%d %H:%M:%S")+" : "+string+"\n")
-    try:
+    #try:
         pLCD(string)
-    except:
-        print("ERREUR LCD NON BRANCHE, VERIFIEZ BUS I2C")
-        exit(1)
+    #except:
+    #    PRINT("ERREUR LCD NON BRANCHE, VERIFIEZ BUS I2C")
+     #   exit(1)
 
 
 def lectureBarcode(timeout):
@@ -129,17 +132,19 @@ def listen_button():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(port_GPIO_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     while True:
-        time.sleep(0.5)
+        time.sleep(0.01)
         input_state = GPIO.input(port_GPIO_BUTTON)
         if input_state == False:
            print('Button Pressed')
+           time.sleep(1)
            os.kill(os.getppid(), signal.SIGUSR1)
            exit(0)
 def order():
     global products
+    global listen_button_pid
     signal.signal(signal.SIGUSR1, handler_child_leave_order)
-    newpid = os.fork()
-    if newpid ==0:
+    listen_button_pid =os.fork()
+    if listen_button_pid ==0:
        listen_button()
     t_end = time.time() + tMax 
     while t_end > time.time() :
@@ -188,9 +193,10 @@ def auth():
     headers = {"X-Auth-Token": token,"Content-Type": "application/json"}
 
 def enter_order():
+    global listen_button_pid
     signal.signal(signal.SIGUSR1, handler_child_enter_order)
-    newpid = os.fork()
-    if newpid ==0:
+    listen_button_pid = os.fork()
+    if listen_button_pid ==0:
        listen_button()
     else:
         for i in range(0, delayBeforeOrder):
