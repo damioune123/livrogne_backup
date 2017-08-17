@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import re, math, sys, threading, time, signal, requests, json, os, time, psutil
+import re, math, sys, threading, time, signal, requests, json, os, time, psutil, paramiko
 import RPi.GPIO as GPIO
 from dateutil import parser
 from datetime import datetime
@@ -10,11 +10,47 @@ serverIP="192.168.0.210"
 baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 currentDir="/home/pi/RFID_C"
 uName="NO AUTHENTICATION YET"
+hostnameCam = "192.168.0.214"
+passwordCam = "raspberry"
+usernameCam = "pi"
+portCam = 22
 delayBeforeOrder=10
 port_GPIO_BUTTON=18
 port_GPIO_LIGHT_BUTTON=20
 port_GPIO_FRIGO_LOCK=19
 listen_button_pid=0
+ssh=None
+
+def openSSH():
+    global ssh
+    if ssh == None or not ssh.get_transport().is_active():
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy()) 
+        ssh.load_system_host_keys()
+        ssh.connect(hostnameCam, portCam, usernameCam, passwordCam)
+
+def execComm(command):
+    global ssh
+    (stdin, stdout, stderr) = ssh.exec_command(command)
+    for line in stdout.readlines():
+         print line
+
+def closeSSH():
+    global ssh
+    if ssh!= None and ssh.get_transport().is_active():
+        ssh.close()
+
+def startEncoding():
+    openSSH()
+    execComm('/home/pi/livrogne_backup/cam/auth_stream_to_avi.sh ')
+
+def stopEncoding():
+    print("caisse And frigo closed, 20 secs more of encoding ...")
+    time.sleep(20)
+    openSSH()
+    execComm("killall avconv")
+    closeSSH()
+
 
 def handler_barcode(signum, frame):
     raise IOError("No input on barcode scan")
@@ -199,7 +235,7 @@ def auth():
     token = tokenTemp.replace("\\", "")
     uName=tokenPyth["user"]["firstname"]
     printLCD(uName[:15]+":~Authenticated_!")
-    time.sleep(1)
+    time.sleep(0.5)
     headers = {"X-Auth-Token": token,"Content-Type": "application/json"}
 
 def enter_order():
