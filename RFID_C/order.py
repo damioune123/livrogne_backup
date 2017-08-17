@@ -5,7 +5,7 @@ from dateutil import parser
 from datetime import datetime
 from display import printLCD as pLCD
 products ={}
-tMax=120 # temps commande max
+tMax=60 # temps commande max
 serverIP="192.168.0.210"
 baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 currentDir="/home/pi/RFID_C"
@@ -18,8 +18,7 @@ listen_button_pid=0
 
 def handler_barcode(signum, frame):
     raise IOError("No input on barcode scan")
-
-def handler_child_leave_order(signum, frame):
+def leave_program():
     os.kill(listen_button_pid, signal.SIGTERM)
     os.wait()
     lightButtonOff()
@@ -28,6 +27,9 @@ def handler_child_leave_order(signum, frame):
     printLCD("ORDER_FINISHED")
     time.sleep(2)
     sys.exit(0)
+
+def handler_child_leave_order(signum, frame):
+    leave_program()
 
 def handler_child_enter_order(signum, frame):
     os.kill(listen_button_pid, signal.SIGTERM)
@@ -41,7 +43,7 @@ def printLCD(string):
     with open (currentDir+"/rfid.log", "a") as f:
         f.write(uName+" at "+datetime.now().strftime("%Y-%m-%d %H:%M:%S")+" : "+string+"\n")
     #try:
-        pLCD(string)
+    pLCD(string)
     #except:
     #    PRINT("ERREUR LCD NON BRANCHE, VERIFIEZ BUS I2C")
      #   exit(1)
@@ -120,13 +122,22 @@ def validate_order():
 	if orderlines:
 		r = requests.post(url=url, data=json.dumps(payload), headers=headers)
 		tokenRetour = json.loads(r.content)
-                printLCD("TOTAL:~"+str(tokenRetour["order_price"])+"euro")
-                time.sleep(3)
+                if "INSUFFICIENT_CASH" in tokenRetour:
+                    printLCD("NOT_ENOUGH_CASH~TOTAL:"+str(tokenRetour["order_total"]))
+                    time.sleep(2)
+                    printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"~MONEY_LIM.:"+str(tokenRetour["money_limit"]))
+                    time.sleep(2)
+                    return
     if orderlines:
         r = requests.post(url=url, data=json.dumps(payload), headers=headers)
         tokenRetour = json.loads(r.content)
-        printLCD("TOTAL:~"+str(tokenRetour["order_price"])+"euro")
-    time.sleep(3)
+        if "INSUFFICIENT_CASH" in tokenRetour:
+            printLCD("NOT_ENOUGH_CASH~TOTAL:"+str(tokenRetour["order_total"]))
+            time.sleep(2)
+            printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"~MONEY_LIM.:"+str(tokenRetour["money_limit"]))
+            time.sleep(2)
+            return
+            
 
 def listen_button():
     GPIO.setmode(GPIO.BCM)
@@ -166,8 +177,7 @@ def order():
 	except IOError:
                 print "IOERROR"
 		break
-    validate_order()
-    sys.exit(0)
+    leave_program()
 
 def auth():
     global headers
