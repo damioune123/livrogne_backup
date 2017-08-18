@@ -29,7 +29,7 @@ def openSSH():
         ssh.load_system_host_keys()
         ssh.connect(hostnameCam, portCam, usernameCam, passwordCam)
 
-def execComm(command):
+def exec_comm(command):
     global ssh
     (stdin, stdout, stderr) = ssh.exec_command(command)
     for line in stdout.readlines():
@@ -40,15 +40,15 @@ def closeSSH():
     if ssh!= None and ssh.get_transport().is_active():
         ssh.close()
 
-def startEncoding():
+def start_encoding():
+    print("order staring, starting cam encoding")
     openSSH()
-    execComm('/home/pi/auth_stream_to_avi.sh ')
+    exec_comm('/home/pi/auth_stream_to_avi.sh '+"_"+str(uId)+"_"+uName)
 
-def stopEncoding():
-    print("caisse And frigo closed, 20 secs more of encoding ...")
-    time.sleep(20)
+def stop_encoding():
+    print("order finised, stoping cam encoding")
     openSSH()
-    execComm("killall avconv")
+    exec_comm("killall avconv")
     closeSSH()
 
 
@@ -60,8 +60,9 @@ def leave_program():
     lightButtonOff()
     closeFrigo()
     validate_order()
+    stop_encoding()
     printLCD("ORDER_FINISHED")
-    time.sleep(2)
+    time.sleep(2) 
     sys.exit(0)
 
 def handler_child_leave_order(signum, frame):
@@ -72,6 +73,7 @@ def handler_child_enter_order(signum, frame):
     printLCD("ORDER_STARTED")
     lightButtonOn()
     openFrigo()
+    start_encoding()
     order()
 
 def printLCD(string):
@@ -219,6 +221,7 @@ def auth():
     global headers
     global uAccount
     global uName
+    global uId
     uid = sys.argv[1]
     url=baseURL+"/rfid-auth-tokens"
     data={"card_id":uid}
@@ -230,11 +233,15 @@ def auth():
     for ac in tokenPyth["user"]["user_accounts"]:
 	if ac["type"] == "somebody":
 	    uAccount=ac["id"]
+    print(tokenPyth)
     tokenTemp=tokenPyth["value"]
     token = tokenTemp[1][1:len(tokenTemp[1])-1]
     token = tokenTemp.replace("\\", "")
-    uName=tokenPyth["user"]["firstname"]
-    printLCD(uName[:15]+":~Authenticated_!")
+    uName=tokenPyth["user"]["firstname"]+"_"+tokenPyth["user"]["lastname"]
+    uName.replace("\ ","")
+    uName=uName[:15]
+    uId=tokenPyth["user"]["id"]
+    printLCD(uName+":~Authenticated_!")
     time.sleep(0.5)
     headers = {"X-Auth-Token": token,"Content-Type": "application/json"}
 

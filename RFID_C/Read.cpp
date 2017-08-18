@@ -89,6 +89,7 @@ int main(){
                      system(buffer);
                 }
 		else{
+                    system("service sensors_cam stop");
                     sprintf(buffer,"%s/order.py", CURRENT_DIR);
                     wait(NULL);
                     printf("%s\n", buffer); 
@@ -100,6 +101,7 @@ int main(){
                         execl(buffer,"order.py", uid, NULL);
                     }
                     wait(NULL);
+                    system("service sensors_cam start");
                     sprintf(buffer,"%s/displayC.py CARD...PLEASE &", CURRENT_DIR);
                     system(buffer);
 
