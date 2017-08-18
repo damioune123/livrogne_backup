@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import RPi.GPIO as GPIO
-import time
+import time, os
 
 GPIO.setmode(GPIO.BCM)
 
@@ -17,7 +17,7 @@ for i in pinList:
 
 # time to sleep between operations in the main loop
 
-SleepTimeL = 1
+SleepTimeL = 0.5
 
 # main loop
 
@@ -30,6 +30,9 @@ try:
   GPIO.setup(20, GPIO.OUT)
   GPIO.output(19, GPIO.HIGH)
   GPIO.output(20, GPIO.HIGH)
+  os.system("/home/pi/scripts/LCDdisplay/displayC.py Bar...allume!")
+  time.sleep(1)
+  os.system("/home/pi/scripts/LCDdisplay/displayC.py Welcome!!!")
 
 
 # End program cleanly with keyboard

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import RPi.GPIO as GPIO
-import time
+import time, os
 
 GPIO.setmode(GPIO.BCM)
 
@@ -13,16 +13,9 @@ pinList = [5,6,12,13,17,19,20,21,23]
 for i in pinList: 
     GPIO.setup(i, GPIO.OUT) 
     GPIO.output(i, GPIO.HIGH)
-    time.sleep(0.5)
+    time.sleep(0.2)
 # main loop
 
-try:
-  GPIO.cleanup()
-  print "RelaispriseOFF!"
-
-# End program cleanly with keyboard
-except KeyboardInterrupt:
-  print "  Quit"
-
-  # Reset GPIO settings
-  GPIO.cleanup()
+os.system("/home/pi/scripts/LCDdisplay/displayC.py Goodbye!!!")
+time.sleep(1)
+os.system("/home/pi/scripts/LCDdisplay/displayC.py READY\ FOR\ ORDER")

@@ -989,3 +989,739 @@ dummy_dummy at 2017-08-18 02:36:18 : TO_START_ORDER~PRESS-BUTTON
 dummy_dummy at 2017-08-18 02:36:19 : TIME-LEFT:~10
 dummy_dummy at 2017-08-18 02:36:20 : ORDER_STARTED
 dummy_dummy at 2017-08-18 02:36:31 : ORDER_FINISHED
+dummy_dummy at 2017-08-18 02:43:15 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 02:43:16 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 02:43:18 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 02:43:18 : ORDER_STARTED
+dummy_dummy at 2017-08-18 02:43:24 : ORDER_FINISHED
+dummy_dummy at 2017-08-18 02:47:11 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 02:47:12 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 02:47:13 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 02:47:14 : ORDER_STARTED
+dummy_dummy at 2017-08-18 02:47:21 : ORDER_FINISHED
+dummy_dummy at 2017-08-18 02:51:15 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 02:51:16 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 02:51:17 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 02:51:18 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 02:51:38 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 02:51:39 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 02:51:40 : TIME-LEFT:~10
+Julien_Daniello at 2017-08-18 02:51:41 : ORDER_STARTED
+Julien_Daniello at 2017-08-18 02:51:51 : caraX1~Amount_items:1
+Julien_Daniello at 2017-08-18 02:51:53 : caraX2~Amount_items:2
+Julien_Daniello at 2017-08-18 02:52:09 : ORDER_FINISHED
+Julien_Daniello at 2017-08-18 02:52:17 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 02:52:19 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 02:52:20 : TIME-LEFT:~10
+Julien_Daniello at 2017-08-18 02:52:21 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 02:52:22 : TIME-LEFT:~9
+Julien_Daniello at 2017-08-18 02:52:23 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 02:52:24 : TIME-LEFT:~8
+Julien_Daniello at 2017-08-18 02:52:25 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 02:52:27 : TIME-LEFT:~7
+NO AUTHENTICATION YET at 2017-08-18 03:09:03 : WRONG_CARD_!
+dummy_dummy at 2017-08-18 03:09:12 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 03:09:13 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 03:09:14 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 03:09:15 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 03:09:16 : TIME-LEFT:~9
+dummy_dummy at 2017-08-18 03:09:17 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 03:09:18 : TIME-LEFT:~8
+dummy_dummy at 2017-08-18 03:09:19 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 03:09:21 : TIME-LEFT:~7
+dummy_dummy at 2017-08-18 03:09:22 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 03:09:23 : TIME-LEFT:~6
+dummy_dummy at 2017-08-18 03:09:24 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 03:09:25 : TIME-LEFT:~5
+Julien_Daniello at 2017-08-18 03:09:31 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 03:09:32 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 03:09:34 : TIME-LEFT:~10
+Julien_Daniello at 2017-08-18 03:09:35 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 03:09:36 : TIME-LEFT:~9
+Julien_Daniello at 2017-08-18 03:09:37 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 03:10:22 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 03:10:24 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 03:10:25 : TIME-LEFT:~10
+Damien_Meur at 2017-08-18 03:10:26 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 03:10:27 : TIME-LEFT:~9
+Damien_Meur at 2017-08-18 03:10:27 : ORDER_STARTED
+Damien_Meur at 2017-08-18 03:10:37 : caraX1~Amount_items:1
+Damien_Meur at 2017-08-18 03:10:39 : caraX2~Amount_items:2
+Damien_Meur at 2017-08-18 03:10:41 : caraX3~Amount_items:3
+Damien_Meur at 2017-08-18 03:10:52 : ORDER_FINISHED
+Damien_Meur at 2017-08-18 03:11:06 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 03:11:07 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 04:41:25 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 04:41:26 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 04:41:27 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 04:41:27 : ORDER_STARTED
+dummy_dummy at 2017-08-18 04:41:47 : ORDER_FINISHED
+dummy_dummy at 2017-08-18 07:19:31 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 07:19:32 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 07:19:33 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 07:19:34 : ORDER_STARTED
+dummy_dummy at 2017-08-18 07:19:40 : ORDER_FINISHED
+dummy_dummy at 2017-08-18 07:31:01 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 07:31:02 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 07:31:03 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 07:31:04 : ORDER_STARTED
+dummy_dummy at 2017-08-18 07:31:07 : ORDER_FINISHED
+Julien_Daniello at 2017-08-18 10:22:33 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 10:22:34 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 10:22:35 : TIME-LEFT:~10
+Julien_Daniello at 2017-08-18 10:22:36 : ORDER_STARTED
+Julien_Daniello at 2017-08-18 10:22:39 : ORDER_FINISHED
+dummy_dummy at 2017-08-18 12:49:51 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 12:49:52 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 12:49:53 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 12:49:54 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 12:49:55 : TIME-LEFT:~9
+dummy_dummy at 2017-08-18 12:49:56 : ORDER_STARTED
+dummy_dummy at 2017-08-18 12:50:23 : ORDER_FINISHED
+dummy_dummy at 2017-08-18 14:24:31 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 14:24:32 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 14:24:34 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 14:24:35 : ORDER_STARTED
+dummy_dummy at 2017-08-18 14:24:40 : ORDER_FINISHED
+dummy_dummy at 2017-08-18 14:25:08 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 14:25:09 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 14:25:10 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 14:25:10 : ORDER_STARTED
+dummy_dummy at 2017-08-18 14:25:13 : ORDER_FINISHED
+Damien_Meur at 2017-08-18 14:27:58 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 14:27:59 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 14:28:00 : TIME-LEFT:~10
+Damien_Meur at 2017-08-18 14:28:01 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 14:28:02 : ORDER_STARTED
+Damien_Meur at 2017-08-18 14:28:15 : ORDER_FINISHED
+Julien_Daniello at 2017-08-18 17:06:40 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 17:06:41 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:12:00 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 17:12:02 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:12:03 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 17:12:04 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:12:05 : TIME-LEFT:~9
+dummy_dummy at 2017-08-18 17:12:06 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:12:07 : TIME-LEFT:~8
+dummy_dummy at 2017-08-18 17:12:08 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:12:10 : TIME-LEFT:~7
+dummy_dummy at 2017-08-18 17:12:11 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:12:12 : TIME-LEFT:~6
+dummy_dummy at 2017-08-18 17:12:13 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:12:14 : TIME-LEFT:~5
+dummy_dummy at 2017-08-18 17:12:15 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:12:16 : TIME-LEFT:~4
+dummy_dummy at 2017-08-18 17:12:17 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:12:19 : TIME-LEFT:~3
+dummy_dummy at 2017-08-18 17:12:20 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:12:21 : TIME-LEFT:~2
+dummy_dummy at 2017-08-18 17:12:22 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:12:23 : TIME-LEFT:~1
+Damien_Meur at 2017-08-18 17:12:28 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 17:12:32 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 17:12:34 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 17:12:35 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:12:36 : TIME-LEFT:~10
+Damien_Meur at 2017-08-18 17:12:37 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:12:38 : TIME-LEFT:~9
+Damien_Meur at 2017-08-18 17:12:39 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:12:40 : TIME-LEFT:~8
+Damien_Meur at 2017-08-18 17:14:04 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 17:14:05 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:14:10 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 17:14:11 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:14:17 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 17:14:18 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:14:19 : TIME-LEFT:~10
+Damien_Meur at 2017-08-18 17:14:20 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:14:21 : ORDER_STARTED
+Damien_Meur at 2017-08-18 17:16:24 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 17:16:25 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:16:26 : TIME-LEFT:~10
+Damien_Meur at 2017-08-18 17:16:27 : ORDER_STARTED
+Damien_Meur at 2017-08-18 17:16:31 : ORDER_FINISHED
+Damien_Meur at 2017-08-18 17:16:36 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 17:16:37 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:16:42 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 17:16:44 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 17:16:45 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:16:46 : TIME-LEFT:~10
+Damien_Meur at 2017-08-18 17:16:47 : ORDER_STARTED
+dummy_dummy at 2017-08-18 17:24:40 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 17:24:41 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:24:42 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 17:24:43 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:24:44 : TIME-LEFT:~9
+dummy_dummy at 2017-08-18 17:24:46 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:25:33 : dummy_dummy:~Authenticated_!
+Julien_Daniello at 2017-08-18 17:25:41 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 17:25:42 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:25:43 : TIME-LEFT:~10
+Julien_Daniello at 2017-08-18 17:25:44 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:25:46 : TIME-LEFT:~9
+Julien_Daniello at 2017-08-18 17:25:47 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:25:48 : TIME-LEFT:~8
+Julien_Daniello at 2017-08-18 17:25:49 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:25:50 : TIME-LEFT:~7
+Julien_Daniello at 2017-08-18 17:25:51 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:25:52 : TIME-LEFT:~6
+Julien_Daniello at 2017-08-18 17:25:53 : ORDER_STARTED
+Julien_Daniello at 2017-08-18 17:25:59 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 17:26:01 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 17:26:02 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:26:03 : TIME-LEFT:~10
+Julien_Daniello at 2017-08-18 17:26:04 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:26:06 : TIME-LEFT:~9
+Julien_Daniello at 2017-08-18 17:26:07 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:26:08 : TIME-LEFT:~8
+Julien_Daniello at 2017-08-18 17:26:09 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:26:10 : TIME-LEFT:~7
+Julien_Daniello at 2017-08-18 17:26:11 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:26:12 : TIME-LEFT:~6
+Julien_Daniello at 2017-08-18 17:26:20 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 17:26:22 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:26:23 : TIME-LEFT:~10
+Julien_Daniello at 2017-08-18 17:26:24 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:26:25 : TIME-LEFT:~9
+Julien_Daniello at 2017-08-18 17:26:26 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:26:27 : TIME-LEFT:~8
+Julien_Daniello at 2017-08-18 17:26:28 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:26:30 : TIME-LEFT:~7
+Julien_Daniello at 2017-08-18 17:26:31 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:26:32 : TIME-LEFT:~6
+Julien_Daniello at 2017-08-18 17:26:33 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 17:26:34 : TIME-LEFT:~5
+Julien_Daniello at 2017-08-18 17:47:02 : Julien_Daniello:~Authenticated_!
+dummy_dummy at 2017-08-18 17:47:08 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 17:47:09 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:47:10 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 17:47:11 : ORDER_STARTED
+dummy_dummy at 2017-08-18 17:55:18 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 17:55:19 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 17:55:20 : TIME-LEFT:~10
+dummy_dummy at 2017-08-18 17:55:21 : ORDER_STARTED
+Damien_Meur at 2017-08-18 17:57:27 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 17:57:29 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:57:30 : TIME-LEFT:~10
+Damien_Meur at 2017-08-18 17:57:31 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:57:32 : TIME-LEFT:~9
+Damien_Meur at 2017-08-18 17:57:33 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:57:34 : TIME-LEFT:~8
+Damien_Meur at 2017-08-18 17:57:35 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:57:37 : TIME-LEFT:~7
+Damien_Meur at 2017-08-18 17:57:38 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:57:39 : TIME-LEFT:~6
+Damien_Meur at 2017-08-18 17:57:40 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:57:41 : TIME-LEFT:~5
+Damien_Meur at 2017-08-18 17:57:42 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:57:43 : TIME-LEFT:~4
+Damien_Meur at 2017-08-18 17:57:44 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:57:46 : TIME-LEFT:~3
+Damien_Meur at 2017-08-18 17:57:47 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:57:48 : TIME-LEFT:~2
+Damien_Meur at 2017-08-18 17:57:49 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:57:50 : TIME-LEFT:~1
+Damien_Meur at 2017-08-18 17:57:55 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 17:57:56 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 17:57:58 : TIME-LEFT:~10
+Damien_Meur at 2017-08-18 17:57:59 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:16:10 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 19:16:11 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:16:12 : TIME-LEFT:~10
+Damien_Meur at 2017-08-18 19:16:13 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:16:15 : TIME-LEFT:~9
+Damien_Meur at 2017-08-18 19:16:16 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:16:17 : TIME-LEFT:~8
+Damien_Meur at 2017-08-18 19:16:18 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:16:19 : TIME-LEFT:~7
+Damien_Meur at 2017-08-18 19:16:20 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:16:21 : TIME-LEFT:~6
+Damien_Meur at 2017-08-18 19:16:22 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:16:24 : TIME-LEFT:~5
+Damien_Meur at 2017-08-18 19:16:25 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 19:17:31 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 19:17:32 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 19:17:33 : TIME-LEFT:~10
+Julien_Daniello at 2017-08-18 19:17:35 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 19:17:35 : ORDER_STARTED
+Julien_Daniello at 2017-08-18 19:18:59 : ORDER_FINISHED
+Damien_Meur at 2017-08-18 19:19:16 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 19:19:17 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:19:18 : TIME-LEFT:~10
+Damien_Meur at 2017-08-18 19:19:19 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:19:21 : TIME-LEFT:~9
+Damien_Meur at 2017-08-18 19:19:22 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:19:23 : TIME-LEFT:~8
+Damien_Meur at 2017-08-18 19:19:24 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:19:25 : TIME-LEFT:~7
+Damien_Meur at 2017-08-18 19:19:26 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:19:27 : TIME-LEFT:~6
+Damien_Meur at 2017-08-18 19:19:28 : ORDER_STARTED
+Damien_Meur at 2017-08-18 19:20:52 : ORDER_FINISHED
+Damien_Meur at 2017-08-18 19:21:32 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 19:21:34 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:21:35 : TIME-LEFT:~5
+Damien_Meur at 2017-08-18 19:21:36 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:21:37 : TIME-LEFT:~4
+Damien_Meur at 2017-08-18 19:21:38 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:21:39 : TIME-LEFT:~3
+Damien_Meur at 2017-08-18 19:21:40 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:21:42 : TIME-LEFT:~2
+Damien_Meur at 2017-08-18 19:21:43 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:21:44 : TIME-LEFT:~1
+Julien_Daniello at 2017-08-18 19:22:39 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 19:22:40 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 19:22:41 : TIME-LEFT:~5
+Julien_Daniello at 2017-08-18 19:22:42 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 19:22:43 : ORDER_STARTED
+Julien_Daniello at 2017-08-18 19:22:49 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 19:22:50 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 19:22:51 : TIME-LEFT:~5
+Julien_Daniello at 2017-08-18 19:22:52 : ORDER_STARTED
+Damien_Meur at 2017-08-18 19:29:19 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 19:29:21 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:29:22 : TIME-LEFT:~5
+Damien_Meur at 2017-08-18 19:29:23 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:29:30 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 19:29:31 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:29:32 : TIME-LEFT:~5
+Damien_Meur at 2017-08-18 19:29:33 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:29:35 : TIME-LEFT:~4
+Damien_Meur at 2017-08-18 19:29:36 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:29:49 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 19:29:50 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:29:52 : TIME-LEFT:~5
+Damien_Meur at 2017-08-18 19:29:53 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:29:54 : TIME-LEFT:~4
+Damien_Meur at 2017-08-18 19:29:55 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:29:56 : TIME-LEFT:~3
+Damien_Meur at 2017-08-18 19:29:57 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:29:58 : TIME-LEFT:~2
+Damien_Meur at 2017-08-18 19:29:59 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 19:30:01 : TIME-LEFT:~1
+Damien_Meur at 2017-08-18 20:46:40 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 20:46:41 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 20:46:42 : TIME-LEFT:~5
+Damien_Meur at 2017-08-18 20:46:43 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 20:46:44 : TIME-LEFT:~4
+Damien_Meur at 2017-08-18 20:46:45 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 20:46:47 : TIME-LEFT:~3
+Damien_Meur at 2017-08-18 20:46:48 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 20:46:49 : TIME-LEFT:~2
+Damien_Meur at 2017-08-18 20:46:50 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 20:46:51 : TIME-LEFT:~1
+Damien_Meur at 2017-08-18 20:46:53 : ORDER_FINISHED
+Julien_Daniello at 2017-08-18 20:54:26 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 20:54:27 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 20:54:28 : TIME-LEFT:~5
+Julien_Daniello at 2017-08-18 20:54:29 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 20:54:29 : ORDER_STARTED
+Julien_Daniello at 2017-08-18 20:54:36 : ORDER_FINISHED
+Julien_Daniello at 2017-08-18 20:55:29 : Julien_Daniello:~Authenticated_!
+Julien_Daniello at 2017-08-18 20:55:30 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 20:55:31 : TIME-LEFT:~5
+Julien_Daniello at 2017-08-18 20:55:32 : ORDER_STARTED
+Damien_Meur at 2017-08-18 21:03:56 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 21:03:57 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 21:03:58 : TIME-LEFT:~5
+Damien_Meur at 2017-08-18 21:03:59 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 21:04:00 : TIME-LEFT:~4
+Damien_Meur at 2017-08-18 21:04:01 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 21:04:03 : TIME-LEFT:~3
+Damien_Meur at 2017-08-18 21:04:04 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 21:04:05 : TIME-LEFT:~2
+Damien_Meur at 2017-08-18 21:04:06 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 21:04:07 : TIME-LEFT:~1
+Damien_Meur at 2017-08-18 21:04:10 : ORDER_FINISHED
+dummy_dummy at 2017-08-18 21:08:02 : dummy_dummy:~Authenticated_!
+dummy_dummy at 2017-08-18 21:08:03 : TO_START_ORDER~PRESS-BUTTON
+dummy_dummy at 2017-08-18 21:08:05 : TIME-LEFT:~5
+dummy_dummy at 2017-08-18 21:08:05 : ORDER_STARTED
+dummy_dummy at 2017-08-18 21:08:16 : ORDER_FINISHED
+Damien_Meur at 2017-08-18 22:16:04 : Damien_Meur:~Authenticated_!
+Damien_Meur at 2017-08-18 22:16:06 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 22:16:07 : TIME-LEFT:~5
+Damien_Meur at 2017-08-18 22:16:08 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 22:16:09 : TIME-LEFT:~4
+Damien_Meur at 2017-08-18 22:16:10 : TO_START_ORDER~PRESS-BUTTON
+Damien_Meur at 2017-08-18 22:16:11 : TIME-LEFT:~3
+Damien_Meur at 2017-08-18 22:16:12 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:34:08 : Julien_Daniello:~Authenticated\ !
+Julien_Daniello at 2017-08-18 22:34:09 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:34:11 : TIME-LEFT:~5
+Julien_Daniello at 2017-08-18 22:34:12 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:34:13 : TIME-LEFT:~4
+Julien_Daniello at 2017-08-18 22:34:14 : ORDER\ STARTED
+Julien_Daniello at 2017-08-18 22:34:25 : ORDER\ FINISHED
+Julien_Daniello at 2017-08-18 22:34:34 : Julien_Daniello:~Authenticated\ !
+Julien_Daniello at 2017-08-18 22:34:35 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:34:36 : TIME-LEFT:~5
+Julien_Daniello at 2017-08-18 22:34:37 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:34:38 : TIME-LEFT:~4
+Julien_Daniello at 2017-08-18 22:34:39 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:34:41 : TIME-LEFT:~3
+Julien_Daniello at 2017-08-18 22:34:42 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:34:43 : TIME-LEFT:~2
+Julien_Daniello at 2017-08-18 22:34:44 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:34:45 : TIME-LEFT:~1
+Julien_Daniello at 2017-08-18 22:35:05 : Julien_Daniello:~Authenticated\ !
+Julien_Daniello at 2017-08-18 22:35:06 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:35:08 : TIME-LEFT:~5
+Julien_Daniello at 2017-08-18 22:35:09 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:35:09 : ORDER\ STARTED
+Julien_Daniello at 2017-08-18 22:35:13 : ORDER\ FINISHED
+Julien_Daniello at 2017-08-18 22:36:30 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:36:31 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:36:32 : TIME-LEFT:~5
+Julien_Daniello at 2017-08-18 22:36:33 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:36:34 : TIME-LEFT:~4
+Julien_Daniello at 2017-08-18 22:36:35 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:36:37 : TIME-LEFT:~3
+Julien_Daniello at 2017-08-18 22:36:38 : TO_START_ORDER~PRESS-BUTTON
+Julien_Daniello at 2017-08-18 22:36:39 : TIME-LEFT:~2
+Julien_Daniello at 2017-08-18 22:41:09 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:41:10 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:41:11 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:41:12 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:41:14 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 22:41:15 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:41:16 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 22:41:17 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:41:18 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 22:41:19 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:41:20 : ORDER STARTED
+Julien_Daniello at 2017-08-18 22:42:07 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:42:08 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:42:09 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:42:10 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:42:11 : ORDER STARTED
+Julien_Daniello at 2017-08-18 22:42:14 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 22:42:21 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:42:22 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:42:23 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:42:24 : ORDER STARTED
+Julien_Daniello at 2017-08-18 22:42:30 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 22:42:37 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:42:38 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:42:39 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:42:41 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:42:42 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 22:42:43 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:42:44 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 22:42:45 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:42:46 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 22:42:47 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:42:49 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 22:42:52 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 22:42:59 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:43:00 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:43:01 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:43:02 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:43:03 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 22:43:04 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:43:05 : ORDER STARTED
+Julien_Daniello at 2017-08-18 22:43:11 : caraX1~Amount items:1
+Julien_Daniello at 2017-08-18 22:43:12 : caraX2~Amount items:2
+Julien_Daniello at 2017-08-18 22:43:23 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 22:43:55 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:43:56 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:43:57 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:43:58 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:43:59 : ORDER STARTED
+Julien_Daniello at 2017-08-18 22:44:10 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 22:45:28 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:45:29 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:45:30 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:45:31 : ORDER NOT READY
+Julien_Daniello at 2017-08-18 22:45:40 : ORDER READY
+Julien_Daniello at 2017-08-18 22:45:45 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 22:47:29 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:47:30 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:47:31 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:47:32 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:47:33 : ORDER NOT READY
+Julien_Daniello at 2017-08-18 22:47:33 : ORDER READY
+Julien_Daniello at 2017-08-18 22:48:16 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:48:17 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:48:19 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:48:19 : ORDER STARTED
+Julien_Daniello at 2017-08-18 22:48:25 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 22:50:01 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:50:02 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:50:03 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:50:04 : ORDER STARTED
+Julien_Daniello at 2017-08-18 22:50:07 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 22:50:08 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 22:50:15 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:50:17 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:50:18 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:50:19 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:50:20 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 22:50:20 : ORDER STARTED
+Julien_Daniello at 2017-08-18 22:50:22 : caraX1~Amount items:1
+Julien_Daniello at 2017-08-18 22:50:23 : caraX2~Amount items:2
+Julien_Daniello at 2017-08-18 22:50:25 : caraX3~Amount items:3
+Julien_Daniello at 2017-08-18 22:50:28 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 22:50:30 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 22:50:42 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:50:44 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:50:45 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:50:46 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:50:47 : ORDER STARTED
+Julien_Daniello at 2017-08-18 22:50:48 : caraX1~Amount items:1
+Julien_Daniello at 2017-08-18 22:50:50 : caraX2~Amount items:2
+Julien_Daniello at 2017-08-18 22:50:52 : caraX3~Amount items:3
+Julien_Daniello at 2017-08-18 22:50:54 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 22:51:09 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:51:10 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:51:11 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:51:12 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:51:13 : ORDER STARTED
+Julien_Daniello at 2017-08-18 22:51:16 : caraX1~Amount items:1
+Julien_Daniello at 2017-08-18 22:51:18 : caraX2~Amount items:2
+Julien_Daniello at 2017-08-18 22:51:20 : caraX3~Amount items:3
+Julien_Daniello at 2017-08-18 22:51:23 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 22:51:28 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 22:54:03 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:54:04 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:54:06 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:54:07 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:54:25 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:54:26 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:54:27 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:54:28 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:54:30 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 22:54:31 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:54:32 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 22:54:33 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:54:34 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 22:54:35 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:54:36 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 22:54:37 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 22:54:44 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 22:57:39 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 22:57:41 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:57:42 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 22:57:43 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 22:57:44 : ORDER STARTED
+Julien_Daniello at 2017-08-18 22:57:47 : caraX1~Amount items:1
+Julien_Daniello at 2017-08-18 22:57:49 : caraX2~Amount items:2
+Julien_Daniello at 2017-08-18 22:57:50 : caraX3~Amount items:3
+Julien_Daniello at 2017-08-18 22:57:51 : caraX4~Amount items:4
+Julien_Daniello at 2017-08-18 22:57:54 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 22:58:03 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 23:01:01 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:01:02 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:01:03 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:01:04 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:01:06 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:01:06 : ORDER STARTED
+Julien_Daniello at 2017-08-18 23:01:09 : caraX1~Amount items:1
+Julien_Daniello at 2017-08-18 23:01:10 : caraX2~Amount items:2
+Julien_Daniello at 2017-08-18 23:01:11 : caraX3~Amount items:3
+Julien_Daniello at 2017-08-18 23:01:14 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 23:01:18 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 23:01:30 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:01:32 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:01:33 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:01:34 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:01:35 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:01:36 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:01:37 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:01:39 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:01:40 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:01:41 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:01:42 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:01:43 : SEE YOO~NEXT TIME :)
+Julien_Daniello at 2017-08-18 23:02:12 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:02:13 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:02:14 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:02:15 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:03:40 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:03:42 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:03:43 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:03:44 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:03:45 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:03:46 : ORDER STARTED
+Julien_Daniello at 2017-08-18 23:03:49 : 1540131123081:~NOT AVAILABLE
+Julien_Daniello at 2017-08-18 23:03:50 : caraX1~Amount items:1
+Julien_Daniello at 2017-08-18 23:03:52 : caraX2~Amount items:2
+Julien_Daniello at 2017-08-18 23:03:53 : caraX3~Amount items:3
+Julien_Daniello at 2017-08-18 23:03:55 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 23:04:03 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 23:04:14 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:04:15 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:04:16 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:04:17 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:04:18 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:04:20 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:04:21 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:04:22 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:04:23 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:04:24 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:04:25 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:04:26 : SEE YOU~NEXT TIME :)
+Julien_Daniello at 2017-08-18 23:05:31 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:05:32 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:05:33 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:05:35 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:05:36 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:05:37 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:05:38 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:05:39 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:05:40 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:05:41 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:05:43 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:05:44 : SEE YOU~NEXT TIME :)
+Julien_Daniello at 2017-08-18 23:05:54 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:05:54 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:05:55 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:05:56 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:05:58 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:05:59 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:06:00 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:06:01 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:06:02 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:06:03 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:06:04 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:06:04 : ORDER STARTED
+Julien_Daniello at 2017-08-18 23:06:10 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 23:06:30 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:06:31 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:06:33 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:06:34 : ORDER STARTED
+Julien_Daniello at 2017-08-18 23:06:39 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 23:06:43 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 23:06:52 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:06:53 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:06:54 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:06:55 : ORDER STARTED
+Julien_Daniello at 2017-08-18 23:07:02 : caraX1~Amount items:1
+Julien_Daniello at 2017-08-18 23:07:04 : caraX2~Amount items:2
+Julien_Daniello at 2017-08-18 23:07:06 : caraX3~Amount items:3
+Julien_Daniello at 2017-08-18 23:07:09 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 23:07:11 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 23:07:17 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:07:19 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:07:20 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:07:21 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:07:22 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:07:23 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:07:24 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:07:25 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:07:26 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:07:28 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:07:29 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:07:30 : SEE YOU~NEXT TIME :)
+Julien_Daniello at 2017-08-18 23:07:46 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:07:47 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:07:48 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:07:49 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:07:50 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:07:52 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:07:53 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:07:54 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:07:55 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:07:55 : ORDER STARTED
+Julien_Daniello at 2017-08-18 23:07:59 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 23:08:00 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:08:01 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 23:08:03 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:08:03 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:08:04 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:08:05 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:08:05 : SEE YOU~NEXT TIME :)
+Julien_Daniello at 2017-08-18 23:14:07 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:14:08 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:14:09 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:14:10 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:14:11 : ORDER STARTED
+Julien_Daniello at 2017-08-18 23:14:16 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 23:14:17 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 23:14:23 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:14:25 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:14:26 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:14:27 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:14:28 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:14:29 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:14:30 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:14:31 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:14:32 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:14:33 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:14:34 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:14:36 : SEE YOU~NEXT TIME :)
+Julien_Daniello at 2017-08-18 23:15:43 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:15:44 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:15:45 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:15:47 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:15:48 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:15:49 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:15:50 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:15:51 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:15:52 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:15:53 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:15:55 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:15:56 : SEE YOU~NEXT TIME
+Julien_Daniello at 2017-08-18 23:16:08 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:16:09 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:16:11 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:16:12 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:16:12 : ORDER STARTED
+Julien_Daniello at 2017-08-18 23:16:18 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:16:19 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:16:19 : caraX1~Amount items:1
+Julien_Daniello at 2017-08-18 23:16:20 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:16:20 : caraX2~Amount items:2
+Julien_Daniello at 2017-08-18 23:16:21 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:16:22 : caraX3~Amount items:3
+Julien_Daniello at 2017-08-18 23:16:22 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:16:23 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:16:24 : caraX4~Amount items:4
+Julien_Daniello at 2017-08-18 23:16:24 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:16:41 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:16:42 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:16:43 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:16:44 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:16:45 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:16:47 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:16:48 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:16:49 : SEE YOU~NEXT TIME
+Julien_Daniello at 2017-08-18 23:20:18 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:20:19 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:20:21 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:20:22 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:20:23 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:20:24 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:20:25 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:20:26 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:20:27 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:20:29 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:20:30 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:20:31 : SEE YOU~NEXT TIME
+Julien_Daniello at 2017-08-18 23:20:40 : Julien_Daniello:~Authenticated !
+Julien_Daniello at 2017-08-18 23:20:42 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:20:43 : TIME LEFT:~5 sec
+Julien_Daniello at 2017-08-18 23:20:44 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:20:44 : ORDER STARTED
+Julien_Daniello at 2017-08-18 23:20:48 : WAIT FOR~VALIDATION...
+Julien_Daniello at 2017-08-18 23:20:49 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:20:59 : ERREUR MINEURE:~CAM SSH
+Julien_Daniello at 2017-08-18 23:21:02 : ERREUR MINEURE:~CAM SSH
+Julien_Daniello at 2017-08-18 23:21:04 : ERREUR MINEURE:~CAM SSH
+Julien_Daniello at 2017-08-18 23:21:05 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:21:06 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:21:07 : ERREUR MINEURE:~CAM SSH
+Julien_Daniello at 2017-08-18 23:21:07 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:21:08 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:21:09 : ORDER FINISHED
+Julien_Daniello at 2017-08-18 23:21:09 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:21:11 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:21:11 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:21:12 : TIME LEFT:~4 sec
+Julien_Daniello at 2017-08-18 23:21:13 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:21:14 : TIME LEFT:~3 sec
+Julien_Daniello at 2017-08-18 23:21:15 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:21:16 : TIME LEFT:~2 sec
+Julien_Daniello at 2017-08-18 23:21:17 : TO START ORDER~PRESS BUTTON
+Julien_Daniello at 2017-08-18 23:21:19 : TIME LEFT:~1 sec
+Julien_Daniello at 2017-08-18 23:21:20 : SEE YOU~NEXT TIME

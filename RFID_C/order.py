@@ -5,7 +5,7 @@ from dateutil import parser
 from datetime import datetime
 from display import printLCD as pLCD
 products ={}
-tMax=60 # temps commande max
+tMax=30 # temps commande max
 serverIP="192.168.0.210"
 baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 currentDir="/home/pi/RFID_C"
@@ -14,7 +14,7 @@ hostnameCam = "192.168.0.214"
 passwordCam = "Livrogn9"
 usernameCam = "pi"
 portCam = 22
-delayBeforeOrder=10
+delayBeforeOrder=5
 port_GPIO_BUTTON=18
 port_GPIO_LIGHT_BUTTON=20
 port_GPIO_FRIGO_LOCK=19
@@ -23,22 +23,34 @@ ssh=None
 
 def openSSH():
     global ssh
-    if ssh == None or not ssh.get_transport().is_active():
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy()) 
-        ssh.load_system_host_keys()
-        ssh.connect(hostnameCam, portCam, usernameCam, passwordCam)
+    try:
+        if ssh == None or not ssh.get_transport().is_active():
+            ssh = paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy()) 
+            ssh.load_system_host_keys()
+            ssh.connect(hostnameCam, portCam, usernameCam, passwordCam)
+    except:
+        printLCD("ERREUR MINEURE:~CAM SSH")
+        time.sleep(2)
 
 def exec_comm(command):
     global ssh
-    (stdin, stdout, stderr) = ssh.exec_command(command)
-    for line in stdout.readlines():
-         print line
+    try:
+        (stdin, stdout, stderr) = ssh.exec_command(command)
+        for line in stdout.readlines():
+             print line
+    except:
+        printLCD("ERREUR MINEURE:~CAM SSH")
+        time.sleep(2)
 
 def closeSSH():
     global ssh
-    if ssh!= None and ssh.get_transport().is_active():
-        ssh.close()
+    try:
+        if ssh!= None and ssh.get_transport().is_active():
+            ssh.close()
+    except:
+        printLCD("ERREUR MINEURE:~CAM SSH")
+        time.sleep(2)
 
 def start_encoding():
     print("order staring, starting cam encoding")
@@ -51,18 +63,29 @@ def stop_encoding():
     exec_comm("killall avconv")
     closeSSH()
 
-
 def handler_barcode(signum, frame):
     raise IOError("No input on barcode scan")
+
+def early_leave_program():
+    try:
+        os.kill(listen_button_pid, signal.SIGTERM)
+    except:
+        print("kill d'un process child inexistant (listen_button)")
+    os.wait()
+    printLCD("SEE YOU~NEXT TIME")
+    time.sleep(2)
+    sys.exit(0)
+    
 def leave_program():
+    printLCD("WAIT FOR~VALIDATION...")
     os.kill(listen_button_pid, signal.SIGTERM)
     os.wait()
     lightButtonOff()
     closeFrigo()
-    validate_order()
+    validate_order() 
     stop_encoding()
-    printLCD("ORDER_FINISHED")
-    time.sleep(2) 
+    printLCD("ORDER FINISHED")
+    time.sleep(1.5) 
     sys.exit(0)
 
 def handler_child_leave_order(signum, frame):
@@ -70,20 +93,24 @@ def handler_child_leave_order(signum, frame):
 
 def handler_child_enter_order(signum, frame):
     os.kill(listen_button_pid, signal.SIGTERM)
-    printLCD("ORDER_STARTED")
-    lightButtonOn()
-    openFrigo()
-    start_encoding()
-    order()
+    cam_pid = os.fork()
+    if cam_pid == 0:
+        start_encoding()
+        sys.exit(0)
+    else:
+        printLCD("ORDER STARTED")
+        lightButtonOn()
+        openFrigo()
+        order()
 
 def printLCD(string):
     print(string)
     with open (currentDir+"/rfid.log", "a") as f:
         f.write(uName+" at "+datetime.now().strftime("%Y-%m-%d %H:%M:%S")+" : "+string+"\n")
-    #try:
-    pLCD(string)
-    #except:
-    #    PRINT("ERREUR LCD NON BRANCHE, VERIFIEZ BUS I2C")
+    try:
+        pLCD(string)
+    except:
+        print("CORRUPTION LCD DETECTE")
      #   exit(1)
 
 
@@ -161,18 +188,18 @@ def validate_order():
 		r = requests.post(url=url, data=json.dumps(payload), headers=headers)
 		tokenRetour = json.loads(r.content)
                 if "INSUFFICIENT_CASH" in tokenRetour:
-                    printLCD("NOT_ENOUGH_CASH~TOTAL:"+str(tokenRetour["order_total"]))
+                    printLCD("NOT ENOUGH CASH~TOTAL:"+str(tokenRetour["order_total"]))
                     time.sleep(2)
-                    printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"~MONEY_LIM.:"+str(tokenRetour["money_limit"]))
+                    printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"EU.~MONEY LIM.:"+str(tokenRetour["money_limit"])+"Eu.")
                     time.sleep(2)
                     return
     if orderlines:
         r = requests.post(url=url, data=json.dumps(payload), headers=headers)
         tokenRetour = json.loads(r.content)
         if "INSUFFICIENT_CASH" in tokenRetour:
-            printLCD("NOT_ENOUGH_CASH~TOTAL:"+str(tokenRetour["order_total"]))
+            printLCD("NOT ENOUGH CASH~TOTAL:"+str(tokenRetour["order_total"]))
             time.sleep(2)
-            printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"~MONEY_LIM.:"+str(tokenRetour["money_limit"]))
+            printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"EU.~MONEY LIM.:"+str(tokenRetour["money_limit"])+"Eu.")
             time.sleep(2)
             return
             
@@ -208,10 +235,10 @@ def order():
                     products[barcode]=[1, tokenVerif["name"]]
 		else:
 		    products[barcode][0]+=1
-                printLCD(products[barcode][1][:13]+"X"+str(products[barcode][0])+"~Amount_items:"+str(count_items(products)))
+                printLCD(products[barcode][1][:13]+"X"+str(products[barcode][0])+"~Amount items:"+str(count_items(products)))
             else :
                 print barcode +" :  codebarre non reconnu !"
-                printLCD(barcode[:15]+":~NOT_AVAILABLE")
+                printLCD(barcode[:15]+":~NOT AVAILABLE")
 	except IOError:
                 print "IOERROR"
 		break
@@ -228,7 +255,7 @@ def auth():
     r=requests.post(url=url, data=json.dumps(data))
     tokenPyth=json.loads(r.content)
     if "value" not in tokenPyth:
-        printLCD("WRONG_CARD_!")
+        printLCD("CARD NOT IN~THE SYSTEM!")
         exit(0)
     for ac in tokenPyth["user"]["user_accounts"]:
 	if ac["type"] == "somebody":
@@ -241,7 +268,7 @@ def auth():
     uName.replace("\ ","")
     uName=uName[:15]
     uId=tokenPyth["user"]["id"]
-    printLCD(uName+":~Authenticated_!")
+    printLCD(uName+":~Authenticated !")
     time.sleep(0.5)
     headers = {"X-Auth-Token": token,"Content-Type": "application/json"}
 
@@ -253,11 +280,11 @@ def enter_order():
        listen_button()
     else:
         for i in range(0, delayBeforeOrder):
-            printLCD("TO_START_ORDER~PRESS-BUTTON")
+            printLCD("TO START ORDER~PRESS BUTTON")
             time.sleep(0.5)
-            printLCD("TIME-LEFT:~"+str(delayBeforeOrder-i))
+            printLCD("TIME LEFT:~"+str(delayBeforeOrder-i)+" sec")
             time.sleep(0.5)
-        sys.exit(0)
+        early_leave_program()
 
 def main():
     auth()
