@@ -6,7 +6,7 @@ port_caisse = 4
 port_frigo_1 = 14
 port_frigo_2 = 14
 hostname = "192.168.0.214"
-password = "raspberry"
+password = "Livrogn9"
 username = "pi"
 port = 22
 fname = '/var/lock/cam_pid.lock'
@@ -37,7 +37,7 @@ def closeSSH():
 
 def startEncoding():
     openSSH()
-    execComm('/home/pi/livrogne_backup/cam/stream_to_avi.sh ')
+    execComm('/home/pi/stream_to_avi.sh ')
 def stopEncoding():
     print("caisse And frigo closed, 20 secs more of encoding ...")
     time.sleep(20)

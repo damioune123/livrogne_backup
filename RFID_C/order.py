@@ -11,7 +11,7 @@ baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 currentDir="/home/pi/RFID_C"
 uName="NO AUTHENTICATION YET"
 hostnameCam = "192.168.0.214"
-passwordCam = "raspberry"
+passwordCam = "Livrogn9"
 usernameCam = "pi"
 portCam = 22
 delayBeforeOrder=10
@@ -42,7 +42,7 @@ def closeSSH():
 
 def startEncoding():
     openSSH()
-    execComm('/home/pi/livrogne_backup/cam/auth_stream_to_avi.sh ')
+    execComm('/home/pi/auth_stream_to_avi.sh ')
 
 def stopEncoding():
     print("caisse And frigo closed, 20 secs more of encoding ...")
