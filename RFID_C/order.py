@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import re, math, sys, threading, time, signal, requests, json, os, time, psutil, paramiko
+import re, math, sys, time, signal, requests, json, os, time, psutil, paramiko
 import RPi.GPIO as GPIO
 from dateutil import parser
 from datetime import datetime
@@ -14,13 +14,16 @@ hostnameCam = "192.168.0.214"
 passwordCam = "Livrogn9"
 usernameCam = "pi"
 portCam = 22
-delayBeforeOrder=5
 port_GPIO_BUTTON=18
 port_GPIO_LIGHT_BUTTON=20
 port_GPIO_FRIGO_LOCK=19
 listen_button_pid=0
+pidLCD=0
+m_timeout=2
+delayBeforeOrder=10
 ssh=None
-
+#fo_cam_r, fo_cam_w = None, None
+paramiko.util.log_to_file("ssh_paramiko.log")
 def openSSH():
     global ssh
     try:
@@ -28,10 +31,12 @@ def openSSH():
             ssh = paramiko.SSHClient()
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy()) 
             ssh.load_system_host_keys()
-            ssh.connect(hostnameCam, portCam, usernameCam, passwordCam)
+            ssh.connect(hostnameCam, portCam, usernameCam, passwordCam, timeout=3)
+            return True
     except:
-        printLCD("ERREUR MINEURE:~CAM SSH")
-        time.sleep(2)
+        print("ERREUR MINEURE:~CAM SSH")
+        return False
+
 
 def exec_comm(command):
     global ssh
@@ -40,8 +45,7 @@ def exec_comm(command):
         for line in stdout.readlines():
              print line
     except:
-        printLCD("ERREUR MINEURE:~CAM SSH")
-        time.sleep(2)
+        print("Erreur exec ssh")
 
 def closeSSH():
     global ssh
@@ -49,70 +53,51 @@ def closeSSH():
         if ssh!= None and ssh.get_transport().is_active():
             ssh.close()
     except:
-        printLCD("ERREUR MINEURE:~CAM SSH")
-        time.sleep(2)
+        print("Erreur close ssh")
 
 def start_encoding():
     print("order staring, starting cam encoding")
-    openSSH()
-    exec_comm('/home/pi/auth_stream_to_avi.sh '+"_"+str(uId)+"_"+uName)
+    if openSSH():
+        exec_comm('/home/pi/auth_stream_to_avi.sh '+"_"+str(uId)+"_"+uName)
 
 def stop_encoding():
     print("order finised, stoping cam encoding")
-    openSSH()
-    exec_comm("killall avconv")
+    if openSSH():
+        exec_comm("killall avconv")
     closeSSH()
 
 def handler_barcode(signum, frame):
     raise IOError("No input on barcode scan")
-
-def early_leave_program():
-    try:
-        os.kill(listen_button_pid, signal.SIGTERM)
-    except:
-        print("kill d'un process child inexistant (listen_button)")
-    os.wait()
-    printLCD("SEE YOU~NEXT TIME")
-    time.sleep(2)
-    sys.exit(0)
     
 def leave_program():
-    printLCD("WAIT FOR~VALIDATION...")
-    os.kill(listen_button_pid, signal.SIGTERM)
-    os.wait()
+    global fo_cam_r
+    global fo_cam_w
+    printLCD("WAIT FOR~VALIDATION")
     lightButtonOff()
     closeFrigo()
     validate_order() 
     stop_encoding()
-    printLCD("ORDER FINISHED")
-    time.sleep(1.5) 
+    os.kill(listen_button_pid, signal.SIGTERM)
+    os.kill(pidLCD, signal.SIGTERM)
+    printLCD("GOODBYE !")
+    time.sleep(m_timeout)
     sys.exit(0)
 
 def handler_child_leave_order(signum, frame):
     leave_program()
 
 def handler_child_enter_order(signum, frame):
-    os.kill(listen_button_pid, signal.SIGTERM)
-    cam_pid = os.fork()
-    if cam_pid == 0:
-        start_encoding()
-        sys.exit(0)
-    else:
-        printLCD("ORDER STARTED")
-        lightButtonOn()
-        openFrigo()
-        order()
+    printLCD("ORDER NOT READY")
+    start_encoding()
+    lightButtonOn()
+    openFrigo()
+    printLCD("ORDER STARTED")
+    order()
 
-def printLCD(string):
+def logLCD(string):
     print(string)
     with open (currentDir+"/rfid.log", "a") as f:
         f.write(uName+" at "+datetime.now().strftime("%Y-%m-%d %H:%M:%S")+" : "+string+"\n")
-    try:
-        pLCD(string)
-    except:
-        print("CORRUPTION LCD DETECTE")
-     #   exit(1)
-
 
 def lectureBarcode(timeout):
 	hid = { 4: 'a', 5: 'b', 6: 'c', 7: 'd', 8: 'e', 9: 'f', 10: 'g', 11: 'h', 12: 'i', 13: 'j', 14: 'k', 15: 'l', 16: 'm', 17: 'n', 18: 'o', 19: 'p', 20: 'q', 21: 'r', 22: 's', 23: 't', 24: 'u', 25: 'v', 26: 'w', 27: 'x', 28: 'y', 29: 'z', 30: '1', 31: '2', 32: '3', 33: '4', 34: '5', 35: '6', 36: '7', 37: '8', 38: '9', 39: '0', 44: ' ', 45: '-', 46: '=', 47: '[', 48: ']', 49: '\\', 51: ';' , 52: '\'', 53: '~', 54: ',', 55: '.', 56: '/'  }
@@ -174,54 +159,41 @@ def closeFrigo():
 
 def validate_order():
     orderlines=[]
-    try:
-	for key in products:
-		orderlines.append({"product":key, "quantity" :products[key][0]})
-	payload={"order":{"customerUserAccount":uAccount}, "orderlines": orderlines}
-        url = baseURL+'/client-self-order'
-    except IOError:
-	for key in barcodes:
-		orderlines.append({"product":key, "quantity" :products[key][0]})
-		payload={"order":{"customerUserAccount":uAccount}, "orderlines": orderlines}
-                url = baseURL+'/client-self-order'
-	if orderlines:
-		r = requests.post(url=url, data=json.dumps(payload), headers=headers)
-		tokenRetour = json.loads(r.content)
-                if "INSUFFICIENT_CASH" in tokenRetour:
-                    printLCD("NOT ENOUGH CASH~TOTAL:"+str(tokenRetour["order_total"]))
-                    time.sleep(2)
-                    printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"EU.~MONEY LIM.:"+str(tokenRetour["money_limit"])+"Eu.")
-                    time.sleep(2)
-                    return
+    time.sleep(m_timeout)
+    for key in products:
+        orderlines.append({"product":key, "quantity" :products[key][0]})
+    payload={"order":{"customerUserAccount":uAccount}, "orderlines": orderlines}
+    url = baseURL+'/client-self-order'
     if orderlines:
         r = requests.post(url=url, data=json.dumps(payload), headers=headers)
         tokenRetour = json.loads(r.content)
         if "INSUFFICIENT_CASH" in tokenRetour:
-            printLCD("NOT ENOUGH CASH~TOTAL:"+str(tokenRetour["order_total"]))
-            time.sleep(2)
-            printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"EU.~MONEY LIM.:"+str(tokenRetour["money_limit"])+"Eu.")
-            time.sleep(2)
+            printLCD("NOT ENOUGH CASH~TOTAL:"+str(tokenRetour["order_total"])+"E")
+            time.sleep(m_timeout)
+            printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"E~MONEY LIM.:"+str(tokenRetour["money_limit"])+"E")
+            time.sleep(m_timeout)
             return
-            
+        else:
+            printLCD("ORDER VALIDATED~TOTAL:"+str(tokenRetour["order_price"])+"euro")
+            time.sleep(m_timeout)
 
 def listen_button():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(port_GPIO_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     while True:
-        time.sleep(0.01)
+        time.sleep(0.02)
         input_state = GPIO.input(port_GPIO_BUTTON)
         if input_state == False:
-           print('Button Pressed')
-           time.sleep(1)
            os.kill(os.getppid(), signal.SIGUSR1)
-           exit(0)
+           print('Button Pressed')
+           sys.exit(0)
 def order():
     global products
     global listen_button_pid
     signal.signal(signal.SIGUSR1, handler_child_leave_order)
     listen_button_pid =os.fork()
     if listen_button_pid ==0:
-       listen_button()
+        listen_button()
     t_end = time.time() + tMax 
     while t_end > time.time() :
 	try:
@@ -240,8 +212,8 @@ def order():
                 print barcode +" :  codebarre non reconnu !"
                 printLCD(barcode[:15]+":~NOT AVAILABLE")
 	except IOError:
-                print "IOERROR"
-		break
+                print "IOERROR Barcode"
+                break
     leave_program()
 
 def auth():
@@ -256,7 +228,8 @@ def auth():
     tokenPyth=json.loads(r.content)
     if "value" not in tokenPyth:
         printLCD("CARD NOT IN~THE SYSTEM!")
-        exit(0)
+        time.sleep(m_timeout)
+        sys.exit(0)
     for ac in tokenPyth["user"]["user_accounts"]:
 	if ac["type"] == "somebody":
 	    uAccount=ac["id"]
@@ -268,27 +241,71 @@ def auth():
     uName.replace("\ ","")
     uName=uName[:15]
     uId=tokenPyth["user"]["id"]
-    printLCD(uName+":~Authenticated !")
-    time.sleep(0.5)
+    printLCD("Welcome !~"+uName)
+    time.sleep(m_timeout)
     headers = {"X-Auth-Token": token,"Content-Type": "application/json"}
 
 def enter_order():
     global listen_button_pid
+    t_left=0
     signal.signal(signal.SIGUSR1, handler_child_enter_order)
     listen_button_pid = os.fork()
     if listen_button_pid ==0:
        listen_button()
-    else:
-        for i in range(0, delayBeforeOrder):
-            printLCD("TO START ORDER~PRESS BUTTON")
-            time.sleep(0.5)
-            printLCD("TIME LEFT:~"+str(delayBeforeOrder-i)+" sec")
-            time.sleep(0.5)
-        early_leave_program()
+    t_end = time.time() + delayBeforeOrder
+    while t_end > time.time() :
+        printLCD("TO START ORDER~PRESS BUTTON")
+        time.sleep(m_timeout)
+        t_left=int(round(t_end-time.time()))
+        if t_left > 0 :
+            printLCD("TIME LEFT:~"+str(t_left)+" sec")
+            time.sleep(m_timeout)
+    os.kill(listen_button_pid, signal.SIGTERM)
+    os.kill(pidLCD, signal.SIGTERM)
+    sys.exit(0)
+
+def LCDProcess():
+    global fo_cam_r
+    while 1:
+        data=fo_cam_r.readline()
+        if not data: break
+        try:
+            pLCD(data[:len(data)-1])
+        except Exception as e:
+            print("CORRUPTON LCD DETECTE")
+            print(e)
+            try:
+                pLCD(data[:len(data)-1])
+            except Exception as i:
+                print("DOUBLE CORRUPTON LCD DETECTE")
+                print(i)
+
+
+
+def printLCD(string):
+    global fo_cam_w
+    try:
+        fo_cam_w.write(str(string+"\n"))
+        fo_cam_w.flush()
+    except:
+        print("Erreur pipe : "+string)
+    
 
 def main():
-    auth()
-    enter_order()
-    order()
+    global fo_cam_r
+    global fo_cam_w
+    global pidLCD
+    rLCD, wLCD = os.pipe()
+    pidLCD = os.fork()
+    if pidLCD == 0:       
+        os.close(wLCD)
+        fo_cam_r = os.fdopen(rLCD)
+        LCDProcess()
+    else:          
+        os.close(rLCD)
+        fo_cam_w = os.fdopen(wLCD, 'w')
+        auth()
+        enter_order()
+        order()
 		
 main()
