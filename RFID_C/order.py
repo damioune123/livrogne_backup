@@ -56,14 +56,15 @@ def closeSSH():
         print("Erreur close ssh")
 
 def start_encoding():
-    print("order staring, starting cam encoding")
     if openSSH():
+        print("order staring, starting cam encoding")
         exec_comm('/home/pi/auth_stream_to_avi.sh '+"_"+str(uId)+"_"+uName)
 
 def stop_encoding():
     print("order finised, stoping cam encoding")
-    if openSSH():
-        exec_comm("killall avconv")
+    openSSH()
+    print("killing avconv")
+    exec_comm("killall avconv")
     closeSSH()
 
 def handler_barcode(signum, frame):
