@@ -28,7 +28,6 @@ MFRC522::MFRC522(){
   bcm2835_gpio_fsel(RSTPIN, BCM2835_GPIO_FSEL_OUTP);
   bcm2835_gpio_write(RSTPIN, LOW);
   // Set SPI bus to work with MFRC522 chip.
-  setSPIConfig();
 } // End constructor
 
 /**
@@ -43,6 +42,19 @@ void MFRC522::setSPIConfig() {
   bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_64);    // ~ 4 MHz
   bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                      // The default
   bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      // the default
+  printf("CS0 activated\n");
+	
+} // End setSPIConfig()
+
+void MFRC522::setSPIConfigCS1() {
+    
+  bcm2835_spi_begin();
+  bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
+  bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
+  bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_64);    // ~ 4 MHz
+  bcm2835_spi_chipSelect(BCM2835_SPI_CS1);                      // The default
+  bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS1, LOW);      // the default
+  printf("CS1 activated\n");
 	
 } // End setSPIConfig()
 
@@ -217,6 +229,7 @@ void MFRC522::PCD_Init() {
   PCD_WriteRegister(ModeReg, 0x3D);		// Default 0x3F. Set the preset value for the CRC coprocessor for the CalcCRC command to 0x6363 (ISO 14443-3 part 6.2.4)
   PCD_AntennaOn();						// Enable the antenna driver pins TX1 and TX2 (they were disabled by the reset)
 } // End PCD_Init()
+
 
 /**
  * Performs a soft reset on the MFRC522 chip and waits for it to be ready again.

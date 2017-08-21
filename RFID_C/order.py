@@ -79,9 +79,9 @@ def leave_program():
     validate_order() 
     stop_encoding()
     os.kill(listen_button_pid, signal.SIGTERM)
-    os.kill(pidLCD, signal.SIGTERM)
     printLCD("GOODBYE !")
     time.sleep(m_timeout)
+    os.kill(pidLCD, signal.SIGTERM)
     sys.exit(0)
 
 def handler_child_leave_order(signum, frame):
