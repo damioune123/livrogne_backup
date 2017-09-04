@@ -1,10 +1,12 @@
 #!/usr/bin/python2
 import re, math, sys, time, signal, requests, json, os, time, psutil, paramiko, smtplib
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from dateutil import parser
 from datetime import datetime
 from display import printLCD as pLCD
-from multiprocessing import Process, Queue
+from Queue import Queue
+from threading import Thread
+import thread
 
 products ={}
 tMax=30 # temps commande max
@@ -19,13 +21,12 @@ portCam = 22
 port_GPIO_BUTTON=18
 port_GPIO_LIGHT_BUTTON=20
 port_GPIO_FRIGO_LOCK=19
-listen_button_pid=0
-m_timeout=0.5
+m_timeout=1.5
 delayBeforeOrder=10
-ssh=None
+ssh, p1, p2, p3=None, None, None, None
 paramiko.util.log_to_file("ssh_paramiko.log")
 
-def email_process(q_email):
+def email_thread(q_email):
     FROM="livrognebar@gmail.com"
     password="Livrogn7"
     smtp_host="smtp.gmail.com"
@@ -42,14 +43,15 @@ def email_process(q_email):
         data= q_email.get()
         SUBJECT = data[0]#to split
         TEXT = data[1] #to split
-        if data[0]=="off":
-            print("Exitting email process")
-            sys.exit(0)
         message = "From: %s\nTo: %s\nSubject: %s\n\n%s" % (FROM, ", ".join(TO), SUBJECT, TEXT)
         try:
             server.sendmail(FROM, TO, message)
         except Exception as e :
             write_log("email", "Erreur envoi email : Subject :  %s \n Body :  %s\n Exception : %s" %(data[0], data[1], e))
+        finally:
+            q_email.task_done()
+        
+        
 
 def openSSH():
     global ssh
@@ -108,24 +110,28 @@ def handler_barcode(signum, frame):
     raise IOError("No input on barcode scan")
     
 def stop():
-    os.kill(listen_button_pid, signal.SIGTERM)
-    printLCD("off")
-    write_log("off","off")
-    send_email("off","off")
+    global q_email
+    global q_log
+    global q_lcd
+    printLCD("Goodbye !")
+    q_email.join()
+    q_log.join()
+    q_lcd.join()
     sys.exit(0)
+
 def leave_program():
-    printLCD("WAIT FOR~VALIDATION")
     lightButtonOff()
     closeFrigo()
     validate_order() 
     stop_encoding()
-    printLCD("GOODBYE !")
     stop()
 def handler_child_leave_order(signum, frame):
+    signal.signal(signal.SIGUSR1,signal.SIG_IGN)
     leave_program()
 
+
 def handler_child_enter_order(signum, frame):
-    printLCD("ORDER NOT READY")
+    signal.signal(signal.SIGUSR1,signal.SIG_IGN)
     start_encoding()
     lightButtonOn()
     openFrigo()
@@ -186,32 +192,24 @@ def count_items(products):
 
 def lightButtonOn():
     print("lightbuttonoff")
-    '''  
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(port_GPIO_LIGHT_BUTTON, GPIO.OUT)
     GPIO.output(port_GPIO_LIGHT_BUTTON, GPIO.LOW)
-    '''
 def lightButtonOff():
     print("lightbuttonoff")
-    '''   
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(port_GPIO_LIGHT_BUTTON, GPIO.OUT)
     GPIO.output(port_GPIO_LIGHT_BUTTON, GPIO.HIGH)
-    '''
 def openFrigo():
     print("openfrigo")
-    '''  
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(port_GPIO_FRIGO_LOCK, GPIO.OUT)
     GPIO.output(port_GPIO_FRIGO_LOCK, GPIO.LOW)
-    '''
 def closeFrigo():
     print("closefrigo")
-    '''  
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(port_GPIO_FRIGO_LOCK, GPIO.OUT)
     GPIO.output(port_GPIO_FRIGO_LOCK, GPIO.HIGH)
-    '''
 def validate_order():
     orderlines=[]
     for key in products:
@@ -219,6 +217,7 @@ def validate_order():
     payload={ "orderlines": orderlines}
     url = baseURL+'/client-self-order'
     if orderlines:
+        printLCD("WAIT FOR~VALIDATION")
         try:
             r = requests.post(url=url, data=json.dumps(payload), headers=headers)
         except requests.exceptions.RequestException as e:
@@ -237,7 +236,9 @@ def validate_order():
         tokenRetour = json.loads(r.content)
         if "INSUFFICIENT_CASH" in tokenRetour:
             printLCD("NOT ENOUGH CASH~TOTAL:"+str(tokenRetour["order_total"])+"E")
+            time.sleep(m_timeout*2)
             printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"E~MONEY LIM.:"+str(tokenRetour["money_limit"])+"E")
+            time.sleep(m_timeout*2)
             email="""
                     Bonjour chers Administrateurs,
                     Il semblerait qu'un utilisateur n'ait pas un solde suffisant pour payer sa commande.
@@ -249,25 +250,25 @@ def validate_order():
             return
         else:
             printLCD("ORDER VALIDATED~TOTAL:"+str(tokenRetour["order_price"])+"euro")
+            time.sleep(m_timeout*3)
+    else:
+        printLCD("NO PRODUCT")
+        time.sleep(m_timeout*2)
 
 def listen_button():
-    #GPIO.setmode(GPIO.BCM)
-   # GPIO.setup(port_GPIO_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(port_GPIO_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     while True:
-        time.sleep(0.01)
-      #  input_state = GPIO.input(port_GPIO_BUTTON)
-        input_state=False
+        input_state = GPIO.input(port_GPIO_BUTTON)
         if input_state == False:
-           os.kill(os.getppid(), signal.SIGUSR1)
+           os.kill(os.getpid(), signal.SIGUSR1)
            print('Button Pressed')
-           sys.exit(0)
+           time.sleep(0.5)
+        time.sleep(0.05)
 def order():
     global products
     global listen_button_pid
     signal.signal(signal.SIGUSR1, handler_child_leave_order)
-    listen_button_pid =os.fork()
-    if listen_button_pid ==0:
-        listen_button()
     t_end = time.time() + tMax 
     while t_end > time.time() :
         try:
@@ -283,7 +284,8 @@ def order():
             tokenVerif = json.loads(r.content)
         except requests.exceptions.RequestException as e:
             write_log("server", e)
-            printLCD("ERREUR seveur")
+            printLCD("ERREUR seveur") 
+            time.sleep(m_timeout*2)
             email="""
                     Bonjour chers Administrateurs,
                     Il semblerait que le raspberry pi bar n'arrive pas a determiner le prix d'un produit.
@@ -313,7 +315,7 @@ def order():
                     Le probleme a eu lieu en %s pour l'utilisateur %s.
                     Code barre : %s
                  """ %(uName, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), str(barcode))
-        leave_program()
+    leave_program()
 
 def auth():
     global headers
@@ -342,9 +344,11 @@ def auth():
         send_email(subject, email)
         write_log("server", e)
         printLCD("Erreur connexion serveur")
+        time.sleep(m_timeout*2)
         stop()
     if "value" not in tokenPyth:
         printLCD("CARD NOT IN~THE SYSTEM!")
+        time.sleep(m_timeout)
         stop()
     tokenTemp=tokenPyth["value"]
     token = tokenTemp[1][1:len(tokenTemp[1])-1]
@@ -354,19 +358,14 @@ def auth():
     uName.replace("\ ","")
     uName=uName[:15]
     uId=tokenPyth["user"]["id"]
-    printLCD("Welcome !~"+uName)
     headers = {"X-Auth-Token": token,"Content-Type": "application/json"}
 
 def enter_order():
-    global listen_button_pid
     t_left=0
     signal.signal(signal.SIGUSR1, handler_child_enter_order)
-    listen_button_pid = os.fork()
-    if listen_button_pid ==0:
-       listen_button()
     t_end = time.time() + delayBeforeOrder
     while t_end > time.time() :
-        printLCD("TO START ORDER~PRESS BUTTON")
+        printLCD("Welcome !~"+uName)
         t_left=int(round(t_end-time.time()))
         time.sleep(m_timeout)
         if t_left > 0 :
@@ -374,7 +373,7 @@ def enter_order():
             time.sleep(m_timeout)
     stop()
 
-def log_process(q_log):
+def log_thread(q_log):
     log_cam_f = open("logs/cam.log","a")
     log_lcd_f = open("logs/lcd.log","a")
     log_server_f = open("logs/server.log","a")
@@ -382,14 +381,6 @@ def log_process(q_log):
     log_scan_f = open("logs/scan.log","a")
     while True:
         data = q_log.get()
-        if data[0] == "off":
-            log_cam_f.close()
-            log_lcd_f.close()
-            log_server_f.close()
-            log_email_f.close()
-            log_scan_f.close()
-            print("Exiting log process")
-            sys.exit(0)
         message = uName+" at "+datetime.now().strftime("%Y-%m-%d %H:%M:%S")+" : "+str(data[1])+"\n"
         print(data[0]+" : "+message)
         if data[0]=="cam":
@@ -402,20 +393,18 @@ def log_process(q_log):
             log_email_f.write(message)
         elif data[0]=="scan":
             log_scan_f.write(message)
+        q_log.task_done()
 
-def LCD_process(q_lcd):
+def LCD_thread(q_lcd):
     while True:
         data=q_lcd.get()
-        if data=="off":
-            print("Exiting lcd process")
-            sys.exit(0)
         try:
-            #pLCD(data)
             print(data)
-            time.sleep(m_timeout)
+            pLCD(data)
         except Exception as e:
             write_log("lcd", e)
-
+        finally:
+            q_lcd.task_done()
 
 def send_email(subject, body):
 	global q_email
@@ -433,20 +422,28 @@ def main():
     global q_lcd
     global q_email
     global q_log
+    global p1
+    global p2
+    global p3
     q_email= Queue()
     q_lcd= Queue()
     q_log= Queue()
     try:
-        p1=Process(target=email_process, args=(q_email,))
-        p2=Process(target=LCD_process, args=(q_lcd,))
-        p3=Process(target=log_process, args=(q_log,))
+        p1=Thread(target=email_thread, args=(q_email,))
+        p2=Thread(target=LCD_thread, args=(q_lcd,))
+        p3=Thread(target=log_thread, args=(q_log,))
+        p4=Thread(target=listen_button)
     except Exception as e:
         print(e)
         stop()
+    p1.setDaemon(True)
+    p2.setDaemon(True)
+    p3.setDaemon(True)
+    p4.setDaemon(True)
     p1.start()
     p2.start()
     p3.start()
     auth()
+    p4.start()
     enter_order()
-    order()
 main()

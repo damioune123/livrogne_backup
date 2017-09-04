@@ -26,99 +26,113 @@ static const char * MUSIC_ON ="18122563120";
 static const char * MUSIC_OFF ="24554180120";
 using namespace std;
 int main(){
-        char buffer[512];
-        char uid[521];
-	int fd2 = open("/var/run/rfid.pid", O_RDWR|O_CREAT|O_TRUNC);
-	if (fd2 == -1) { 
-		perror("Erreur ouverture fichier pid\n");
-		exit(50);
-	}
-        int current_pid = getpid();
-        char cPid[255];
-        sprintf(cPid, "%d", current_pid);
-	if (write(fd2, &cPid, strlen(cPid)) == -1) { 
-		fprintf(stderr,"Erreur ecriture pid file\n");
-		exit(4);
-	}
-	MFRC522 mfrc;
-	mfrc.PCD_Init();
-        pid_t child_pid;
-        int presentCS0=0; 
-	while(1){
-                presentCS0=0;
-	        mfrc.PCD_Init();
-                mfrc.setSPIConfig();
-		usleep(275*1000);
-		// Look for a card
-		if(mfrc.PICC_IsNewCardPresent())
-			presentCS0=1;
-		*uid='\0';
-                if(presentCS0 ==1){
-		    if( mfrc.PICC_ReadCardSerial()){
-			    for(byte i = 0; i < mfrc.uid.size; ++i){
-                                sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
-			    }
-		    }
-		    printf("%s\n", uid);
+    char buffer[512];
+    char uid[521];
+    int fd2 = open("/var/run/rfid.pid", O_RDWR|O_CREAT|O_TRUNC);
+    if (fd2 == -1) { 
+        perror("Erreur ouverture fichier pid\n");
+        exit(50);
+    }
+    int current_pid = getpid();
+    char cPid[255];
+    sprintf(cPid, "%d", current_pid);
+    if (write(fd2, &cPid, strlen(cPid)) == -1) { 
+        fprintf(stderr,"Erreur ecriture pid file\n");
+        exit(4);
+    }
+    MFRC522 mfrc;
+    mfrc.PCD_Init();
+    pid_t child_pid;
+    int presentCS0=0; 
+    while(1){
+        presentCS0=0;
+        mfrc.PCD_Init();
+        mfrc.setSPIConfig();
+        usleep(275*1000);
+        // Look for a card
+        if(mfrc.PICC_IsNewCardPresent())
+            presentCS0=1;
+        *uid='\0';
+        if(presentCS0 ==1){
+            if( mfrc.PICC_ReadCardSerial()){
+                for(byte i = 0; i < mfrc.uid.size; ++i){
+                    sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
                 }
-                if(presentCS0 ==0){
-                    printf("ici\n");
-	            mfrc.PCD_Init();
-                    mfrc.setSPIConfigCS1();
-		    if(!mfrc.PICC_IsNewCardPresent())
-			continue;
-		    *uid='\0';
-		    if( mfrc.PICC_ReadCardSerial()){
-			for(byte i = 0; i < mfrc.uid.size; ++i){
-                            sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
-			}
-		    }	
-		    printf("%s\n", uid);
+            }
+            printf("%s\n", uid);
+        }
+        if(presentCS0 ==0){
+            mfrc.PCD_Init();
+            mfrc.setSPIConfigCS1();
+            if(!mfrc.PICC_IsNewCardPresent())
+                continue;
+            *uid='\0';
+            if( mfrc.PICC_ReadCardSerial()){
+                for(byte i = 0; i < mfrc.uid.size; ++i){
+                    sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
                 }
-		if(strcmp(ALLOFF, uid)==0){
-                    sprintf(buffer,"%s/ALLrelaispriseOFF.py", SCRIPTS_DIR);
-                    system(buffer);
-		}
-		else if(strcmp(ALLON, uid)==0){
-                    sprintf(buffer,"%s/ALLrelaispriseON.py", SCRIPTS_DIR);
-                    system(buffer);
-                    sprintf(buffer,"%s/displayC.py CARD...PLEASE &", CURRENT_DIR);
-                    system(buffer);
-		}
-		else if(strcmp(MUSIC_ON, uid)==0){
-                    sprintf(buffer,"%s/relaisMusicON.py", SCRIPTS_DIR);
-                    system(buffer);
-                }
-		 else if(strcmp(MUSIC_OFF, uid)==0){
-                     sprintf(buffer,"%s/relaisMusicOFF.py", SCRIPTS_DIR);
-                     system(buffer);
-                }
-		 else if(strcmp(FRIGO_ON, uid)==0){
-                     sprintf(buffer,"%s/relaisFrigoON.py", SCRIPTS_DIR);
-                     system(buffer);
-                }
-		 else if(strcmp(FRIGO_OFF, uid)==0){
-                     sprintf(buffer,"%s/relaisFrigoOFF.py", SCRIPTS_DIR);
-                     system(buffer);
-                }
-		else{
-                    system("service sensors_cam stop");
-                    sprintf(buffer,"%s/order.py", CURRENT_DIR);
-                    wait(NULL);
-                    printf("%s\n", buffer); 
-                    if ((child_pid = fork())== -1){
-                        perror("Erreur fork\n");
-                        exit(1);
-                    }
-                    if(child_pid == 0){
-                        execl(buffer,"order.py", uid, NULL);
-                    }
-                    wait(NULL);
-                    system("service sensors_cam start");
-                    sprintf(buffer,"%s/displayC.py CARD...PLEASE &", CURRENT_DIR);
-                    system(buffer);
+            }	
+            printf("%s\n", uid);
+        }
+        if(strcmp(ALLOFF, uid)==0){
+            sprintf(buffer,"%s/ALLrelaispriseOFF.py", SCRIPTS_DIR);
+            system(buffer);
+        }
+        else if(strcmp(ALLON, uid)==0){
+            sprintf(buffer,"%s/ALLrelaispriseON.py", SCRIPTS_DIR);
+            system(buffer);
+            sprintf(buffer,"%s/displayC.py CARD...PLEASE &", CURRENT_DIR);
+            system(buffer);
+        }
+        else if(strcmp(MUSIC_ON, uid)==0){
+            sprintf(buffer,"%s/relaisMusicON.py", SCRIPTS_DIR);
+            system(buffer);
+        }
+        else if(strcmp(MUSIC_OFF, uid)==0){
+            sprintf(buffer,"%s/relaisMusicOFF.py", SCRIPTS_DIR);
+            system(buffer);
+        }
+        else if(strcmp(FRIGO_ON, uid)==0){
+            sprintf(buffer,"%s/relaisFrigoON.py", SCRIPTS_DIR);
+            system(buffer);
+        }
+        else if(strcmp(FRIGO_OFF, uid)==0){
+            sprintf(buffer,"%s/relaisFrigoOFF.py", SCRIPTS_DIR);
+            system(buffer);
+        }
+        else{
+            if(presentCS0==1){
 
-		}
-	}
-	return 0;
+                system("service sensors_cam stop");
+                sprintf(buffer,"%s/order.py", CURRENT_DIR);
+                wait(NULL);
+                printf("%s\n", buffer); 
+                if ((child_pid = fork())== -1){
+                    perror("Erreur fork\n");
+                    exit(1);
+                }
+                if(child_pid == 0){
+                    execl(buffer,"order.py", uid, NULL);
+                }
+                wait(NULL);
+                system("service sensors_cam start");
+                sprintf(buffer,"%s/displayC.py CARD...PLEASE &", CURRENT_DIR);
+                system(buffer);
+            }
+            else{
+                sprintf(buffer,"%s/login_rfid.py", CURRENT_DIR);
+                wait(NULL);
+                printf("%s\n", buffer); 
+                if ((child_pid = fork())== -1){
+                    perror("Erreur fork\n");
+                    exit(1);
+                }
+                if(child_pid == 0){
+                    execl(buffer,"login_rfid.py", uid, NULL);
+                }
+                wait(NULL);
+            }
+        }
+    }
+    return 0;
 }

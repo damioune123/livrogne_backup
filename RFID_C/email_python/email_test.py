@@ -1,14 +1,8 @@
 #!/usr/bin/python2.7
-import smtplib
-import time, sys
+import smtplib, json, time, sys
 from multiprocessing import Process, Queue
-global fo_email_r
-global fo_email_w
-global pid_email
 
 def email_process(q):
-    print("yoyo")
-    global fo_email_r
     FROM="livrognebar@gmail.com"
     password="Livrogn7"
     smtp_host="smtp.gmail.com"
@@ -38,11 +32,22 @@ def email_process(q):
         print(e)
 
 def main():
+        if len(sys.argv) <=1 or len(sys.argv) >3:
+            print("Usage %s path_email path_joint_piece" %(sys.argv[0]))
+            return
+        with open(sys.argv[1],"r") as emailF:
+            emailJSON=emailF.read()
+            print(emailJSON)
+            email=json.loads(emailJSON)
+        if "email" not in email or "subject" not in email["email"] or "body" not in email["email"]:
+            print("Email must be written with json syntax and must contain a body and a subject")
+            return
+        subject = email["email"]["subject"]
+        body=email["email"]["body"]
 	q = Queue()
         p = Process(target=email_process, args=(q,))
         p.start()
-        for i in range(0, 5):
-	    q.put(["LAST TEST%i"%(i), "TEST HEADER"])
+        q.put([subject,body])
 	q.put(["off", "off"])
-        print(p.is_alive())
+        sys.exit(0)
 main()
