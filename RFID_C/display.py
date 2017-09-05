@@ -16,7 +16,6 @@ def printLCD(string):
     my_lcd = lcd()
     my_lcd.clear()
     lines = lines.split('~')
-    my_lcd = lcd()
     for (i, line) in enumerate(lines):
         line = line.replace('_', ' ')
         if len(line) > 16 :

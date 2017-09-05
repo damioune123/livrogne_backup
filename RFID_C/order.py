@@ -114,8 +114,11 @@ def stop():
     global q_log
     global q_lcd
     printLCD("Goodbye !")
+    print("ici1")
     q_email.join()
+    print("ici2")
     q_log.join()
+    print("ici3")
     q_lcd.join()
     sys.exit(0)
 
@@ -126,12 +129,10 @@ def leave_program():
     stop_encoding()
     stop()
 def handler_child_leave_order(signum, frame):
-    signal.signal(signal.SIGUSR1,signal.SIG_IGN)
     leave_program()
 
 
 def handler_child_enter_order(signum, frame):
-    signal.signal(signal.SIGUSR1,signal.SIG_IGN)
     start_encoding()
     lightButtonOn()
     openFrigo()
@@ -236,9 +237,9 @@ def validate_order():
         tokenRetour = json.loads(r.content)
         if "INSUFFICIENT_CASH" in tokenRetour:
             printLCD("NOT ENOUGH CASH~TOTAL:"+str(tokenRetour["order_total"])+"E")
-            time.sleep(m_timeout*2)
+            time.sleep(m_timeout)
             printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"E~MONEY LIM.:"+str(tokenRetour["money_limit"])+"E")
-            time.sleep(m_timeout*2)
+            time.sleep(m_timeout)
             email="""
                     Bonjour chers Administrateurs,
                     Il semblerait qu'un utilisateur n'ait pas un solde suffisant pour payer sa commande.
@@ -250,15 +251,16 @@ def validate_order():
             return
         else:
             printLCD("ORDER VALIDATED~TOTAL:"+str(tokenRetour["order_price"])+"euro")
-            time.sleep(m_timeout*3)
+            time.sleep(m_timeout)
     else:
         printLCD("NO PRODUCT")
-        time.sleep(m_timeout*2)
+        time.sleep(m_timeout)
 
 def listen_button():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(port_GPIO_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     while True:
+        print('qsd')
         input_state = GPIO.input(port_GPIO_BUTTON)
         if input_state == False:
            os.kill(os.getpid(), signal.SIGUSR1)
@@ -267,7 +269,6 @@ def listen_button():
         time.sleep(0.05)
 def order():
     global products
-    global listen_button_pid
     signal.signal(signal.SIGUSR1, handler_child_leave_order)
     t_end = time.time() + tMax 
     while t_end > time.time() :
@@ -361,8 +362,8 @@ def auth():
     headers = {"X-Auth-Token": token,"Content-Type": "application/json"}
 
 def enter_order():
-    t_left=0
     signal.signal(signal.SIGUSR1, handler_child_enter_order)
+    t_left=0
     t_end = time.time() + delayBeforeOrder
     while t_end > time.time() :
         printLCD("Welcome !~"+uName)
@@ -428,14 +429,10 @@ def main():
     q_email= Queue()
     q_lcd= Queue()
     q_log= Queue()
-    try:
-        p1=Thread(target=email_thread, args=(q_email,))
-        p2=Thread(target=LCD_thread, args=(q_lcd,))
-        p3=Thread(target=log_thread, args=(q_log,))
-        p4=Thread(target=listen_button)
-    except Exception as e:
-        print(e)
-        stop()
+    p1=Thread(target=email_thread, args=(q_email,))
+    p2=Thread(target=LCD_thread, args=(q_lcd,))
+    p3=Thread(target=log_thread, args=(q_log,))
+    p4=Thread(target=listen_button)
     p1.setDaemon(True)
     p2.setDaemon(True)
     p3.setDaemon(True)
@@ -445,5 +442,6 @@ def main():
     p3.start()
     auth()
     p4.start()
+    time.sleep(0.2)
     enter_order()
 main()

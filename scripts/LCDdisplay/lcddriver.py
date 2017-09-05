@@ -61,18 +61,24 @@ class lcd:
 
   def __init__(self):
     """Setup the display, turn on backlight and text display + ...?"""
-    self.device = i2c_lib.i2c_device(ADDRESS, BUS)
+    ok = False
+    while not ok:
+        try:
+            self.device = i2c_lib.i2c_device(ADDRESS, BUS)
+            ok=True
+        except Exception as e:
+            print("Erreur i2c "+str(e))
 
-    self.write(0x03)
-    self.write(0x03)
-    self.write(0x03)
-    self.write(0x02)
+        self.write(0x03)
+        self.write(0x03)
+        self.write(0x03)
+        self.write(0x02)
 
-    self.write(LCD_FUNCTIONSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE)
-    self.write(LCD_DISPLAYCONTROL | LCD_DISPLAYON)
-    self.write(LCD_CLEARDISPLAY)
-    self.write(LCD_ENTRYMODESET | LCD_ENTRYLEFT)
-    sleep(0.2)
+        self.write(LCD_FUNCTIONSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE)
+        self.write(LCD_DISPLAYCONTROL | LCD_DISPLAYON)
+        self.write(LCD_CLEARDISPLAY)
+        self.write(LCD_ENTRYMODESET | LCD_ENTRYLEFT)
+        sleep(0.3)
 
   def strobe(self, data):
     """clocks EN to latch command"""
@@ -91,8 +97,7 @@ class lcd:
             sleep(0.005)
             ok=True
         except:
-            print("corruption lcd"+str(data))
-            pass
+            print("corruption lcd "+str(data))
 
   def write(self, cmd, mode=0):
     """write a command to lcd"""
