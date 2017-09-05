@@ -82,8 +82,17 @@ class lcd:
     sleep(0.001)
 
   def write_four_bits(self, data):
-    self.device.write_cmd(data | LCD_BACKLIGHT)
-    self.strobe(data)
+    ok = False
+    while not ok:
+        try:
+            self.device.write_cmd(data | LCD_BACKLIGHT)
+            sleep(0.005)
+            self.strobe(data)
+            sleep(0.005)
+            ok=True
+        except:
+            print("corruption lcd"+str(data))
+            pass
 
   def write(self, cmd, mode=0):
     """write a command to lcd"""

@@ -402,7 +402,7 @@ def LCD_thread(q_lcd):
             print(data)
             pLCD(data)
         except Exception as e:
-            write_log("lcd", e)
+            write_log("lcd",str(e))
         finally:
             q_lcd.task_done()
 
