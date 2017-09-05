@@ -126,10 +126,12 @@ def leave_program():
     stop_encoding()
     stop()
 def handler_child_leave_order(signum, frame):
+    signal.signal(signal.SIGUSR1, signal.SIG_IGN)
     leave_program()
 
 
 def handler_child_enter_order(signum, frame):
+    signal.signal(signal.SIGUSR1, signal.SIG_IGN)
     start_encoding()
     lightButtonOn()
     openFrigo()
