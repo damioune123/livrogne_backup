@@ -36,7 +36,7 @@ int cardScripts(char *uid){
     else if(strcmp(ALLON, uid)==0){
         sprintf(buffer,"%s/ALLrelaispriseON.py", SCRIPTS_DIR);
         system(buffer);
-        sprintf(buffer,"%s/displayC.py CARD...PLEASE &", CURRENT_DIR);
+        sprintf(buffer,"%s/displayC.py CARD_PLEASE... &", CURRENT_DIR);
         system(buffer);
         return TRUE;
     }
@@ -75,11 +75,12 @@ void orderProcess(char * uid){
         exit(1);
     }
     if(child_pid == 0){
+        printf("buffer : %s\n", buffer);
         execl(buffer,"order.py", uid, NULL);
     }
     wait(NULL);
     system("service sensors_cam start");
-    sprintf(buffer,"%s/displayC.py CARD...PLEASE &", CURRENT_DIR);
+    sprintf(buffer,"%s/displayC.py CARD_PLEASE... &", CURRENT_DIR);
     system(buffer);
 }
 void tabletteProcess(char * uid){
@@ -113,6 +114,8 @@ int main(){
     char buffer[512];
     char uid[521];
     MFRC522 mfrc;
+//    sprintf(buffer,"%s/displayC.py CARD_PLEASE... &", CURRENT_DIR);
+ //   system(buffer);
     int presentCS0=0; 
     while(1){
         presentCS0=0;

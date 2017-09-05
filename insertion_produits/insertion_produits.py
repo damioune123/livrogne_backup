@@ -18,8 +18,8 @@ def auth():
         r = requests.post(URLAuth, data=json.dumps(payload), headers=headers)
         tokenRetour = json.loads(r.content)
         if "user" in tokenRetour and "role" in tokenRetour["user"] and (tokenRetour["user"]["role"]=="ROLE_SUPER_ADMIN" or tokenRetour["user"]["role"]=="ROLE_ADMIN"):
-                print "AUTHENTICATED ! \n ROLE : "+ tokenRetour["user"]["role"]+ " / username : "+tokenRetour["user"]["username"]
-                return tokenRetour["value"]
+            print "AUTHENTICATED ! \n ROLE : "+ tokenRetour["user"]["role"]+" \n Firstname : "+tokenRetour["user"]["firstname"]
+            return tokenRetour["value"]
         elif "user" not in tokenRetour :
             print "La carte n'est pas lie a un compte"
         else:
@@ -109,9 +109,15 @@ def record_products(token):
                 else :
                         print "Erreur lors de l'encodage du produit"
 
+def handler_stop():
+    os.system("sudo service rfid_daemon start")
+    sys.exit(0)
+
 def main():
-    token = auth()
-    print "TOKEN : "+ token
+    signal.signal(signal.SIGINT, handler_stop)
+    os.system("sudo service rfid_daemon stop")
+    token=auth()
+    print(token)
     record_products(token)
 
 main()
