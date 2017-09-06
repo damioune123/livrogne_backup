@@ -149,6 +149,9 @@ int main(){
         }
         if(cardScripts(uid)) continue;
         if(presentCS0) orderProcess(uid);
-        else tabletteProcess(uid);
+        else{
+            tabletteProcess(uid);
+            sleep(5);
+        }
     }
 }
