@@ -9,7 +9,7 @@ import thread
 from dateutil import parser
 
 products ={}
-tMax=30 # temps commande max
+tMax=90 # temps commande max
 serverIP="127.0.0.1"
 baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 currentDir="/home/pi/RFID_C/"
@@ -98,12 +98,14 @@ def start_encoding():
     if openSSH():
         print("order staring, starting cam encoding")
         exec_comm('/home/pi/auth_stream_to_avi.sh '+"_"+str(uId)+"_"+uName)
+        printLCD("CAMERA STARTS~RECORDING")
 
 def stop_encoding():
     print("order finised, stoping cam encoding")
     openSSH()
     print("killing avconv")
     exec_comm("killall avconv")
+    printLCD("CAMERA STOPS~RECORDING")
     closeSSH()
 
 def handler_barcode(signum, frame):
@@ -120,22 +122,20 @@ def stop():
     sys.exit(0)
 
 def leave_program():
-    lightButtonOff()
+    lightButtonBlink()
     closeFrigo()
     validate_order() 
     stop_encoding()
     stop()
 def handler_child_leave_order(signum, frame):
-    signal.signal(signal.SIGUSR1, signal.SIG_IGN)
     leave_program()
 
 
 def handler_child_enter_order(signum, frame):
-    signal.signal(signal.SIGUSR1, signal.SIG_IGN)
-    start_encoding()
+    signal.signal(signal.SIGUSR1, handler_child_leave_order)
     lightButtonOn()
+    start_encoding()
     openFrigo()
-    printLCD("ORDER STARTED")
     order()
 
 def lecture_barcode(timeout):
@@ -202,6 +202,13 @@ def lightButtonOff():
     GPIO.setup(port_GPIO_LIGHT_BUTTON, GPIO.OUT)
     GPIO.output(port_GPIO_LIGHT_BUTTON, GPIO.HIGH)
 
+def lightButtonBlink():
+    for i in range (5):
+        lightButtonOn()
+        time.sleep(0.2)
+        lightButtonOff()
+        time.sleep(0.2)
+
 def openFrigo():
     print("openfrigo")
     GPIO.setmode(GPIO.BCM)
@@ -245,9 +252,9 @@ Resume de la commande : %s
             stop()
         if "INSUFFICIENT_CASH" in tokenRetour:
             printLCD("NOT ENOUGH CASH~TOTAL:"+str(tokenRetour["order_total"])+"E")
-            time.sleep(m_timeout)
+            time.sleep(m_timeout*3)
             printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"E~MONEY LIM.:"+str(tokenRetour["money_limit"])+"E")
-            time.sleep(m_timeout)
+            time.sleep(m_timeout*3)
             email="""
 Bonjour chers Administrateurs,
 Il semblerait qu'un utilisateur n'ait pas un solde suffisant pour payer sa commande.
@@ -260,7 +267,7 @@ Veuillez faire venir un administrateur au bar le plus rapidement possible pour l
         else:
             print(tokenRetour)
             printLCD("ORDER VALIDATED~TOTAL:"+str(tokenRetour["order_price"])+"euro")
-            time.sleep(m_timeout*2)
+            time.sleep(m_timeout*3)
     else:
         printLCD("NO PRODUCT")
         time.sleep(m_timeout)
@@ -277,8 +284,9 @@ def listen_button():
         time.sleep(0.05)
 
 def order():
+    time.sleep(m_timeout)
+    printLCD("ORDER STARTED")
     global products
-    signal.signal(signal.SIGUSR1, handler_child_leave_order)
     t_end = time.time() + tMax 
     while t_end > time.time() :
         try:
@@ -333,6 +341,8 @@ def auth():
     global uName
     global uId
     global role
+    global available_money
+    global current_money
     if len(sys.argv) ==1:
         print("Usage %s rfid_uid" %(sys.argv[0]))
         stop()
@@ -369,6 +379,9 @@ Le probleme a eu lieu a %s."
     uName=uName[:15]
     uId=tokenPyth["user"]["id"]
     role=tokenPyth["user"]["role"]
+    if role =="ROLE_USER" or role =="ROLE_ADMIN":
+        available_money=str(tokenPyth['user']["user_accounts"][0]["available_balance"])
+        current_money=str(tokenPyth['user']["user_accounts"][0]["money_balance"])
     headers = {"X-Auth-Token": token,"Content-Type": "application/json"}
 
 def enter_order():
@@ -376,9 +389,16 @@ def enter_order():
     t_left=0
     t_end = time.time() + delayBeforeOrder
     while t_end > time.time() :
-        printLCD("Welcome !~"+uName)
-        t_left=int(round(t_end-time.time()))
+        printLCD("PRESS BUTTON~TO START ORDER !")
         time.sleep(m_timeout)
+        printLCD("Welcome !~"+uName)
+        time.sleep(m_timeout)
+        if role =="ROLE_USER" or role =="ROLE_ADMIN":
+            printLCD("AVAILABLE MONEY:~"+available_money+"euro")
+            time.sleep(m_timeout)
+            printLCD("MONEY BALANCE :~"+current_money+"euro")
+            time.sleep(m_timeout)
+        t_left=int(round(t_end-time.time()))
         if t_left > 0 :
             printLCD("TIME LEFT:~"+str(t_left)+" sec")
             time.sleep(m_timeout)
