@@ -9,7 +9,7 @@ import thread
 from dateutil import parser
 
 products ={}
-tMax=90 # temps commande max
+tMax=100 # temps commande max
 serverIP="127.0.0.1"
 baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 currentDir="/home/pi/RFID_C/"
