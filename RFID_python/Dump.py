@@ -40,7 +40,7 @@ while continue_reading:
         print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
     
         # This is the default key for authentication
-        key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
+        key = [0x01,0x02,0x03,0x04,0x05,0x06]
         
         # Select the scanned tag
         MIFAREReader.MFRC522_SelectTag(uid)
