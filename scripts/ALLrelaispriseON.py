@@ -30,9 +30,14 @@ try:
   GPIO.setup(20, GPIO.OUT)
   GPIO.output(19, GPIO.HIGH)
   GPIO.output(20, GPIO.HIGH)
-  os.system("/home/pi/scripts/LCDdisplay/displayC.py Bar...allume!")
-  time.sleep(1)
-  os.system("/home/pi/scripts/LCDdisplay/displayC.py Welcome!!!")
+  newpid= os.fork()
+  os.system("killall mpg123")
+  if newpid==0:
+      os.system("mpg123 /home/pi/Music/cena_theme.mp3  &")
+  else:
+    os.system("/home/pi/scripts/LCDdisplay/displayC.py Bar...allume! &")
+    time.sleep(1)
+    os.system("/home/pi/scripts/LCDdisplay/displayC.py Welcome!!! &")
 
 
 # End program cleanly with keyboard

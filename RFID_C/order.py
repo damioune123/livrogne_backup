@@ -7,9 +7,10 @@ from Queue import Queue
 from threading import Thread
 import thread
 from dateutil import parser
+from temp_logger import CPU
 
 products ={}
-tMax=100 # temps commande max
+tMax=90 # temps commande max
 serverIP="127.0.0.1"
 baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 currentDir="/home/pi/RFID_C/"
@@ -22,7 +23,7 @@ port_GPIO_BUTTON=18
 port_GPIO_LIGHT_BUTTON=20
 port_GPIO_FRIGO_LOCK=19
 m_timeout=1.5
-delayBeforeOrder=10
+delayBeforeOrder=15
 ssh=None
 paramiko.util.log_to_file(currentDir+"logs/ssh_paramiko.log")
 
@@ -398,6 +399,11 @@ def enter_order():
             time.sleep(m_timeout)
             printLCD("MONEY BALANCE :~"+current_money+"euro")
             time.sleep(m_timeout)
+        cpu=CPU()
+        printLCD(cpu[0])
+        time.sleep(m_timeout)
+        printLCD(cpu[1])
+        time.sleep(m_timeout)
         t_left=int(round(t_end-time.time()))
         if t_left > 0 :
             printLCD("TIME LEFT:~"+str(t_left)+" sec")
