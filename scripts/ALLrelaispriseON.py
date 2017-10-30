@@ -7,7 +7,7 @@ GPIO.setmode(GPIO.BCM)
 # init list with pin numbers
 
 #pinList = [17, 27, 22, 23, 24, 12, 5, 6]
-pinList=[5, 6, 12,13, 17, 23,26, 27]
+pinList=[ 6, 12, 13, 16, 19, 20, 21, 26]
 
 # loop through pins and set mode and state to 'low'
 
@@ -17,7 +17,7 @@ for i in pinList:
 
 # time to sleep between operations in the main loop
 
-SleepTimeL = 0.5
+SleepTimeL=0.5
 
 # main loop
 
@@ -26,10 +26,10 @@ try:
     GPIO.output(i, GPIO.LOW)
     print i
     time.sleep(SleepTimeL)
-  GPIO.setup(19, GPIO.OUT)
-  GPIO.setup(20, GPIO.OUT)
-  GPIO.output(19, GPIO.HIGH)
-  GPIO.output(20, GPIO.HIGH)
+#  GPIO.setup(19, GPIO.OUT)
+#  GPIO.setup(20, GPIO.OUT)
+#  GPIO.output(19, GPIO.HIGH)
+#  GPIO.output(20, GPIO.HIGH)
   newpid= os.fork()
   os.system("killall mpg123")
   if newpid==0:
@@ -43,3 +43,4 @@ try:
 # End program cleanly with keyboard
 except KeyboardInterrupt:
   print "  Quit "
+

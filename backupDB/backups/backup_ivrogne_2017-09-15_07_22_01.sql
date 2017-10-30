@@ -1,0 +1,374 @@
+-- MySQL dump 10.13  Distrib 5.5.57, for debian-linux-gnu (armv7l)
+--
+-- Host: localhost    Database: livrogne_api
+-- ------------------------------------------------------
+-- Server version	5.5.57-0+deb8u1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `livrogne_api`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `livrogne_api` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `livrogne_api`;
+
+--
+-- Table structure for table `auth_tokens`
+--
+
+DROP TABLE IF EXISTS `auth_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` int(11) DEFAULT NULL,
+  `value` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `is_log_with_rfid` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_8AF9B66C8D93D649` (`user`),
+  CONSTRAINT `FK_8AF9B66C8D93D649` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=300 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_tokens`
+--
+
+LOCK TABLES `auth_tokens` WRITE;
+/*!40000 ALTER TABLE `auth_tokens` DISABLE KEYS */;
+INSERT INTO `auth_tokens` VALUES (1,1,'8NII9pWUg7O5tFltcFTcBxpqXSlCZo0IHGhMCoZRCrNq0DE/U3hVXDgRG5nSqDIuZGk=','2017-09-08 15:19:05',0),(2,3,'ZbiFYq4/YQ5uxpWV0UqSz4doexaecQYPz/o+ZKtmCwu+frFhEoJ808gngamXEh6EjKc=','2017-09-08 15:24:59',0),(3,2,'L0f6CibyVDCDficKaU0oTJ56qyorqvZKcVVEBU4qTG+cTHOuf/E4DwoUQl8zeTcMy8s=','2017-09-08 15:26:56',0),(4,4,'yy/BnwBZJEeXbPB4Juvvh+zbS6/wi530AFiR8IYerd38VuLAj4PEYn5chSwlhm0f2XM=','2017-09-08 15:27:29',0),(5,1,'B50n3JdNvM+eWpRoPg/CXMQiyw014Pwv7oyd5X9loVp14DAuJovTwM1AyEYcDfqfRNw=','2017-09-08 15:28:57',0),(6,1,'faQqqfo1Mog28dt7UM2mbY/U0TX+FiSQdTdQvX1ecJhVYSJWS6BnhZEMZEGUokPP5C4=','2017-09-08 15:29:15',1),(7,1,'1nC7jnXThwZoNe81+e5iWpBSmYm7IHy/UiMz26VvfvvbXAuSuEgEfZAPvohLzN/zD0g=','2017-09-08 15:30:35',1),(8,1,'L7YiCJ14Muuut14S2rqrfaz6sMZGs53BEgECkpxpURoL0FHSPPCdEcFeoQxE1PAXB5E=','2017-09-08 15:30:41',1),(9,1,'DylQdc0Rs+CQDe0A9wQEzv90G/9uzEp/pbAipqUKan9svLv6BeWE3d3yaOL2x5mNrQ8=','2017-09-08 15:31:10',1),(10,1,'XMhwuO8CrNlPIU8TadoPsDdFthnNGF3GnpYJPWvgBp1cg7SuqhgKbXqezBi0ypYXodA=','2017-09-08 15:33:41',1),(11,3,'2Z5P7R0n4MHa6lz04PoCFmAuPt6igy/a00YPSZMTp99P7A6ZLbFMV3u9/HPLNrLOGQs=','2017-09-08 15:39:28',1),(12,3,'q0hrA47azhxE4Wh7m3WpT4O2bTXd40qdEuXzZ7Z+iXCSqtRn47Yo+kG0CzKXXLCIsRI=','2017-09-08 15:39:57',1),(13,3,'8/3MeoETPDqDFwZbJCpDWrEdb7yRyxC79j5ElJe1QIbZjjI8uPxlb8U7mZHTKNoOOSA=','2017-09-08 15:41:11',1),(14,1,'2MAzZCj2gl6vMRYew9GFh00PhALQLWbdEGqp/QWnbFjL0LBf6B5fMaExchYxqU3eVN8=','2017-09-08 15:41:53',1),(15,3,'Zc1apVCDLEYuRCmlwy7kEPt7JyWoemwhKfJLPXWSZAQ4jo9NEls5dW+qI/kFkDsOxtI=','2017-09-08 15:42:43',1),(16,3,'GQ6EZKBp4tn5Wfv94uA0ZsxtiYewk4ZLyChW8jC9GA37ujyrzGg05oSUcAy9LUNMwYE=','2017-09-08 15:44:20',1),(17,3,'D4zNHWhLTyo/zCnAPlJEyFH/1ol+seiCHt6cy13EvYGahf48asiowsxa2a/SDjBCHJI=','2017-09-08 15:44:47',1),(18,2,'IiN31klEYWvEeYz34BDgtpFmLC5AbMa1ohlImkcFGh02A5QPghCSMTH1wYqDrxZDPzE=','2017-09-08 15:45:37',1),(19,3,'GoEkuo558wO0nMIXJVtsCINJhf8C0oKx/sWeLdzAyCBxtxP9wISSiPdEu/RB0HGc8p4=','2017-09-08 15:46:20',1),(20,3,'kwP3lu1uXVClmcn2HbTZdSZWub+8ryFtxRTthesj0YYElQn4abNofeJavUgWICEVSFs=','2017-09-08 15:46:54',1),(21,3,'+K7kLspxptFFo4WVI7WcmcHq/JMzQQYU2BR9OyWFXh6pmkefJ2iYUoaMvyACd/P2U10=','2017-09-08 15:49:55',1),(22,2,'1uegytZ/yey+fJATDqmuc9NXfxFJDYakd9KCmRLu7DTuKHN4tSsizFtB6lkEibyaKlk=','2017-09-08 15:50:39',1),(23,3,'bu20n2ojRn9LRGEuncTq9cdFWF9Q881NXoLLg5wlfVKKmPfJKSb+wZ1+8uJblSQY+go=','2017-09-08 15:51:21',1),(24,1,'te3ow9xeW9/KUgYDw5ue3PCWj+Zl0F03/GYhoeIT284eBYFr5pfC5YQq0uc7PKEAhIE=','2017-09-08 15:54:09',1),(25,1,'81TeQtue4GOQue3mgn+PmRnyTMpg7xnprGd9Ahg7qDPN/XaSk0EwP0oDx5D4++2SnJw=','2017-09-08 15:56:03',1),(26,1,'CS0sMcTK72zRYXMPZxnld/xDo3tdEdOepEd/FL+NCUMzO8Xg1PdMXYqoat/7hf/tNT4=','2017-09-08 16:05:23',1),(27,3,'JDjKo93w3/vDVtaBN1H6m35IEMbODk6yk1AYz5Z2YPEWUCb/0UvJN5Hz35QhYs4wGBg=','2017-09-08 16:06:08',1),(28,4,'juYW6JqxsusAUdOBmTM7xe+DkV8CbLpLqr3RpVJeCbu0Y8L2w7yZ/kDPsLoysjJGnL0=','2017-09-08 16:25:56',1),(29,1,'fe9+TXU9RiGArwntwIzvotnTec7UKI+EKQXrzv28CKP4JwM0SGql/pA1lhU2F73qkNU=','2017-09-08 16:29:06',1),(30,3,'rHq8TdNhD46IKkjhqenZUeafrTRG3ruJKZ0E6n9PfTPiN/oGkFNON1/lnx7deGWKLVE=','2017-09-08 16:30:53',1),(31,3,'pnFFfZYsDOkDsiggSluDn9QkeA2QCW11XRIBgyUyk2PmrGLqxP62fGbVYphgYIgjpDE=','2017-09-08 16:41:26',1),(32,3,'Ks9lk70nqAY4vv+lByuvoR3jodJgExNddW76+yjlo8KmTOp0dLMQiSgHV+fproBSJCo=','2017-09-08 16:57:59',1),(33,3,'AsIUrmIU8Ova+wVmE+X35MkmK6e0HMQtYee11eiEQPvAb23ceQC8any4h5CXTmvqxjw=','2017-09-08 17:03:38',1),(34,3,'Q4el/HmINXepHUo/YO4W1Sf5Uj13TS6FzhDSdwzYojPaxRZABbiU0ISIE1PdXJ/nUQ4=','2017-09-08 17:04:45',1),(35,3,'eSZ7zhX7+7/gFrCR6+lGs5fNztPWZ3MhmUseNJnHJPA4HVAoUnwVM+HBxOgmDg8W//Q=','2017-09-08 17:05:20',1),(36,3,'z9mgR2cctuoPXoKbLnC8xe9yB/7FfR8x7lm953UXcsfKkmmEX+mtflRLa2uuudNSg58=','2017-09-08 17:05:35',1),(37,3,'Rz9CTbmKOI1qZQq1JOLCJVVkWjtXoKZQsmy9LkHdIe7fVvRPXSMj6LnvqZpwa2fkFRc=','2017-09-11 15:12:21',1),(38,1,'erbqd7m9ooBHzoiDRu0trlKisrRdj+M0NLszjdXa1N5W15AlJUtjZ8sD3nvTxF1bLFE=','2017-09-11 15:12:52',0),(39,3,'EOhJ96y/9pwPRSAbH3pG0AQ68iK6/m6XWkK3UCCga54EP3v7iCNomVDC2ZODxLc0SBU=','2017-09-11 15:15:39',1),(40,2,'2MpRcxJocmKgwXkhFkgemjkdqXoXC6Dbqj8wZIO6LZULpXmobf83jiZIrv0KbIt9eoM=','2017-09-11 15:16:05',0),(41,1,'EeSWMupjXIzTI+16k4S4lX6ApHv6VOqB2PMzIrHwraHNB0qqN91Xxnygu/JqvbKqwUw=','2017-09-11 15:18:50',0),(42,3,'ZFKUwYCshQk0YTv3pXV0Zn0kvNy0LY9VSErFOcnca//MidElE9/u7Z5aVojR4dwLf0M=','2017-09-11 15:26:30',1),(43,3,'MoZvflRa/Mw9LpmCbtILO7bvg2uEA3+n2X8mQntAEXEQH2kUZrnC1jWi83VGL8WISBg=','2017-09-11 15:28:37',1),(44,1,'EiRXqDUoyeHwM0owXkxY8VRsoYK7ppi1+ZIrvvYrO7Oak5ZfeqM2l3u15BQe1OXmFKA=','2017-09-11 15:55:49',0),(45,1,'iPXFnvFHlKNicBF62XIJyOdaN4Cd/dJExvxjOcKbMGMBZ7L3FydUW9N2WWwxv2/jpbs=','2017-09-11 16:09:57',0),(46,1,'SWleKuo/bi9BY6XhQQ54g1qRtoETonRQTt4sq0w+j//Qf2ssw4BE8ckZYsvmOaTaHS4=','2017-09-11 16:15:55',0),(47,3,'g7kyy+yGYIaDxuVxnj3aNI9YXVR03k5CevbnlfO9EY0EHQdZ+PaxegVrygAZGluA5vA=','2017-09-11 16:30:45',1),(48,3,'2dMmZFeeje5v4YqaZn0KIEzudk7QNwZEiA2ImFHwC51bms0cd/O9Te/KJRgvPQBQxKk=','2017-09-11 16:31:10',1),(49,3,'vz6RIrROr9verwWGTViEZvFYSQY/wqjMzFkj9sMGWVTs08Vo95GIgdpBDxOTMTxQ8MU=','2017-09-11 16:31:34',1),(50,3,'FjsjF82a4zioAPmBVQus3mCVBjG6fPQpkJXDE1927aoWiBonaPF4bcIWey165B+UnM0=','2017-09-11 16:31:59',1),(51,3,'8lmaEWaP5JiWdrPa8d8keXyknnk060X8Vq+zJyBz/LNXRk6XqG+n+MPULxx65NSx8CI=','2017-09-11 16:34:05',1),(52,3,'okiqvh3I1E/5itOY8dSdQtdE9JwefPisSbQ23XgwHMSrWr9mR5sBDhDag/BMbu/73R8=','2017-09-11 16:34:56',1),(53,3,'Mk/ImvXj6zqQH89x2JzWatK34ERzKfxkxBPSDwSbD/XlVzUipQ7e7tFQzxFB1NB04Ug=','2017-09-11 16:36:09',1),(54,3,'2Yq4Py94/PG07rLEiy21ETkdQKD7/Z+aaOdEmR0m+0BryY9Wj9Zd7Ekz2cVWHK2ZVpQ=','2017-09-11 16:37:00',1),(55,3,'nhQl3Uzb6tMPCK1p/9oIQyJKiekzpEEUtmJ07Q0IrzlkhkKr9x3DAYhBtoFi8/2odOY=','2017-09-11 16:42:08',1),(56,3,'lFhiFHjkTX1rjPB31hx4Wx1Btd/OHMifhyIuxZzBEXa+VK0d8kxNFsnxznLRVZ3y3O4=','2017-09-11 18:07:29',1),(57,3,'lKjPyjWcDfxut9No8XwCoNKujCa4nl5ROb6mOMcR13UF7yUyGUiRJIh/XIK30X20vpE=','2017-09-11 18:09:23',1),(58,3,'gBt4F5nH/ZiEtu0Ot6t5cqjpw0NhPusRnosBbdWXDMh/A1e28Fd9BIpmRAFgT+D6ez0=','2017-09-11 18:09:46',1),(59,3,'sA/YZ6f80LaH6OTTlJ8O7kdrjayFx6+Du0ufzCiOQoczuu4ybnKJ0333+69aLUUq1is=','2017-09-11 18:20:41',1),(60,3,'C7osd4znkWIKIzC5ccne8L0oa8V+OEd5LM6iDWxRNj8btwjYaXgX2RhHjqa7IAzwYGk=','2017-09-11 18:21:27',1),(61,3,'UoLO32TbFFDZUVPKkm6JBevwRwMITFZ/RTsLD5ZsZM2dnfFHLVjtHwTT4HFMg8la0e0=','2017-09-11 18:23:16',1),(62,3,'dR/7zpXrOlnaT1fqPOfkzarqsP4WP+0QgHb1Evjr70JpiUAG7pIpHF5UteYalgBFc1U=','2017-09-11 18:23:31',1),(63,3,'S8QziQna0by/BBzpZzO41/QMx0a2Nu3+KM8hk5LNbzqH6LhuOfdOSGMz0V1fKt9fZX8=','2017-09-11 18:24:09',1),(64,3,'P5kBOS6YecKQqQ0wqqCD+IA70LvJqLRQ+9sWCVqsMlyPdbkrYvpFFTV163wpehndqzQ=','2017-09-11 18:26:40',1),(65,3,'Lq5XJLnoC1DI9vh4khLbwtbxpl0aTvo+Qo0V7AID0K+fRVZD/i+JR5MlMoXpEJNLDqc=','2017-09-11 18:29:31',1),(66,3,'JqwT4IhaLe70FSEgoXoHOBcD7tocf+fpeotXmzODN0XWN0KQjigbHQ935DD2B2UkPr8=','2017-09-11 18:31:37',1),(67,3,'LT8dKn3VNCUj5R0I/GIW6+rU6LX5fNb64hM5GzFg1z8IGD9ZSc8zM4OYcXNZczp70v8=','2017-09-11 18:32:05',1),(68,3,'+xG4LpPavhYl1iS0m6TtUKqJiDMWcHQiKxG9cm3+r1lEAKD+0DbnKHn9C1oda4EB/B8=','2017-09-11 18:32:33',1),(69,3,'TEVGKEKAL81wOqxQM6RN5Ht/7pVKush8RP8NQhdeM/Cn2Xqkm8JUq5pG+Suw/51iGP0=','2017-09-11 18:32:54',1),(70,3,'haPB8DW6nLM2j+gtJgnzsU/yduUfrjZ/LrcZUvU5QbOtLsS8hVif5j/5tORb3YZRUJ0=','2017-09-11 18:33:09',1),(71,3,'0NIvb6JDDmEIb3BgWA+6ZvXh4xmduv1xY/Yr6U8AT8QtDZtJTzZWNPSPvkxHa8EUlQQ=','2017-09-11 18:33:46',1),(72,3,'5E5JxxaRT65T57B6CRDN3TqjAH7uHfYyFonQdlM311sB8nOuoWtT1cUPuJ2Mr6VWJo0=','2017-09-11 18:34:01',1),(73,3,'B2bgXjbekZ0uWk89c0kVD4VeJ5UtryjDbUShj92ilTt8wZ28nNNX47DT7OaWUxyuTkI=','2017-09-11 18:34:19',1),(74,3,'2vMSPXLmyIhdlbjdd2GPzUowUJJ9TwLuouKiHJdKPwiEuUkOCnOOeOOhPsdIvwEavRg=','2017-09-11 18:35:16',1),(75,3,'7kpp4h26jw6DYiC4jWi5ytviq4bLrNdmGfdrSORMUgJoxueqHkIpyEkpnF8TGk1JOxI=','2017-09-11 18:35:40',1),(76,3,'7W4qbXnddQID14dnt2bhxrJtfx2LIBquNvAdHQoL1QHxcfP3KyEuwr2Dqt9u2zwtBB0=','2017-09-11 19:19:26',1),(77,3,'1WDDOty2beoBbQrWJT/uljOzdIamp+78PrvOD4dxGiWUD3KS1riB+HmoBXe1SODR3rA=','2017-09-11 19:23:01',1),(78,3,'MzhhXwZXxDd+Ygh4vWnqrhVOrrVQtOCW2KLCzE/6foMHlCAUtWb0WnX47A6e7v+s5Xs=','2017-09-11 19:23:32',1),(79,3,'goZ0+FVtEKvyG7HO8njJwXYI8Voci41GTV+zyQXT3VzHemMstriZDTbHisji66yHNt8=','2017-09-11 19:23:50',1),(80,3,'rowiwXL4sM3GcVIitgqUjcUOrURz9J5DNJNxJnjURkBUDwmynQtv/KJbdTe9grwOBJA=','2017-09-11 19:27:15',1),(81,3,'48wb6eHrSxsEC2MxU5mKA0KhSzt8RYBKbClPlU2eFtHxaqcI3v2vYj8EEsMtcoZ+2Tk=','2017-09-11 20:49:42',1),(82,3,'q66yYrTdaRXn6VIJEPKTm0echq2+XuE57modF7MH6PY0l12pplEB1wnh9BT/jY7ZFWk=','2017-09-11 20:58:45',1),(83,3,'RDsIsjcFP72gngrCREuI6YAyMejJjSfdIUvls1sowdghcZW6qdRhNUmXJjVREdWXexY=','2017-09-11 21:22:37',1),(84,3,'+lDp2GlXy8lHJKdKikIb3yeaO/oqFseFKAoKKCDhIea5s/RUVLhV4kgtt+InZ7kal6s=','2017-09-11 22:00:51',1),(85,3,'KbW+w9NNnBz+oFsA5Shc9BCCJMbyz2+PCc8PhUgkTbAGS03WLeEcmRh/2uVKUogGo+M=','2017-09-11 22:01:09',1),(86,3,'sBJsdnmhWkAL+pona7/Xj2Xl+2SRX3wRl6VdBsgdTEiEPIOmcv1iUCWG4DLAgj3yk+g=','2017-09-11 22:08:37',1),(87,1,'AjF3atFrZvwDetOypD4VXMQvDZfj1qOMnCmgGtVWYnhqUHaPeez9vPxeG6ysDQvaVLE=','2017-09-11 22:28:05',0),(88,3,'wb6yF6f7QjAQJ23NVQpFYwiMa12kpQCq5wtfyxQnipDg9wGAIUR5VA+PYQ6Yvmw3BHI=','2017-09-12 00:07:34',1),(89,3,'ONRBiZdUdR18L/5yOAdIcjgKBSB9v/rFJvhrUFkp2S2mw/tSadTu+eOdY5LtiMeSfuQ=','2017-09-12 13:51:55',1),(90,3,'hCWSLY5aR/kOYUqrp/rkQLQs/IkAb2wOi2qlXpp/2kzq5ghv+clMKmU4zSYqlFoWvDg=','2017-09-12 13:52:17',1),(91,3,'++uHLiIFE4mv5OufKMtkpL6NI8KV04UcSdm+tG+YbmE14+B7Lid5OOWWSze+Sw/w/hM=','2017-09-12 16:10:13',1),(92,3,'Syv+PEACNEl5X/oIN8cyXXPMWFokMgyC4kgeT/aRX45eI2y4HSNew6cRF0WYJiaeBAQ=','2017-09-12 16:10:31',1),(93,3,'drq2BW366Ch3CyAGymJ4oEq4LlAoPrY16c/feuNn2YyDTuK+2Zc8Pw7aYctbuvMATJE=','2017-09-12 16:14:13',1),(94,3,'C+RQqhmdn7uV8cLWxDn6SHrICDVeVDA3uIRw7PK6OKu16qvErvZqpY8/FYjrxMdyES0=','2017-09-12 16:18:38',1),(95,3,'cTTlB/1QL4mWov4XJw4rX/37p8mzi/BdgnqITHQ38UoQZFvNQjA3SBKCV5xH3Rr+hhQ=','2017-09-12 16:59:49',1),(96,3,'M7N6MTnwzgGdZo62O1LFez93tfFXOhKFpF6Bo507z42CB5d+q+i7kV01oCPyIpmdh2M=','2017-09-12 17:04:31',1),(97,3,'2kHoAR9Zzoohsq9IeQIWrfFy79DNSOTLADzkQy+o+U8M6e8yZQGEhrMyOZT2ZiPHOyM=','2017-09-12 17:05:42',1),(98,3,'NgPlOMnenZ6S6C2v8Srgc0XmO3cGrQvLkYNpgxZOni8XmPo41uXwMkOEQGvfHfBXfAk=','2017-09-12 17:07:29',1),(99,3,'LTIrRXl9emhbEhq5aecUgVsIUYEhwhctTlm9k4AE4JNoQD2qomELlPaRh9Hh9O8BDSE=','2017-09-12 17:23:53',1),(100,3,'aRMgHUVFmf7XWVqAXWgT4Ja1R6Augzj3ykX12Br51xzm7UzVI3cSIs5YjsYT1HAGmwU=','2017-09-12 17:35:27',1),(101,3,'8g8kxThMM83IgnhEXUVGNR1pWyz21g2Lz42zPsbPjRr97xB+w1PvXtEIuhAGJaotHWk=','2017-09-12 17:38:53',1),(102,3,'pL7SuBvEsHdJByuVTn5XtN3S3X3oE7JwWsTaJfNtzT+4P+/uXD5VOiQkKBqwYYioLwA=','2017-09-12 17:39:20',1),(103,3,'JxUV/lyEBVyPDd45zRN+a6XdJ19N1VcJJwXkczYPk+f1J0oqFrdrDHJO2S6cmG1XA3M=','2017-09-12 17:39:43',1),(104,3,'M737W4Ryjg5zaReapz9icwL4ZmEg3sq4GDV5KFfaHVocqN7e+1figiIt1FyRscDQkio=','2017-09-12 17:40:30',1),(105,3,'K+SMnAGE4QgM6vo9aZID09gCITHcC5HkeolbxITLjwUftKE+ZRqkkq6dsW9tZlp3+ZQ=','2017-09-12 17:54:21',1),(106,3,'aHyA/ZDxbjpodykpcxxg2Sn6b/fmVVlHAri5Jyjeu9rcyKsUCT4gsKu4voZJfMS6Mps=','2017-09-12 18:35:06',1),(107,3,'84uzb/E88xgzSps1xPHLu+rVM8x9TynBbP2CRa6BeYTMrUFtIRFwh4Ff6zUbMKCHN0k=','2017-09-12 19:02:03',1),(108,3,'mPtkMQs6JRf/BQgzLbhxD8l9sgdpPRs7VMrZHuaaEmXArWidXCtNLcrJymDfNv78Muw=','2017-09-12 19:02:55',1),(109,1,'lgjgbWvVa3u94lh9eg461A0oiBprU+Egasni2sVQhKkNAvBBPYhKrb9ouiKHueOIoks=','2017-09-12 19:04:07',0),(110,1,'2KnKL4gh5xmfWJl/G5C1/oM+UB9lpYmZLdpGjmXMDT4BZUCo3k/VklVjJUhTJQVrfQo=','2017-09-12 19:08:05',1),(111,1,'3LSrxd6GCr/LUPKLBnkbWTXno20hZg44s7LTAn6+s4/v72sZsu5+BJrCQ/TzDh9N5EA=','2017-09-12 20:58:58',1),(112,3,'q6hT56bug3Ye1xZqH/6X/WQTRPjLNIkVuwB/JzOxxT5nkFOZJ7kXmLE/EnWk0yKOt+4=','2017-09-12 22:29:26',1),(113,3,'Pefdi3LjDFemzDF2sP2ExUqR5Q0jIgCt+3B8AzUrbAQw/0VNpGfHEWUgglaQjv8ijlc=','2017-09-13 00:50:54',1),(114,3,'Gv0/ZUv60lPHcY8hcpQIvTr7hpADXH9zBs9ZepTZU73/NaH7wM55oduuwK5rDm3KJtE=','2017-09-13 01:07:36',1),(115,3,'u7R+1uE2hmRBlmhftYa8aP4oEhv17Ft1LDnR8prLjNG5MBGdach2C98rtOVs/4zlCRY=','2017-09-13 01:49:41',1),(116,3,'Rk9nqp7IG9dvCL98zFrmrUJrI97dplyCMU3TwFqrc+5LVclXY/oQAdjv8RP7faE7olo=','2017-09-13 02:02:43',1),(117,3,'WGx2f7/0iP0iJty1/kKImWv9FrVg7EF+5AzgATLoBBdVwNbzVvG2SmcpxKXLYFq1Xrs=','2017-09-13 03:08:15',1),(118,3,'pxEIIwwotRp1v6mGmye5Lnemn/xujLYQZ/5xgSmFsVzAz1OgImwEQCuDShGHEEQhIQk=','2017-09-13 03:09:07',1),(119,1,'NVDzygtqOnHL7Bh1+8k+r9jTNAZ3Ya7PuYVgY6Et34mDE88MevzAPgxZfO/vqZtCyRc=','2017-09-13 03:09:33',1),(120,3,'TllnWhsuKodnt5KBjVuYI9o1ybpUgrHvRLI0LIAAaWgk38852IdCxNJztOCeD0+egGA=','2017-09-13 03:33:59',1),(121,3,'77ehT54s/UEsYKMSOpByO9i3Efq4gpkVD6P95/t6O9ohCkPPzwByJof5xp/rGscjzKg=','2017-09-13 04:15:31',1),(122,3,'5uk9/5FnCC6vV0D+fw5g0Wys7sVUrs9QiuHKfmP8UTzHwX93bakRohW/gjyNpoW/UTY=','2017-09-13 04:15:46',1),(123,3,'KL+4GTVUCwqyn2IeyhD4ACe3ESvzelF/X5/6VsB9+nrI4RsifGcbdgWl5OewdjbuQsk=','2017-09-13 12:58:40',1),(124,3,'oBUP83Hd7BDo44Je36e4gbu+bUuWG6KpJ5fK3cetonuXIlnjvMwy/jR4KyiMOb3TQzo=','2017-09-13 13:50:51',1),(125,3,'/6Nf+ZcoeLGXduJbroa/5bmS+howJ9HVo7vJVE24jV8Faog9IOetB+7hCTvEa76b2Jw=','2017-09-13 14:00:10',1),(126,3,'7dLUNUZHIDyk5jMs66hGGbb4jCqkk4SCcRso25T3lZkgj7RvdFgcMwLMgLakNo7Tv90=','2017-09-13 17:28:37',1),(127,3,'9vhGuDfzS+10v6ycnR0lGBFnqZ8VZwJl0G15mcshL3yUuO91fupqU/HA4/qQRFf0BIg=','2017-09-13 17:54:43',1),(128,3,'FfJC9HlwH/rXCawefBwJknDGTCjCdlaouSc+wwLQ7O878QxgC/WxsvH4CQ9CyQQnGas=','2017-09-13 17:56:57',1),(129,3,'oAZ3CS7PvweB4yMH1xDskhK/MC2wG01LQM9CS+VVco2SOvdCubSDNpGqCb/us7TmL74=','2017-09-13 18:22:14',1),(130,3,'HSbNIS/WkIYMrZ8i1JxtzZ9G3dyPV4v8xXjw7J3TLaFmdgTJQqKq6SLA4pnljW2KyhA=','2017-09-13 18:22:37',1),(131,3,'mVUhhdQRYIBphHK88xb9SWfBhjdlGOWqPJXDhPjLbdJSwthCC0kg2rEiadLdHHx2sPQ=','2017-09-13 18:46:24',1),(132,3,'S4E5JxSfyS5xzQnEcPpPysjLPvRSyXyVdYB/mVn75ZhRcqU7h6QD8+M0tZuLqomOlJU=','2017-09-13 18:47:35',1),(133,3,'nj4s0tr7c6NPA9vEfsYFRCIUEfiuO76XjkzBvtgV2U0y9vcTr/cF57MDEhZ63Zef7xk=','2017-09-13 18:48:39',1),(134,3,'Z27EfxSkF7GK+zFDsUTUC6dNT78J0YebwGSvlOByhiitmkQMvxAHOqotnXDc5ILCoZ0=','2017-09-13 19:35:52',1),(135,3,'sYDEoqrAlA3n0TDsgWTNYVo3/hYaaOZnar9aJA92a/pGzPtWcHLkCfT2/Hqxkpb36N4=','2017-09-13 19:36:41',1),(136,3,'cjNtsRGfQX5T9rzKuFJKXN3yUV84W5uPhDBdrx2C6XHfnlOiBaDxcVuQQZLStbTUMHE=','2017-09-13 19:47:18',1),(137,3,'zk/efOQBzZxEH7qA3uKW93+DxmkNipl46GDb/rMEIXG4RlqtcmlRqE7+jyiMuPfVcrE=','2017-09-13 20:22:18',1),(138,3,'yyJNx6z3SDnEm/hL+VA6ytKZBgz2IOPUNMtQMFSWsKoAgrSttUG9+Uazfv/e75CuN6Q=','2017-09-13 20:30:32',1),(139,3,'uYQ1uD07ww+zk6kmt7A8cL/3y0UunkC3zPlG/Rhn0CNmbVzEYrueDZycavyLdadF97g=','2017-09-13 20:30:39',1),(140,3,'gWRu57R4aW2FlRJonBmUWM9BzFsC5j/8ybDuw9pDXFpxMgB7PZZXIQ1HyPLB/WQEPz0=','2017-09-13 20:30:55',1),(141,3,'YThirk0lWnoXdbd/CjboCWfW4gp7I5PhxgszrgxKxacqWBCQWbwtTAs827aMAf5ywuc=','2017-09-13 20:31:01',1),(142,3,'tOVqIEYiJ/tNgypBbmLniyIKUyfH8gMmP5o6cmbtX4UFpIqBncGKtr4y5j9+guKrot8=','2017-09-13 20:31:07',1),(143,3,'QPFdob9oRd2w9AXY3ppP12w5ZvjaWEeYpLdoppD2Uh5QKZ4tL6eVBNGgIXglrnp44Lc=','2017-09-13 20:31:14',1),(144,3,'qDUWgVGCYsPMtQVk+EwwZuKp5h3OpTTJZyoBXuGVgnHjMlULO3yHe7kTh6eOANkEcAQ=','2017-09-13 20:33:30',0),(145,3,'rRurZpPjK2SMuIZOHHa4tMffHFWhxFqos30UxBjyXhnMw1IuQ/3n5GCrmBcR9i04SfQ=','2017-09-13 20:33:48',1),(146,7,'k5ZoiOpG4lnKfYKR+kuEOg/COscSOylm4JnuZWaVcjj5GhSIivOjlo6UWnImM3UBnTo=','2017-09-13 20:38:11',0),(147,1,'gQ5fSpgYXUErk4Ge/W9RYqOyE/Ia6gRgef2sINOaSEdL+cVmroscdSj+Eby1Z1gFTjo=','2017-09-13 22:16:14',1),(148,1,'7q0FVGflTYqVwqtQpzNBAR+bwrR7iZ7HNIDMGQJTEGkP2KpSbeoG8s7RAyGMoRZnkuM=','2017-09-13 22:16:35',1),(149,1,'ST0HS+1LVCN+s1OyNf2pLCUMP+sMZ1RgTqNH0+QrXlWzvSrkXZw3tseEtagXYwJxg/0=','2017-09-13 22:16:47',1),(150,1,'lE7ki5SPxGd3UV65oQn4HTRy2TpFIRTn8bR92kSbh8sdZF073EhNQOs9Tc8pDcy2qcI=','2017-09-13 22:16:56',1),(151,1,'ncx4/SCRaiXzJ0wwHEU+MTGpiIfkYBsYL+8FuphNX7J4Nd/dPo9GzcJ0489PcGZQuwA=','2017-09-13 22:17:06',1),(152,1,'aA3T3ClC7r4Ddc8UuDLj0jRXFr/TIzjMd1qz73Ig9tgDGlpbPgswpROso6wanXhH5CA=','2017-09-13 22:17:26',1),(153,9,'/Csey9L4ZNRV6iiQE/wl4jrgRyR6CWF8OZ38adQ8dQwJsq/j1MoZfr4Dl9AVc+VFNyY=','2017-09-13 22:23:22',0),(154,7,'FnKcIE1qoIxhH32J+oET7cB8wkKK6WFOf6kREGK6sym9KW+b1lHa9B8JrgzZ8HnhTWA=','2017-09-13 22:23:58',0),(155,11,'Ce5gf4j/YfXMyxjSRLpuZqv+EOx1Xxzx3KewiYTa76dnbRqLVIgBPq790GQo1oxAr+I=','2017-09-13 22:24:32',0),(156,8,'ujldZWdtD0olJhlJM+DtrSQZh9AHvr/j/MX/F65b3bj/+037PnMK8pchiptK1Y8ILQA=','2017-09-13 22:25:30',0),(157,10,'NTI6Z7YMFRX19V8yXvNkCwedsNBz3MPafujA0RndtgFNH451hz4/0Ekr7jnnpOSrGvI=','2017-09-13 22:26:21',0),(158,4,'8wHjf/tcLI/32I+d/T8EAfpAFBseno01I5MIW2RSqCuzVPe1BnmdFLnxEx21CcEMkqo=','2017-09-13 22:33:29',1),(159,4,'dLWek6U9d2G5QrUwlRcrRmCOLBbsghczl2qZIld9auBV5+ZDc6CYBuCJ+oW/Jj4q0E4=','2017-09-13 22:33:57',1),(160,4,'JLafLrS/3ot+gq7a3tb+wJUp5p1yPgfH5nNTnj2xErTWwaU8HoLV88r6l8TTX2x/vqI=','2017-09-13 22:34:57',1),(161,4,'Fqgxe9Yd5p32IMU9Rk6Ika2r+AmYhDs7HqqVdety9vZLe2IGx4FoYaTAKRMNkDFEQZI=','2017-09-13 22:36:43',1),(162,4,'yqUd71BHhH3xKKYdUOCvRMnGEd4j7TBMFtbcT0NSZMyzaj1Kh/5JUTRgMb765d+iicY=','2017-09-13 22:38:44',1),(163,8,'6WYByVXWx5N7zzV2M4GnHJqpXuFBglLu2/x+400M/bgm717T97AZnV2UArKUjVSWjxs=','2017-09-13 22:39:13',1),(164,8,'hrbPF+fKcO8nGn2Y0lD1vIPW/Xcxqj+5zihQEz9BtWzNzlhDIKaaBTFqXT3Rhc2EngI=','2017-09-13 22:40:01',1),(165,11,'LqZvQDEZelgx4izGLSsSmIF9bSmpGf+on+tQJ8so7Zf11lSoLkSG8u0v2NRtWKZowHA=','2017-09-13 22:40:41',1),(166,11,'yOdEVMgYe52um85v4MLKmenQgER5wllKLWFSDVgA6uDYP2+nmWtb2aT9TKov36j/LeA=','2017-09-13 22:42:28',1),(167,8,'uOc0al0+cHqcO4ozr9ywsGYLtGxRkFEoOoB8lBJ6XchA4JkPF5k2dSBLaeMm3Jrr4SM=','2017-09-13 22:42:54',1),(168,1,'YFy8S+SOk/GNDPQhm4NrSgPQRwX3medDBBFmnWj31UFFaLrC1GhtL5T3r8uNcHE4HIA=','2017-09-13 22:43:42',1),(169,1,'S5p0Qe6j7RzygUm436P3oD8sagL7mPRdLQimyQUtRyKaeXi6HITuxKQUKXcvB/+sNO8=','2017-09-13 22:44:21',1),(170,3,'YthWASn3TJZIcvsp99RxQgNRx1ss45a5uKZBETVzgEpuMCJEMLcaCrq9WRASx0dWu1A=','2017-09-13 22:45:40',1),(171,11,'dScMlZd1SFQE5vFAbhEXzsBCjFVipPSZY7aGKLTzF7D840Pelm/CAHrAcbuXTOQxAYA=','2017-09-13 22:46:08',1),(172,11,'cYQI0gB2kWbf/coO2IjMtD+5xFPgIN4UTvzvEhy/uwtZmPOr6uiQzj1tUjgtmqXhg30=','2017-09-13 22:47:05',1),(173,1,'JFIP7RrePNGe/vA6GpC8Sq2iT1oTCFNMyV3OKkjYkHcgxpjx7hQhfSuQKXYEcES83tU=','2017-09-13 22:47:40',1),(174,8,'AIDATna0h6fHB3akjNHbMUfovCSgp5y03gHq9z8XZAFHjKGxfXQOvfBA5FSN21AJUcQ=','2017-09-13 22:49:09',1),(175,8,'9DXEZM+OliPIt7Lf+VEBgZD1+XxAUtbq0oSRf4aYfW/b66z9ivoJiBd3gPytZsHVa9U=','2017-09-13 22:51:18',1),(176,7,'kbOSKwRZG+cXCzDqBpd+dpCNeKU4ldOGnPhI59KJx3LUDHlbbcoBph4l4Z59q0GLWUo=','2017-09-13 22:52:06',1),(177,9,'fP9XmMizGOl7h57uxBfBuEzrj6MfY7xkpfTvsLWS3Fjok1bcHZ95eW+CCOCwBiddjCk=','2017-09-13 22:52:37',1),(178,9,'s8ZlIV8GefIPD9Kaq7Ndjm36ZFL6uDAFXq2AiohO8mgze0kQe6GcE1U7WrwX2HSEAiY=','2017-09-13 22:53:25',1),(179,10,'7dZsQ+PbISFQwZJvL7lQPV//ry1zQVMkl4nzLczJ+/SdqYtyudJq85VBkYVQbqOrIaQ=','2017-09-13 22:54:10',1),(180,10,'qmDF9uowVZNzz+dwGFcTE9D14AAjajkt7eRFAUgHRC+xVMhOARQnGErfyLstpkplaOY=','2017-09-13 22:55:02',1),(181,3,'tWh2VodKy+5oSoL88uz4cXFL1fjPXwbW4LnTkGwg9WcGVZDH4CY9S8HsTttimHw1kTo=','2017-09-13 22:55:12',1),(182,5,'j58mv18MiAJFgxdyzTR7Mw0NszpPhdTwHc/GTLbGUHMYeDCQa+EpyRMjEWR322gu3n4=','2017-09-13 22:56:07',0),(183,2,'rBI75rDIA8Wwydq3JhnB6Xzj65+N6QaQPD9hl5raVyCxSG3pR7zdo7OOkwACzZMYdVw=','2017-09-13 22:57:06',1),(184,3,'LzfrWZZeg76cae/41wnhYJVu+dmmLPzSwFzY+BJEBy9o2vFkV+OPOitvPXpe+5q6YBw=','2017-09-13 22:58:02',1),(185,3,'GgX5dACstnjY7d7ePCPICzXfUxRU3rJIOI7VOXo5qGSmZ5ICUeDdve6sllYsCTmRtbc=','2017-09-13 22:59:17',1),(186,3,'dm2pxvVh/vSIwoBoC2B6jhtMx9DqwhVawwuHjBVw+2KZbXcFPQvwzmoorq/xjozrs7w=','2017-09-13 22:59:31',1),(187,11,'mu6vo+RNSCD1wVCyqcZvWBJdeRwfJMw4IOQmZuevuVplV9cUmgQSncGA51VzJi4BzIg=','2017-09-13 23:16:29',1),(188,8,'GCOtnu17Bq5ow1x+uM39OMe/9aYPBmB+CfqyVzUoUQPWxh2jCHvEC4XH5sZSKUI/HBs=','2017-09-13 23:17:20',1),(189,11,'7tva7b3nqB1cQkgcQ9w8eGdz2//woHrFsmt15nKeOvsYmWWriqq5fV5mMDcdFgjaubk=','2017-09-13 23:18:07',1),(190,4,'Wx+d2R2eKUU2tmKJR/A0oZk0GgY5gEi3XXoOAMzFDLinwNNC3Sl6lZLmohFwtC/blaA=','2017-09-14 07:55:14',1),(191,4,'NmxJfRPyDpdAn/w0z+9hKMRL+EsSMSIdVEwBADaQm8B5nxw+zCuQixIT1Nr2FvvTofQ=','2017-09-14 07:58:12',1),(192,4,'hrOD6cvihtRrcuBC8aiWDDZ6m8gztxlg7s6eAdUP9ZQ6K+Jxa2ZDPOPmdleJipnyrhQ=','2017-09-14 08:41:16',1),(193,4,'Fzbj1nCSVyQdrFITO1YbjG0tZso/Aq7zQ4+zeNp9IHYexDjl3r3t8k9hVswjcizYWC8=','2017-09-14 08:41:51',1),(194,4,'Xx6PoaK0/MTMm7KVwyxraee6UdtDyoyMJw+ldk5GwJ25fl0Q/9cqV6XX2nLuHThrQRA=','2017-09-14 08:42:21',1),(195,16,'7LVovZ3xUXAhKGAmyQ8LQyChJ+lGwcoiW64Cns9N1VEJYxerEG35gZr78P/ACNJnki0=','2017-09-14 08:42:59',0),(196,4,'0iJRJJ9XwtTF+suAt5gBc0Iaox7o49FkueIRWox7Hif6bM5Pfvcgyi45Rg3oZt1KVIE=','2017-09-14 08:43:54',1),(197,4,'agEHF1q4gKh+VnJVU7WWKyEKiEIIkzF6IqgtMjxy4e3OAsLkHhtT7LjHOwlRk9zBTdc=','2017-09-14 08:46:13',1),(198,4,'6xrfSLqkV5daj0fva1X+i4pmuQHjG16eFPXKKBTHvzjcmAs72wIGmngu81P3z1BzSiw=','2017-09-14 08:46:37',1),(199,4,'Xdhu1Bt4M+7TO0fm08ZTcdn+AziG2QNWJU1dlhyQbBYe3tGJ3GyOV+fDz34dUXJ7swc=','2017-09-14 08:48:06',1),(200,4,'4XeoROg9TNKMEAPkErRzB543hMIFCt8rJFpCAxPGGLv7WCk8/n5x8BmYygDHP7YyxXg=','2017-09-14 08:48:18',1),(201,4,'LqzzkOyGKbCHYS5vCFdCNl+/cMvkOraS+ohz2gHQKwRTcedyq5Tn9acbyhn2MALBAhk=','2017-09-14 08:48:43',1),(202,4,'enqDYQGVTRLlYsr8LDMoxAuxcP7YRWHPVGnGJe1u5wMjruOaGIvC/AT2VjiV6EjKQa4=','2017-09-14 08:49:13',1),(203,4,'hxREWje7fsCLQPb/yFEOn4C3cIItykhU5DdVZoKt2RcXxH2O8gSMuNwIO0x+XMEupHo=','2017-09-14 08:50:06',1),(204,4,'DXni4u4473MxJy4kuhqaX/E4zB11WDNqZWhmTldH6f9lK3wGEGtUJ7EuaouHwfNYyB0=','2017-09-14 08:50:21',1),(205,4,'7eE/JL8m/iyBAbUcFjvNpr1+WA7fKCvbzBt7pWVGEsiz87hcgm8hsCbTiQLByKcqjAE=','2017-09-14 08:51:05',1),(206,4,'vhRath90vw7yVref18EbGOE52e2ofHz5UJ7EBroQrSz0cMt3M8dq3p+5GL5D3Ymv8Rg=','2017-09-14 08:53:26',1),(207,4,'z4u6k2iMEWDBy7XRlsRxohpHCB2nArdv6nLC53iorRJSygBZHtVT1l6R4wo9Zapq/Kk=','2017-09-14 08:54:19',1),(208,4,'MqenhUfzvbUEbmVts82ax+aHgU3t83gy9xHHe75JlnQtJ6oa+qpMTnvETRxALmeenH8=','2017-09-14 08:54:48',1),(209,4,'TRo+7lm/LS5nMnNosrQQhANu54+drBZHK5j4fI/VmSf4vzJiRJ3JbmMdlTodENhF7kk=','2017-09-14 08:55:19',1),(210,4,'tA9jXxZ0U7V+RmIZ0jdF58H2mtrKSEDJx0NwIjDgaZ3Jg+MTjaynLle8w3jc+4FdotE=','2017-09-14 08:55:51',1),(211,4,'K7y86gHYtWYCfZDu9UaXujM00/+tcy2x6DDK6MPq1dcgv7THWgrWUuuuTpfzAFezSPg=','2017-09-14 09:02:18',1),(212,4,'b8PlGrAjtVwu7ue6U9shTzulJ3KZ6xQQQsEpjVuiHuOPkOWaFhvUraZEVSfhYmXJmi0=','2017-09-14 09:03:02',1),(213,4,'f0qIGXJ2+WM15G2zdx64S0MFT5Z1lucN+AXISOFCT0owKHsg+SprrQd/qBx7jwnhUus=','2017-09-14 09:03:19',1),(214,4,'dEXNPJx9Pmgrgu48I/utBMtmJvnc0S1bebMj4qPq5vrXMA3FH+e64N0+PoZ0hZR70SA=','2017-09-14 09:04:11',1),(215,4,'MTuRIR0/EGAdguujLySjtVqCOWGNZXrXly+fGq6kmWfpO+Fut5Ht4xFEAonVIxzDsX4=','2017-09-14 09:07:17',1),(216,4,'vVz/ivpCZ5ypR4BOVjOZxtRBL0kZmBEFgqTwiVr9vg3zA7mggc1I0U90AkUj45rh48Q=','2017-09-14 09:08:05',1),(217,4,'5ZEexChO2wKqpBISdQ0YunzjdYgK0qrQgUTOqauw7iRDAUmqZhzxmAWE0wPkiVTQYgE=','2017-09-14 09:11:11',1),(218,4,'wj8KEEfeekKMSt5rm2dHlscYDpt6PQ9h9lNNh5R5GsN00cewMxx4RB7JUa5cJ0MEhks=','2017-09-14 09:11:48',1),(219,4,'Tl28iGry5wxBI6Hs5HNzIdSGI33ChNlPHI+k4R4JMA1/9a/H9IWz/bytDammuGF6HLc=','2017-09-14 09:12:23',1),(220,4,'WTf6vA9Oxt6XgvKmQSaKNLYXU7LjYvSKz4A+I22T6zo58TzqwDGBZk8nUOei4PaaXzk=','2017-09-14 09:13:10',1),(221,4,'0jdeGJb8BlsXzaK0XRKQ1DZF8jzQYzME/V5kifzkdHALaVhy8ajpeRmot/T8siFrHQ0=','2017-09-14 09:14:46',1),(222,4,'1x/CwhnqHZHLxDOuI6+U5xUT4iqyM5q59YxIaXMDmp7xz2HUIE6PEtriNnewZXGu9UU=','2017-09-14 09:17:05',1),(223,4,'FTQ49WCI38yRp/FaO2jniv0XhQ5D8RkdbMTqq8oD2bqeCofxK2qllOfzz4Iiq2R2viw=','2017-09-14 09:18:33',1),(224,4,'DcKK03iJBACCufWSwFa8ATOi5AXmQZbg3bu3GFksJZwNPNiT2gJ+VnkwplTYxVU4Bq4=','2017-09-14 09:24:18',1),(225,4,'tpBLLzioxegO5c8ZtWbQTL3zEyLDB/Fw/ClnOb2Astcq8Zu/RdOmA2ljPyB2WJotwB0=','2017-09-14 09:25:20',1),(226,4,'6qLeF0RKGfSeb8NpfytYgCgJZZnupr/934Ok0O7KSsNNsYJP6PGD8T0lDLZygL4nIQk=','2017-09-14 09:26:10',1),(227,4,'y83+mNx+uGDrjoyyiApwzFNxhS9R/QDKZqbhWEjiiu6vKz2WzKw1rusDL21Vfxe2nmw=','2017-09-14 09:26:34',1),(228,4,'dG0bZs9Mh6bFv0YFDZCNKc+A0Q3UIGWAVMZyNQknO49kqpHhTeFgKFyaGj5f48fZZLs=','2017-09-14 09:26:56',1),(229,4,'5lPDU47sdpUNccqx2k4zk0pXbFhtQEJqZvIzDMKjpbANeomt2krmfXJAdcC2c9PrWSM=','2017-09-14 09:27:23',1),(230,4,'ePkT/Mc6dGDPfWHGTCZuUraeNFqu6O3PQ8HsTTwtyxcSZFgz3FvCg2xqCI5MtI6QIFw=','2017-09-14 09:28:26',1),(231,4,'iuCD5rcRnoxyFmqR3NN1Et5Qo2VvBBQ5PpA454U5LPLX/RPY4IVZO3QZtC8fLxfewMU=','2017-09-14 09:28:56',1),(232,4,'sdlbSRf8TVOzxyRdz/RAULYX2nRf468A7oqbo73vOxJCuxvTo9xT1qEfdQyEJ3HrV/A=','2017-09-14 09:29:26',1),(233,4,'H+OXhNYVxdOyOTKN5I0MRsEwI0Rets/WN7juuWvbJYpSzMWPgRePquBxFNqK9r1MotI=','2017-09-14 09:30:02',1),(234,4,'sk6UkATVgAAd0A9lrt3zZ0fpSCGPxOwOtaP7wQ9TKL77z7e1Y25/Y5oF74T8Sx1MyNE=','2017-09-14 09:30:27',1),(235,4,'ev8Gk5kk5Ab/8F0PXbXIbWD1H2MLAk7deDf56GisAjIRpEcFOj1T6Up2LtuVo0630hM=','2017-09-14 09:31:39',1),(236,4,'RK6ilGqr9z7ySKMBEqMGgi9LPi6UMHf8JcOCCarpb4wpTXgaOYmnEMyCZr1soETdrCM=','2017-09-14 09:32:13',1),(237,4,'77fwWBOhY4MbPPdOlFTd7EuvIqT9zI4zXaBoR1pvi8zyRkfv64RIOAYnfOr6+6njzGc=','2017-09-14 09:32:37',1),(238,4,'9bwVVIuUpaPqOf/cIC3MHP38NdqkvXIPfaFIzh1GYn/TqYDWVFF39kcceV6SYXgat78=','2017-09-14 09:33:10',1),(239,4,'y2WWatcQz1lLH+Wmm0a9L1Ek4r4ZlvxiPx7KySsUCw9dN8nCNU3/xtFpP+8Czhu4sN8=','2017-09-14 09:34:40',1),(240,2,'bsTtPwWs12sLwdySRqTSYYob1QjyByb/H+gapvb1vMGN0DR8m/26DOQcjOVRnDtUQb8=','2017-09-14 09:41:01',1),(241,4,'Zny50acPEinLZCUArFTmvnYyTNuadEZDIWEKG75A8pVJhsBO4ZBBux74+qIxYFypeNU=','2017-09-14 09:42:15',1),(242,4,'5O2HFvdUUSmaOvs8ACic9MD/9Q5vTDrq4hTYsG1RYLuP8LiyLbJTog8jSX/e6Vg0c4E=','2017-09-14 10:01:01',1),(243,4,'wMMHGN7t2p84Pg921m6XqVpD6qLHyxi2iB2CRgnWtqhcO6NgbYyY1/u54zO+aXv2bfk=','2017-09-14 10:28:45',1),(244,4,'iqvX/VrA0Urql0QJaWXoA6bMaMwlzvDnFI77CrBof1gGnqCDPB8mZQy2WYWoPdtQcUY=','2017-09-14 10:31:21',1),(245,4,'hWHn4pUa17+Jl/oFpL1640a09e9VtvBLjTdYd9kviT+imJ2OCrlysz+MbAIHdRgXjdw=','2017-09-14 16:20:42',1),(246,4,'aYtAPcL3NROnVl+W8p7xdUF/9DOAxIwDnFPuimJw4nt7YFKktOrxgXXJwHPQdqzaOGo=','2017-09-14 16:20:49',1),(247,4,'97yLJ9UgdOW1xaKfK3PQSlo1im7+wCDXCYcxUzToXgYDMagp2Wsvz0U5f63HZQuAZmQ=','2017-09-14 16:58:16',1),(248,11,'AG5WdaKzvecepQ4z4T/cs9RmzFiqTrgjEdFlw+lipEy5Uiy+PiTV9SC59dZyyddEv4g=','2017-09-14 17:00:12',1),(249,4,'KObJFN2XkPOPFiJxhT7crasAlrw1pFCvnQ1bdGqODVrXaB16qMzSRa/XRKfhyCJ1JLE=','2017-09-14 17:03:44',1),(250,1,'9e2u5CbOpmQ32ja4RdV3v/u+Me//EeQjsizNcs4Kyzz+vgkb5Pj/A6a9eG+gaU+G0Yg=','2017-09-14 17:07:13',1),(251,11,'ZT5M0W9J/DlZMZPQaMQXlVSTs0W1vyp4v+EiypMhFbzVnUxF61ruFPCFU9BgU4Dv7YQ=','2017-09-14 17:08:00',1),(252,11,'NSnfROn1P+53b0L6wR3sYEYPHV5n3VtZtqiypSlDv+6p6mSMZFwtrMrCvlUeMoVaCaY=','2017-09-14 17:09:57',1),(253,2,'4aU/w5fF+dGB5oAd2kKMygUh8UeayJ5QwwdXmoIBKmXeDbFgUN8DyR6Z0oHBODuC1+8=','2017-09-14 17:13:55',1),(254,4,'TqlMDnBKo65K4I8yH0xGPxoazBSy30uQKgNsbeWMnLfyMyFIViPFav0JuwTZzXPXpnw=','2017-09-14 17:22:34',1),(255,11,'o9CtVNcApOWbJA9QsZdFqMXFxx/zwjeyi4OHp2AZqfxUh2HaIKp5FApUn+sTe+tkfYM=','2017-09-14 18:04:48',1),(256,2,'NDBMkLwXYgnuJZM6CW7IzthHR5JdZvaCmAJAGyPbGCvW8LyCbCFBimJ9P6lkEGXQznI=','2017-09-14 18:10:41',1),(257,3,'3wGaS1MF0zI1doZNk9DaadsHJimd6bdOzcIWjn6HUu9FBfcSHtVXFOoQxTIx3H7HI6Q=','2017-09-14 19:39:03',0),(258,3,'P/mwkr+lH5DeOElw9JYQNXbLO7HGzYs0uXKIe4fHo2Z6P5iN5AifZeKMGC4Ql0qMra8=','2017-09-14 19:40:02',1),(259,3,'XCqfFv6mLEvgMfJfsPhd7oES5VJWJSwrOGj0plybkjdbcKfwUz1rf8Ib2E3xio/Lm1U=','2017-09-14 19:40:19',1),(260,3,'mt04I4o+6wy4pqx4BCe/vjsxZx5uA/f1qQETfiw8LwTMjfzCCua3fTMB544ASf9RNi8=','2017-09-14 19:40:42',1),(261,3,'gNWH2HoX33IeWxMW1XqAtJ5WETSIrHegBLhZeeXPiXYx0NDaMpaCgJJk2CLX8+QVDkw=','2017-09-14 19:41:41',1),(262,11,'6vPTz4QvF2cHQVcWPMZ5eTxlV6pFyssIU0XxXMhUB177D8/3hSTWjNNTI25kMnbZG9g=','2017-09-14 20:51:38',1),(263,3,'L22cneT1KSYbvK88EZQB6IDpGS0Ktqu0pWBwN5pUGxzCeftBAVFezleUv9BJth1gayo=','2017-09-14 22:00:06',1),(264,3,'uVg81ryEmNTrR9ciuR+f0+KuYuH6LQCV8vrxPNRou/Jm0wfmTE5uOGK+Y6rZbwgQKto=','2017-09-14 22:00:49',1),(265,3,'sNZkl3Szpf+cd5RXvjtfpTJ5xhYWiTAEqDcWgpAYWftf3rFpfE0TMAYAoiSXIGAaHNk=','2017-09-14 22:01:03',1),(266,3,'TJAHQ6ZXzTEhRYIinUMRzJ4XmtKYyhOhELSaZliLoCZUIrYWF0KgMkavYvYW1+z0hFA=','2017-09-14 22:01:11',1),(267,3,'08chMJk/sIGQzQChKNpueOaaNzL0kcz4L8iSIYUaNZ7AFIMmbjDZjh0K2oBNVsy+/GU=','2017-09-14 22:01:18',1),(268,3,'at+DCpMYztTMdLaxNkWv6R4gcwDCzNcne7TDFLsnsvKGRtn3FqLREXC08uCtg6Ot3ck=','2017-09-14 22:01:27',1),(269,3,'tqq3e5C8sq7pm2MGHQYkylt6P7NzwuUUbqiuf5hTzeFw3G5I6hTK5rgAv3EcL7Ix/dw=','2017-09-14 22:01:36',1),(270,3,'kJQVVWniY53grbRxEt86XeZrXfuk18ztVMRSjTZhukFVHW/su+xjPa5Vb0lAdRKtIy8=','2017-09-14 22:01:49',1),(271,3,'gfzWGn6pmeI80caex3+AjS2ofAOl8Jg2Ax+cRuAgahhpUhKDnjhJPh64+Ey/Wac2Wvo=','2017-09-14 22:02:00',1),(272,3,'OmF6mkhHz7Kq8ri+1ITV26UxADLoyDdhu452NHRaExBXJZSQ4rFEE820JA/07xaM6gk=','2017-09-14 22:02:12',1),(273,3,'d0QhY8vNlvi+x8d+KHC/JyiQM3RHhgg9cyjO4lsbMf5OdmH58I2gUHAwTbWZM/WCohs=','2017-09-14 22:02:59',1),(274,3,'l1XBwckIwJpMD2M1CSJ4peyqbDVDRnermk74vT0jL7glRZIxEDodt/CPGGeIwqKSrbM=','2017-09-14 22:03:07',1),(275,11,'0Rk3UAQaaNGBSs2pVJSsrxRxitphEH85KAKVU2Zuyrj7yJJqzaXAhDSOAh208FwSlcs=','2017-09-14 22:38:40',1),(276,11,'ZAIoLwoEy4djze0hN8dNjbjtY4CjVeSyeToegeioY6xd+70bpzPlRKw7za9M54rGzTI=','2017-09-14 22:42:49',1),(277,39,'K2z4zIakAVUoM+QioD6QhUzYTvoXOvw3s7ArJAeE3yFnA0zE3murmQgj/8p2evQhfIs=','2017-09-14 23:09:59',0),(278,9,'kOyNBpbqoh85w1h43J/ZhpmvKliVFgTT9Wm6S66AoqFd5qk0Lo4+2l2cBCQI8rzW54o=','2017-09-14 23:10:55',1),(279,9,'TmUxbnSRpMrqHb95JMQshVwty2unXJ7g2CuU9m5xKQqUWf5runeKXesb2aNa4I8yZo0=','2017-09-14 23:11:33',1),(280,9,'fHYBmcG6M3+lI7GVvRxSrim9M4L7EaLi+jUZ2/OuKZ7qmYmlbsgI1xKthvea7L4htBU=','2017-09-14 23:13:16',1),(281,9,'Vmp14ml+Xw5kcrOUuSkkrt/Fy3Lal2WnsdGYP22+0fGWJh4fdMNy2Tnt38/fpGvmTuE=','2017-09-14 23:16:24',1),(282,39,'Hnytq1QMwy0je9EL91t6scUfcLK7XbfOSXp31mnTlo3JCPPyiValRaANf+HkAOfX1BE=','2017-09-14 23:17:22',1),(283,3,'GU2QLdZcsjHMLlK57M1prvgeNGfLIg/u9U52OwWWSB5zC5iNXVs6Kf5P/vwvv19HoGk=','2017-09-14 23:47:37',1),(284,3,'8nAMcw/rP7PPMKoVO0fD6ebGDKT4XJvrKoim+GzCygpUJNqyZyLUKAAGm5D71PslDaE=','2017-09-14 23:51:00',1),(285,2,'32wnrt2JKPNY3DYqPcg1TMNSHw4Z2pJo/262vIKCcpefnWFSVpB04sQATjnJAAe1jw0=','2017-09-14 23:59:41',1),(286,4,'Cxt6JGOFACThQHYGywqwCnrdJ7c30l8sSyF5/ebPKIsxm5vma4QM0gKJYeb8P1dBXYY=','2017-09-15 00:06:53',1),(287,11,'boTfcTX5O75hW8Dadfp0bR515PuxzLQf3dKj6txfk35iURSDaJCVDyEO8OCSfRR/6bk=','2017-09-15 00:37:09',1),(288,11,'kG53OUl6GD5cVYpg3DOMa2ATfbcH89877SAp1jqtsazxx7Qy1/JMy2ArwuKLMX9Tl7A=','2017-09-15 00:40:05',1),(289,11,'PioXYTT7jtwYS1VIuuTrWoF/2zqFSnfv2Bq0VaHwnTfhFrIRgcb2zORSsyn1KfYWe38=','2017-09-15 00:43:15',1),(290,11,'I/nU2LPVSqVUQOp0zEs6JGlkjygHMdH1iNDe9O+LjC+0q8tj+7NYPMPhGKxVw6NJUhw=','2017-09-15 00:45:13',1),(291,1,'Gjlb0DpaHZViFt5LnIqttLtdWLhpAwhxUTRBXQieyG1EoR2tb7bPgxTJclklgqmnP6s=','2017-09-15 00:46:53',1),(292,11,'vPFW6WGbx7z5xe/oVL7XOVXnHsU16UEMN5lvJB9yMjV6ICzgP4ZvDiLpJ7PXoPNNQuI=','2017-09-15 00:48:30',1),(293,11,'fOXSlisRjjFhwnFzQByHac5YXRi5ymsyGCx2B3WEK6rae1JP+kuT8CvVBYZy59xPr9E=','2017-09-15 00:58:20',1),(294,11,'3UyxS5wX1VBBzAc09Qdjh4UAAVrWlkZ0lBJdDy0qZQNVcUT2HDJ8g6Bl3f7sczDa5CY=','2017-09-15 01:09:18',1),(295,11,'v8kmVI8LH7emVw8WKEXpEVwF1zJB6xHxUW2/AOEgs1yP5JElPgnvpz+XjA73iGVFosA=','2017-09-15 01:15:50',1),(296,11,'H6k9eCwNambESzHv+Hhj2ViYjE2ap3K6NKW72l34Vk45uUjTwcEDn1RaJSr/EdJ+xxI=','2017-09-15 01:20:39',1),(297,11,'oGoZlfX62NZw/bpPTyy/3AYKAn8MfDCqWO4QMsbXXVswuH7QkurKb5pHfVldK62vao0=','2017-09-15 01:26:00',1),(298,1,'wIvcn4bbdMlfd0X2iD5L3Flx16VeZTakMvr/aZYHBfvcW+K4JKp1KKmVx2KXJkGb+mQ=','2017-09-15 01:45:46',1),(299,1,'QRJXkCSOtIjfK+84N7ygj3viJgJ9MLU2Y175nNNnkPafZayv8P6g9XXilX6LO3ewURQ=','2017-09-15 01:46:33',1);
+/*!40000 ALTER TABLE `auth_tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `migration_versions`
+--
+
+DROP TABLE IF EXISTS `migration_versions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `migration_versions` (
+  `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `migration_versions`
+--
+
+LOCK TABLES `migration_versions` WRITE;
+/*!40000 ALTER TABLE `migration_versions` DISABLE KEYS */;
+INSERT INTO `migration_versions` VALUES ('20170910203525');
+/*!40000 ALTER TABLE `migration_versions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `money_flow`
+--
+
+DROP TABLE IF EXISTS `money_flow`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `money_flow` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `debit_user_account` int(11) DEFAULT NULL,
+  `credit_user_account` int(11) DEFAULT NULL,
+  `admin_authentifier` int(11) DEFAULT NULL,
+  `value` double NOT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `createdAt` datetime NOT NULL,
+  `isCancelled` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_BD4C7577549C12A` (`debit_user_account`),
+  KEY `IDX_BD4C75773CE52E4` (`credit_user_account`),
+  KEY `IDX_BD4C75779ED6A804` (`admin_authentifier`),
+  CONSTRAINT `FK_BD4C75773CE52E4` FOREIGN KEY (`credit_user_account`) REFERENCES `user_accounts` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_BD4C7577549C12A` FOREIGN KEY (`debit_user_account`) REFERENCES `user_accounts` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_BD4C75779ED6A804` FOREIGN KEY (`admin_authentifier`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `money_flow`
+--
+
+LOCK TABLES `money_flow` WRITE;
+/*!40000 ALTER TABLE `money_flow` DISABLE KEYS */;
+INSERT INTO `money_flow` VALUES (1,5,1,3,3.6,'Annulation de la commande n°2','2017-09-08 17:05:21',1),(2,5,1,3,3.6,'Annulation de la commande n°1','2017-09-08 17:05:36',1),(3,5,1,3,3.02,'Annulation de la commande n°3','2017-09-11 18:26:40',1),(4,5,1,3,1.67,'Annulation de la commande n°5','2017-09-13 19:36:42',1),(5,2,19,4,20.5,'Remboursement compte client par admin :Ancienne dette','2017-09-13 22:36:44',0),(6,2,6,4,64.13,'Remboursement du compte personnel par soi-meme','2017-09-13 22:38:45',0),(7,2,10,8,28.64,'Remboursement du compte personnel par soi-meme','2017-09-13 22:40:02',0),(8,2,13,11,22.21,'Remboursement du compte personnel par soi-meme','2017-09-13 22:42:29',0),(9,2,11,9,18.96,'Remboursement du compte personnel par soi-meme','2017-09-13 22:53:27',0),(10,2,12,10,3,'Remboursement du compte personnel par soi-meme','2017-09-13 22:55:03',0),(11,7,1,3,1.5,'Annulation de la commande n°4','2017-09-13 22:58:04',1),(12,2,7,3,4.5,'Remboursement compte client par admin :Ancienne dette','2017-09-13 22:59:20',0),(13,6,2,4,60,'Recharge du compte personnel par soi-meme','2017-09-14 09:02:19',0),(14,2,6,4,21,'Remboursement du compte personnel par soi-meme','2017-09-14 09:04:11',0),(15,2,18,4,21,'Remboursement compte client par admin :Ancienne dette','2017-09-14 09:07:17',0),(16,6,2,4,21,'Recharge du compte personnel par soi-meme','2017-09-14 09:08:06',0),(17,2,8,4,8,'Remboursement compte client par admin :Ancienne dette','2017-09-14 09:11:11',0),(18,2,4,4,4,'Remboursement compte client par admin :Ancienne dette','2017-09-14 09:11:50',0),(19,2,4,4,4,'Remboursement compte client par admin :Ancienne dette','2017-09-14 09:12:23',0),(20,2,5,4,4.5,'Remboursement compte client par admin :Ancienne dette','2017-09-14 09:13:11',1),(21,2,5,4,1.8,'Remboursement compte client par admin :Ancienne dette','2017-09-14 09:14:47',1),(22,2,5,4,1.8,'Remboursement compte client par admin :Ancienne dette','2017-09-14 09:17:06',1),(23,2,5,4,4,'Remboursement compte client par admin :Ancienne dette','2017-09-14 09:18:34',1),(24,2,5,4,1.8,'Remboursement compte client par admin :Ancien','2017-09-14 09:24:19',1),(25,20,2,4,23.05,'Recharge compte client par admin :Ancien','2017-09-14 09:25:21',0),(26,21,2,4,12,'Recharge compte client par admin :Ancien','2017-09-14 09:26:10',0),(27,22,2,4,1.5,'Recharge compte client par admin :Ancien','2017-09-14 09:26:35',0),(28,23,2,4,2,'Recharge compte client par admin :Ancien','2017-09-14 09:26:57',0),(29,25,2,4,5,'Recharge compte client par admin :Ancien','2017-09-14 09:27:24',0),(30,26,2,4,2.5,'Recharge compte client par admin :Ancien','2017-09-14 09:28:27',0),(31,27,2,4,4,'Recharge compte client par admin :Ancien','2017-09-14 09:28:56',0),(32,28,2,4,5.5,'Recharge compte client par admin :Ancien','2017-09-14 09:29:27',0),(33,29,2,4,4,'Recharge compte client par admin :Ancien','2017-09-14 09:30:03',0),(34,30,2,4,3,'Recharge compte client par admin :Ancien','2017-09-14 09:30:27',0),(35,32,2,4,5,'Recharge compte client par admin :Ancien','2017-09-14 09:31:39',0),(36,33,2,4,8.5,'Recharge compte client par admin :Ancien','2017-09-14 09:32:14',0),(37,39,2,4,10,'Recharge compte client par admin :Ancien','2017-09-14 09:32:37',0),(38,37,2,4,2.5,'Recharge compte client par admin :Ancien','2017-09-14 09:33:11',0),(39,2,5,4,4,'Remboursement compte client par admin :Ancien','2017-09-14 09:34:41',1),(40,5,2,3,7.5,'Recharge du compte personnel par soi-meme','2017-09-14 19:40:19',0),(41,2,5,3,7.5,'Remboursement du compte personnel par soi-meme','2017-09-14 19:40:42',1),(42,5,2,3,7.5,'Annulation du transfert d\'argent n°41','2017-09-14 22:00:50',1),(43,5,2,3,4,'Annulation du transfert d\'argent n°39','2017-09-14 22:01:04',0),(44,5,2,3,1.8,'Annulation du transfert d\'argent n°24','2017-09-14 22:01:18',0),(45,5,2,3,4,'Annulation du transfert d\'argent n°23','2017-09-14 22:01:28',0),(46,5,2,3,1.8,'Annulation du transfert d\'argent n°22','2017-09-14 22:01:50',0),(47,5,2,3,1.8,'Annulation du transfert d\'argent n°21','2017-09-14 22:02:01',0),(48,5,2,3,4.5,'Annulation du transfert d\'argent n°20','2017-09-14 22:02:13',0),(49,2,5,3,7.5,'Annulation du transfert d\'argent n°42','2017-09-14 22:03:00',0),(50,2,41,9,41.5,'Remboursement compte client par admin :Ancienne dette','2017-09-14 23:16:25',0);
+/*!40000 ALTER TABLE `money_flow` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `order_lines`
+--
+
+DROP TABLE IF EXISTS `order_lines`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order_lines` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_order` int(11) NOT NULL,
+  `product` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `orderline_during_order_price` double NOT NULL,
+  `product_during_order_price_user` double NOT NULL,
+  `product_during_order_price_admin` double NOT NULL,
+  `product_during_order_real_price` double NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_CC9FF86B3B1CE6A3` (`customer_order`),
+  KEY `IDX_CC9FF86BD34A04AD` (`product`),
+  CONSTRAINT `FK_CC9FF86B3B1CE6A3` FOREIGN KEY (`customer_order`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_CC9FF86BD34A04AD` FOREIGN KEY (`product`) REFERENCES `products` (`barcode`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_lines`
+--
+
+LOCK TABLES `order_lines` WRITE;
+/*!40000 ALTER TABLE `order_lines` DISABLE KEYS */;
+INSERT INTO `order_lines` VALUES (1,1,'5410218005868',2,4,2,2,0),(2,2,'5411681035000',2,4,2,2,0),(3,3,'5412858000081',2,3.36,2,1.68,1.58),(4,4,'5400141123081',3,1.5,0.5,0.25,0.15),(5,5,'5411098700034',2,1.86,2,0.93,0.83),(6,6,'5400141123081',1,0.25,0.5,0.25,0.15),(7,7,'5400141123081',1,0.33,0.5,0.33,0.15),(8,8,'5400141123081',1,0.33,0.5,0.33,0.15),(9,9,'5400141123081',1,0.33,0.5,0.33,0.15),(10,10,'5400141123081',1,0.33,0.5,0.33,0.15),(11,11,'5412583240837',1,1.26,2,1.26,1.16),(12,12,'5400141123081',1,0.33,0.5,0.33,0.15),(13,13,'5400141123081',1,0.33,0.5,0.33,0.15),(14,13,'5410228208358',1,1.08,2,1.08,0.98),(15,14,'54490000',1,0.6,1,0.6,0.5),(16,15,'5410769100081',1,1.46,2,1.46,1.36),(17,16,'5410769100081',2,4,2,1.46,1.36),(18,17,'5411858100067',1,1.41,2,1.41,1.31),(19,18,'5411098700034',1,0.93,2,0.93,0.83),(20,19,'5411098700034',1,0.93,2,0.93,0.83);
+/*!40000 ALTER TABLE `order_lines` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_user_account` int(11) DEFAULT NULL,
+  `cash_register_account` int(11) DEFAULT NULL,
+  `is_paid_cash` tinyint(1) NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `isCancelled` tinyint(1) NOT NULL,
+  `isOrderedByCustomer` tinyint(1) NOT NULL,
+  `during_order_price` double NOT NULL,
+  `during_order_global_promotion` double NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_E52FFDEE2BE38BB7` (`customer_user_account`),
+  KEY `IDX_E52FFDEE6526CC6A` (`cash_register_account`),
+  CONSTRAINT `FK_E52FFDEE2BE38BB7` FOREIGN KEY (`customer_user_account`) REFERENCES `user_accounts` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_E52FFDEE6526CC6A` FOREIGN KEY (`cash_register_account`) REFERENCES `user_accounts` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (1,5,1,0,'2017-09-08 15:39:45',1,1,3.6,10),(2,5,1,0,'2017-09-08 15:44:38',1,1,3.6,10),(3,5,1,0,'2017-09-11 18:23:48',1,1,3.024,10),(4,7,1,0,'2017-09-12 17:40:31',1,0,1.5,0),(5,5,1,0,'2017-09-12 17:55:01',1,1,1.674,10),(6,10,1,0,'2017-09-13 22:43:28',0,1,0.225,10),(7,5,1,0,'2017-09-13 22:45:57',0,1,0.33,0),(8,13,1,0,'2017-09-13 22:47:32',0,1,0.33,0),(9,10,1,0,'2017-09-13 23:17:46',0,1,0.33,0),(10,13,1,0,'2017-09-13 23:18:35',0,1,0.33,0),(11,13,1,0,'2017-09-14 17:09:38',0,1,1.26,0),(12,13,1,0,'2017-09-14 17:10:14',0,1,0.33,0),(13,13,1,0,'2017-09-14 20:52:23',0,1,1.41,0),(14,5,1,0,'2017-09-14 22:03:23',0,1,0.6,0),(15,13,1,0,'2017-09-14 22:43:28',0,1,1.46,0),(16,41,1,0,'2017-09-14 23:18:40',0,1,4,0),(17,13,1,0,'2017-09-15 00:58:58',0,1,1.41,0),(18,13,1,0,'2017-09-15 01:16:27',0,1,0.93,0),(19,13,1,0,'2017-09-15 01:26:34',0,1,0.93,0);
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `product_categories`
+--
+
+DROP TABLE IF EXISTS `product_categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `price` double NOT NULL,
+  `is_removed` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product_categories`
+--
+
+LOCK TABLES `product_categories` WRITE;
+/*!40000 ALTER TABLE `product_categories` DISABLE KEYS */;
+INSERT INTO `product_categories` VALUES (1,'rodeo_cara',0.5,0),(2,'pils_25cl',1,0),(3,'spe_25cl',1.5,0),(4,'spe_33cl',2,0),(5,'alcool_cl',0.5,0);
+/*!40000 ALTER TABLE `product_categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `products` (
+  `barcode` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `product_category` int(11) DEFAULT NULL,
+  `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `stock` int(11) DEFAULT NULL,
+  `product_promotion_admin` double NOT NULL,
+  `product_promotion_user` double NOT NULL,
+  `product_real_price` double NOT NULL,
+  `is_removed` tinyint(1) NOT NULL,
+  `product_alcool_percentage` double NOT NULL,
+  `product_quantity_cl` double NOT NULL,
+  PRIMARY KEY (`barcode`),
+  UNIQUE KEY `UNIQ_B3BA5A5A97AE0266` (`barcode`),
+  KEY `IDX_B3BA5A5ACDFC7356` (`product_category`),
+  CONSTRAINT `FK_B3BA5A5ACDFC7356` FOREIGN KEY (`product_category`) REFERENCES `product_categories` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `products`
+--
+
+LOCK TABLES `products` WRITE;
+/*!40000 ALTER TABLE `products` DISABLE KEYS */;
+INSERT INTO `products` VALUES ('3119780250110',4,'Desperados',0,37,0,1.16,0,5.9,25),('5400141079784',2,'Boni agrumes',0,56,0,0.34,0,0,50),('5400141079913',2,'boni Ice Tea Citron',0,47,0,0.43,0,0,50),('5400141123081',1,'Cara',-10,34,0,0.15,0,4.75,25),('5400141353303',2,'Boni Ice Tea Green',0,54,0,0.36,0,0,0.33),('54004207',4,'Guiness Special Export',0,32.5,0,1.25,0,8,33),('54017016',2,'Maes',0,43,0,0.47,0,5.2,25),('54050051',4,'Kwak',0,36,0,1.18,0,8.4,33),('54050082',4,'Triple Karmeliet',0,33,0,1.24,0,8.4,33),('54055438',3,'Brugs blanche',0,48.666666666667,0,0.67,0,4.8,25),('54085190',4,'Tongerlo',0,33,0,1.24,0,6,33),('5410218005868',4,'Waterloo',0,38.5,0,1.13,0,8,33),('5410228205937',3,'Radler Agrumes',0,41.333333333333,0,0.78,0,2,25),('5410228208358',4,'Leffe',-1,46,0,0.98,0,6.8,33),('5410228217459',3,'Radler Citron',0,41.333333333333,0,0.78,0,2,25),('5410263015669',4,'Grimbergen Blonde',0,47.5,0,0.95,0,6.7,33),('5410263918434',4,'Grimbergen Caractere Houblon',0,55,0,0.8,0,8,33),('5410702000539',4,'Moinette',0,8.5,0,1.73,0,7.5,33),('5410769100081',4,'Chouffe Classique',-3,27,0,1.36,0,8,33),('5410769300085',4,'Choffe Houblon',2,30,0,1.36,0,8,33),('5410908000029',4,'Chimay Blanche',0,28,0,1.33,0,8,33),('5411098700034',4,'Postel',-4,53.5,0,0.83,0,7,33),('5411551141091',3,'Cuvee des Trolls',0,41.333333333333,0,0.78,0,7,25),('5411676100812',4,'Barbare',0,29.5,0,1.31,0,8,33),('5411681014005',4,'Duvel',0,35.5,0,1.19,0,8.5,33),('5411681035000',4,'Maredsous Blonde',0,38,0,1.14,0,6,33),('5411681038001',4,'Maredsous Trple',0,25.5,0,1.39,0,10,33),('5411858000145',4,'Omer',0,32,0,1.26,0,8,33),('5411858100067',4,'Le Fort Triple',-1,29.5,0,1.31,0,8.8,33),('5412138103310',4,'St Feuillien Blonde',0,31,0,1.28,0,7.5,33),('5412343201337',4,'Leffe Blonde',0,58,0,0.74,0,6.6,33),('5412583240837',4,'ENAME Blonde',-1,37,0,1.16,0,6.5,33),('5412858000081',4,'Rochefort 8 degre',-2,16,0,1.58,0,9.2,33),('5425027970016',4,'Vicaris Triple',0,28,0,1.34,0,8.5,33),('54490000',2,'Coca Normal',-1,40,0,0.5,0,0,20),('55555',5,'Autre',0,20,0,0.3,0,20,0.5),('5740600200541',3,'Carlsberg',0,35.333333333333,0,0.87,0,5.5,25),('8711900013992',1,'Rodeo',0,10,0,0.35,0,0,25),('8712100878923',2,'Ice Tea Agrumes',0,19,0,0.71,0,0,33),('8714100615614',2,'Ice Tea Original',0,19,0,0.71,0,0,33),('8722700696599',2,'Ice Tea Zero',0,19,0,0.71,0,0,33);
+/*!40000 ALTER TABLE `products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `promotions`
+--
+
+DROP TABLE IF EXISTS `promotions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `promotions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_promotion` double NOT NULL,
+  `promotion_name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_EA1B3034E8D9F699` (`promotion_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `promotions`
+--
+
+LOCK TABLES `promotions` WRITE;
+/*!40000 ALTER TABLE `promotions` DISABLE KEYS */;
+INSERT INTO `promotions` VALUES (1,0,'simple'),(2,0,'admin');
+/*!40000 ALTER TABLE `promotions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `rfid_to_match`
+--
+
+DROP TABLE IF EXISTS `rfid_to_match`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rfid_to_match` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `value` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `createdAt` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rfid_to_match`
+--
+
+LOCK TABLES `rfid_to_match` WRITE;
+/*!40000 ALTER TABLE `rfid_to_match` DISABLE KEYS */;
+INSERT INTO `rfid_to_match` VALUES (1,'5381206120','2017-09-08 15:25:07'),(2,'5381206120','2017-09-08 15:25:15'),(3,'149211212120','2017-09-08 15:27:04'),(4,'11748193120','2017-09-08 15:27:39'),(5,'245114106120','2017-09-08 15:27:48'),(6,'245114106120','2017-09-08 15:27:56'),(7,'245114106120','2017-09-08 15:29:05'),(8,'','2017-09-11 18:24:05'),(9,'','2017-09-11 18:30:04'),(10,'','2017-09-11 21:10:32'),(11,'69227200120','2017-09-13 22:23:32'),(12,'37139194120','2017-09-13 22:24:12'),(13,'1330193120','2017-09-13 22:24:58'),(14,'18145207120','2017-09-13 22:25:47'),(15,'','2017-09-13 22:26:29'),(16,'149200202120','2017-09-13 22:26:39'),(17,'','2017-09-13 22:41:30'),(18,'','2017-09-14 08:49:28'),(19,'','2017-09-14 08:55:10'),(20,'117116211120','2017-09-14 18:11:35'),(21,'117116211120','2017-09-14 19:36:55'),(22,'117116211120','2017-09-14 19:37:54'),(23,'2134194120','2017-09-14 19:38:02'),(24,'117116211120','2017-09-14 19:39:34'),(25,'5381206120','2017-09-14 21:57:26'),(26,'853211120','2017-09-14 23:10:08'),(27,'6997112120','2017-09-14 23:59:27'),(28,'','2017-09-14 23:59:54'),(29,'149211212120','2017-09-15 00:18:01');
+/*!40000 ALTER TABLE `rfid_to_match` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_accounts`
+--
+
+DROP TABLE IF EXISTS `user_accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` int(11) DEFAULT NULL,
+  `type` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `money_balance` double NOT NULL,
+  `money_limit` double NOT NULL,
+  `credit_to_allow_max` double NOT NULL,
+  `credit_allowed` double NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_2A457AAC8D93D649` (`user`),
+  CONSTRAINT `FK_2A457AAC8D93D649` FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_accounts`
+--
+
+LOCK TABLES `user_accounts` WRITE;
+/*!40000 ALTER TABLE `user_accounts` DISABLE KEYS */;
+INSERT INTO `user_accounts` VALUES (1,2,'register',13.883,0,200,0),(2,2,'bank',91.89,0,200,0),(3,NULL,'lost',0,0,200,0),(4,NULL,'spending',-8,0,200,0),(5,3,'somebody',-225.78,0,250,10),(6,4,'somebody',-4.13,0,200,76),(7,5,'somebody',-4.5,10,200,0),(8,6,'somebody',-8,0,200,0),(9,7,'somebody',-226.54,0,250,0),(10,8,'somebody',-29.195,0,200,0),(11,9,'somebody',-18.96,0,200,100),(12,10,'somebody',-3,0,200,0),(13,11,'somebody',-30.6,0,200,0),(14,12,'somebody',0,0,200,0),(15,13,'somebody',0,0,200,0),(16,14,'somebody',-294.95,0,200,0),(17,15,'somebody',0,0,200,0),(18,16,'somebody',-21,21,200,0),(19,17,'somebody',-20.5,21,200,0),(20,18,'somebody',23.05,0,200,0),(21,19,'somebody',12,0,200,0),(22,20,'somebody',1.5,0,200,0),(23,21,'somebody',2,0,200,0),(24,22,'somebody',0,5,200,0),(25,23,'somebody',5,0,200,0),(26,24,'somebody',2.5,0,200,0),(27,25,'somebody',4,0,200,0),(28,26,'somebody',5.5,0,200,0),(29,27,'somebody',4,0,200,0),(30,28,'somebody',3,0,200,0),(31,29,'somebody',0,0,200,0),(32,30,'somebody',5,0,200,0),(33,31,'somebody',8.5,0,200,0),(34,32,'somebody',0,8,200,0),(35,33,'somebody',0,4,200,0),(36,34,'somebody',0,5,200,0),(37,35,'somebody',2.5,0,200,0),(38,36,'somebody',0,8,200,0),(39,37,'somebody',10,0,200,0),(40,38,'somebody',0,4,200,0),(41,39,'somebody',-45.5,100,200,0);
+/*!40000 ALTER TABLE `user_accounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `godfather` int(11) DEFAULT NULL,
+  `promotion` int(11) DEFAULT NULL,
+  `firstname` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `lastname` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `username` varchar(190) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `role` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `rfid_card` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `is_removed` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_1483A5E9F85E0677` (`username`),
+  UNIQUE KEY `UNIQ_1483A5E92E800D6E` (`rfid_card`),
+  KEY `IDX_1483A5E9D6DEB239` (`godfather`),
+  KEY `IDX_1483A5E9C11D7DD1` (`promotion`),
+  CONSTRAINT `FK_1483A5E9C11D7DD1` FOREIGN KEY (`promotion`) REFERENCES `promotions` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_1483A5E9D6DEB239` FOREIGN KEY (`godfather`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,NULL,2,'super','admin','superadmin','$2a$04$OPbUZDtSA8u5jvNrohpw5ei0CGnkiNcymg/azEgwh1.0X0dh58l8G','ROLE_SUPER_ADMIN','245114106120','livrognebar@gmail.com',0),(2,NULL,1,'bar','man','barman','$2a$04$OPbUZDtSA8u5jvNrohpw5ei0CGnkiNcymg/azEgwh1.0X0dh58l8G','ROLE_BARMAN',NULL,'livrognebar@gmail.com',0),(3,NULL,2,'Damien','Meur','dams','$2a$04$OPbUZDtSA8u5jvNrohpw5ei0CGnkiNcymg/azEgwh1.0X0dh58l8G','ROLE_ADMIN','5381206120','damienmeur@gmail.com',0),(4,NULL,2,'Julien','Daniello','dan','$2a$04$OPbUZDtSA8u5jvNrohpw5ei0CGnkiNcymg/azEgwh1.0X0dh58l8G','ROLE_ADMIN','11748193120','danephec@gmail.com',0),(5,3,1,'Nora','Fallica','nono','$2a$04$OPbUZDtSA8u5jvNrohpw5ei0CGnkiNcymg/azEgwh1.0X0dh58l8G','ROLE_USER','4','no.fallica@gmail.com',0),(6,NULL,1,'John','Doe','john_doe','$2a$04$OPbUZDtSA8u5jvNrohpw5ei0CGnkiNcymg/azEgwh1.0X0dh58l8G','ROLE_USER','5','no.fallica@gmail.com',0),(7,NULL,2,'Jeoffrey','Bertolini','Kurotoutou','$2y$12$T7/ZcGtyNBAUVXOraIWMP.FH9CU3oQHNpYnfEc1SNTuHN5Tr0O/P6','ROLE_ADMIN','37139194120',NULL,0),(8,NULL,2,'Tom','Matagne','tom','$2y$12$6buHpi7AQRUAfEh1xQOLaO7GFlXt9hV9SZ4CyRnwlJQry8ran2vKy','ROLE_ADMIN','18145207120',NULL,0),(9,NULL,2,'Bastien','Saroela','bast','$2y$12$LaA.WCPjkXPOPDnWSLnC4OD9/8OwcyiQKa4h7kAi0x9f.DmWpfA8e','ROLE_ADMIN','69227200120',NULL,0),(10,NULL,2,'Bruno','Fauconnier','faucon','$2y$12$9KNzlQaWRl12gPztZ7mkkuhIC90V9RyAftOcokpelfittqFDpv4b.','ROLE_ADMIN','149200202120',NULL,0),(11,NULL,2,'Bruno','Barbara','bru','$2y$12$2NUxBxjf1VSPX4LwS6o9jO2AVcShC12DOul7NnbGp5S6NWPjycjom','ROLE_ADMIN','1330193120',NULL,0),(12,NULL,1,'Ladys','Oliveira','ladysOS','$2y$12$KDyLphKEmNkkm6RdamyMBeUWppI8/uEf/g.kDQmj2HzJRK.8w1xHq','ROLE_USER',NULL,NULL,0),(13,NULL,1,'Youri','Tilleux','youyou','$2y$12$CATTb2aB/v/dp68z74UcIegbUI6NiCjPDiEBv5rTT//V0gDyxDY5i','ROLE_USER',NULL,NULL,0),(14,NULL,1,'Antoine','Thirry','Xx-le_surfeur-xX','$2y$12$GR7UMy09b.N7HHcM55Gf0uGc/4e32LVP1eyj8MG17xURDbuD0DqSW','ROLE_USER',NULL,NULL,0),(15,NULL,1,'Lola','Coryn','princesse','$2y$12$CYdVmhQ6ieB7jJxb/UBMBe5Fd5eOhI/RkCzYennd/TnQ5QSyKcxGC','ROLE_USER',NULL,NULL,0),(16,4,1,'Arnaud','Declerq','arnaudde','$2y$12$SFWH0Rpkmzzs3E6SeNP4oulb9yQI5n5J.rxkWUVMY5wzK.nlEItPi','ROLE_USER',NULL,NULL,0),(17,4,1,'Aurèle','De Thibault','aureleDT','$2y$12$wjo7xBHgDX/e5VFqH5xgtOACJfo159yw3h1eiZ4yhnJCoOW9q/dBu','ROLE_USER',NULL,NULL,0),(18,NULL,1,'Florent','Watelet','Florentwat','$2y$12$rvVW0o4DJ9SKgcsSdQV6P.k7TiFjsknsdll/h23bBXgWsm3bEgPsi','ROLE_USER',NULL,NULL,0),(19,NULL,1,'Reaz','Toofany','Reaztoof','$2y$12$pVS0lr8YeibzICkkHyr45eh/lhRyjLqYXhSnGPZjf8KUOMWbKALvS','ROLE_USER',NULL,NULL,0),(20,NULL,1,'Cedric','Danniau','Cedricdan','$2y$12$6XieHi4o4Tb8N8z06Sjnr.lNt5/jMW7bDiv7kqGiuIGJmVTeVnlzW','ROLE_USER',NULL,NULL,0),(21,NULL,1,'Arnaurd','Mehauden','Arnaudméhau','$2y$12$/LhgQcCB1bT/XA3oh4ucT.y0fESVKqpe0CbM6q9IWD1qyvdIrObUy','ROLE_USER',NULL,NULL,0),(22,4,1,'Mickael','Fourmanoir','Mickaelfourma','$2y$12$a9N/csVpMJHKfLyz..qBjO7qlM1FzErbivbgW0dHLxewO/MNFBRJy','ROLE_USER',NULL,NULL,0),(23,NULL,1,'Pierre-yves','Danniau','Pierreyvesdan','$2y$12$7fFN08YXkdMdhcCGpPH7kO.S5izAP7Wrbd829pb5ZofUyyL3S8sDy','ROLE_USER',NULL,NULL,0),(24,NULL,1,'Jerome','Scheppers','Jeromesche','$2y$12$4XTtpIZOTJeSZyfwsnmZo.l7jszyY7TzZe387ROG/gHLveoz8zfTa','ROLE_USER',NULL,NULL,0),(25,NULL,1,'Dj','3000','Dj3000','$2y$12$G1t0YIqd.PoM3BDP5xbuw.Hq22YECMz8zPtqlx9OC/uuGmSZGemf2','ROLE_USER',NULL,NULL,0),(26,NULL,1,'Maxence','Demol','Maxencedemol','$2y$12$487a1Dulp9d7K.eyjVAiuuvls7lvXOwjGpHEKdIraIuTbTB45gQzS','ROLE_USER',NULL,NULL,0),(27,NULL,1,'Jules','Dupont','Julesdup','$2y$12$d8NETvTLVjGOXbVIOyXzzeRyoF29T1i4WpJgnPCBaaXDRMOFjEufO','ROLE_USER',NULL,NULL,0),(28,NULL,1,'Dario','Falco','Dariofla','$2y$12$x7jWx0jTDh0kGrMP8HJhNOjlqF5E8KI9RI.d5.7oAmUIGZ9C/zj1K','ROLE_USER',NULL,NULL,0),(29,NULL,1,'Samuel','Bottemanne','Samuelbot','$2y$12$qXD2h/ExQRyWMbiNN1GqaObk1g9N1zuszYVOy7pbw0vXSZkikKg3O','ROLE_USER',NULL,NULL,0),(30,NULL,1,'Valentin','Moens','Valentinmoe','$2y$12$VIwAAsn6qMEJadEgV0RgnuHQvXH61a4RVf3lCtiznL6D5EahP7gwS','ROLE_USER',NULL,NULL,0),(31,NULL,1,'Lorian','Demierbe','Loriandem','$2y$12$HxaFbGQzHJ0k8655KOIOze8F.Su6WOMqU2Y28fq3G.6QNo3V3BM0q','ROLE_USER',NULL,NULL,0),(32,4,1,'Nicolas','Grolleau','Nicolasgrol','$2y$12$Jtf8HfRJrkbFjtYINsLDmemTf5m2HnxQMHAFMm8CTTkP7JhpoAAzi','ROLE_USER',NULL,NULL,0),(33,4,1,'Thomas','Ghysel','Thomasgis','$2y$12$bpEpKSIT8ZqYbqtPZ1rAaO8ay6yFAN8VWbrcrm5.qm8n/J6dSFaeG','ROLE_USER',NULL,NULL,0),(34,4,1,'Victor','Valet','Victorvalet','$2y$12$pLoBlbqUIM9.A94ysCCKyefjK75mNkBt4WhuZHus.nfHqQNG2gyj.','ROLE_USER',NULL,NULL,0),(35,NULL,1,'Léonard','Maistriaux','Léomais','$2y$12$6oowikpiYTe33kPA24.R6.Mk8zcNGEtTS1DjBUHih/Dwg8XC.puCa','ROLE_USER',NULL,NULL,0),(36,4,1,'Yolan','Sabaux','Yolansab','$2y$12$S93.lJe2Ji1UZWnadob1SOmxk9ZfhWT0GXekBBHZ6.W/5.IKPFvE6','ROLE_USER',NULL,NULL,0),(37,NULL,1,'Caroline','Malengreau','Carolinemal','$2y$12$D6xc.et22zKmqDbv3xynTeTf9pc0/kYAIRG5QzxFAmOYIy8.ks6Va','ROLE_USER',NULL,NULL,0),(38,4,1,'Nicolas','Dvk','Nicolasdvk','$2y$12$WmaFHYycqy2l3.u6ThqvD..N6EeGnzU5v.SlNy2h8OtRtJ6AP3VR.','ROLE_USER',NULL,NULL,0),(39,9,1,'Ebi','Zalette','eli','$2y$12$bk.QBva/LyYnSFEs/wCZdeTZgCJjg16ASobLot/KXwLaS79k92ixm','ROLE_USER','853211120',NULL,0);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-09-15  7:22:01
