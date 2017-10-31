@@ -1,13 +1,11 @@
 #!/usr/bin/python2
-import  re, math, sys, time, signal, requests, json, os, time, paramiko, smtplib
+import  re, math, sys, time, signal, requests, json, os, time, smtplib
 import RPi.GPIO as GPIO
 from datetime import datetime
 from display import printLCD as pLCD
 from Queue import Queue
 from threading import Thread
 import thread
-from dateutil import parser
-from temp_logger import CPU
 
 total_coins=0.0
 accountId=None
@@ -62,10 +60,9 @@ def leave_program():
 def handler_child_transfert_validation(signum, frame):
     leave_program()
 
-
 def validate_transfert():
     url=baseURL+"/money-flows/coinAcceptor"
-    payload={ "values": total_coins, "description": "recharge par machine à jetons", "coinAuthentifier": 987, "accountId": accountId}
+    payload={ "value": total_coins, "description": "recharge par machine a  jetons", "coinAuthentifier": 987, "accountId": accountId}
     if total_coins!=0:
         printLCD("WAIT FOR~VALIDATION")
         try:
@@ -74,22 +71,20 @@ def validate_transfert():
         except requests.exceptions.RequestException as e:
             email="""
 Bonjour chers Administrateurs,
-Il semblerait que le raspberry pi bar n'ait pas reussi a envoyer la requete au serveur lui permettant de  valider une commande.
-Ce probleme est majeur, le raspberry pi devrait etre relancer le plus rapidement possible au moyen du bouton rouge sur le domino.
+Il semblerait que le raspberry pi bar n'ait pas reussi a envoyer la requete au serveur lui permettant de  valider l'ajout de sous avec l accepteur de pieces..
 Le probleme a eu lieu pour l'utilisateur %s a %s.
 Resume de l'exception : %s
-Resume de la commande : %s
+Resume du transfert : %s
                 """%(uName, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), e, payload)
-            subject="Erreur de validation de commande a %s" %(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            subject="Erreur de validation d ajout de pieces a %s" %(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             write_log("server", e)
             send_email(subject, email)
             stop()
-        if:
-            print(tokenRetour)
-            printLCD("CREDIT ADDED~"+str(total_coins)+"euro")
-            time.sleep(m_timeout*3)
+        print(tokenRetour)
+        printLCD("CREDIT ADDED~"+str(total_coins)+"euro")
+        time.sleep(m_timeout*3)
     else:
-        printLCD("NO PRODUCT")
+        printLCD("NO CREDIT")
         time.sleep(m_timeout)
 
 
@@ -108,13 +103,6 @@ def handler_barcode(signum, frame):
     time.sleep(m_timeout)
     leave_program
 
-def record_coin(timeout):
-    signal.signal(signal.SIGALRM, handler_barcode)
-	signal.alarm(timeout)
-    while TRUE:
-    """
-    TO DO listen for a coin
-    """
 def transfert():
     time.sleep(m_timeout)
     printLCD("INSERT COINS")
@@ -122,8 +110,9 @@ def transfert():
     t_end = time.time() + tMax
     while t_end > time.time() :
         try:
-            total_coins+=record_coin(int(round(t_end -time.time())))
-            print("total argent ": str(total_coins))
+            total_coins+=0.1
+            time.sleep(2)
+            print("total argent "+ str(total_coins))
             printLCD("TOTAL ~"+str(total_coins)+"euro")
         except Exception as e:
             print( "Erreur enregistrement piece")
