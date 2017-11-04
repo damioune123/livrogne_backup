@@ -20,10 +20,11 @@ passwordCam = "Livrogn9"
 usernameCam = "pi"
 portCam = 22
 port_GPIO_BUTTON=18
-port_GPIO_LIGHT_BUTTON=20
-port_GPIO_FRIGO_LOCK=19
+port_GPIO_REGISTER=23
+port_GPIO_LIGHT_BUTTON=27
+port_GPIO_FRIGO_LOCK=22
 m_timeout=1.5
-delayBeforeOrder=90
+delayBeforeOrder=15
 ssh=None
 paramiko.util.log_to_file(currentDir+"logs/ssh_paramiko.log")
 
@@ -51,15 +52,15 @@ def email_thread(q_email):
             write_log("email", "Erreur envoi email : Subject :  %s \n Body :  %s\n Exception : %s" %(data[0], data[1], e))
         finally:
             q_email.task_done()
-
-
+        
+        
 
 def openSSH():
     global ssh
     try:
         if ssh == None or not ssh.get_transport().is_active():
             ssh = paramiko.SSHClient()
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy()) 
             ssh.load_system_host_keys()
             ssh.connect(hostnameCam, portCam, usernameCam, passwordCam, timeout=3)
             return True
@@ -68,8 +69,8 @@ def openSSH():
 Bonjour chers Administrateurs,
 Il semblerait que le raspberry pi bar n'arrive pas  acceder au raspberry pi en charge de l'encodage de la camera (192.168.0.214).
 Les commandes sont toujours fonctionnelles, mais pour augmenter la securite, il serait bien de redemarrer le routeur Douglass.
-Pour cela, il faut eteindre, puis rallumer le domino central (petit bouton rouge) de l'ivrogne.
- Nom de l'utilisateur %s, arrive a %s.
+Pour cela, il faut eteindre, puis rallumer le domino central (petit bouton rouge) de l'ivrogne. 
+ Nom de l'utilisateur %s, arrive a %s. 
             """ %( uName, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         subject="Erreur de connexion au raspberry en charge de l'encodage video a %s" %(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         write_log("cam","Erreur connexion ssh au raspberry pi cam")
@@ -111,7 +112,7 @@ def stop_encoding():
 
 def handler_barcode(signum, frame):
     raise IOError("No input on barcode scan")
-
+    
 def stop():
     global q_email
     global q_log
@@ -125,7 +126,7 @@ def stop():
 def leave_program():
     lightButtonBlink()
     closeFrigo()
-    validate_order()
+    validate_order() 
     stop_encoding()
     stop()
 def handler_child_leave_order(signum, frame):
@@ -148,7 +149,7 @@ def lecture_barcode(timeout):
 	    fp = open('/dev/hidraw0', 'rb')
         except Exception as e:
             email="""
-Bonjour chers Administrateurs,
+Bonjour chers Administrateurs, 
 Il semblerait que la scanette usb n est pas connectee au raspberry.
 Veuillez la rebrancher le plus rapidemenent possible.
 Nom de l'utilisateur %s , arrive a %s
@@ -171,7 +172,7 @@ Nom de l'utilisateur %s , arrive a %s
          			if int(ord(c)) == 40:
             				done = True
             				break;
-         			if shift:
+         			if shift: 
            		 		if int(ord(c)) == 2 :
                					shift = True
             				else:
@@ -222,6 +223,13 @@ def closeFrigo():
     GPIO.setup(port_GPIO_FRIGO_LOCK, GPIO.OUT)
     GPIO.output(port_GPIO_FRIGO_LOCK, GPIO.HIGH)
 
+def openRegister():
+    print("register")
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(port_GPIO_REGISTER, GPIO.OUT)
+    GPIO.output(port_GPIO_REGISTER, GPIO.HIGH)
+    os.system("/home/pi/scripts/relaisCaisseON.py ")
+
 def validate_order():
     orderlines=[]
     for key in products:
@@ -251,6 +259,8 @@ Resume de la commande : %s
             write_log("server", e)
             send_email(subject, email)
             stop()
+        if role=="ROLE_BARMAN":
+            openRegister()
         if "INSUFFICIENT_CASH" in tokenRetour:
             printLCD("NOT ENOUGH CASH~TOTAL:"+str(tokenRetour["order_total"])+"E")
             time.sleep(m_timeout*3)
@@ -260,7 +270,7 @@ Resume de la commande : %s
 Bonjour chers Administrateurs,
 Il semblerait qu'un utilisateur n'ait pas un solde suffisant pour payer sa commande.
 Son solde est de %s et le montant  de sa commande est de %s.
-Veuillez faire venir un administrateur au bar le plus rapidement possible pour lui demander de remettre (amicalement) les produits dans le frigo. Nom de l'utilisateur %s, arrive a %s.
+Veuillez faire venir un administrateur au bar le plus rapidement possible pour lui demander de remettre (amicalement) les produits dans le frigo. Nom de l'utilisateur %s, arrive a %s. 
             """ %(str(tokenRetour["balance"]), str(tokenRetour["order_total"]), uName, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             subject="Solde insuffisant a %s" %(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             send_email(subject,email)
@@ -288,7 +298,7 @@ def order():
     time.sleep(m_timeout)
     printLCD("ORDER STARTED")
     global products
-    t_end = time.time() + tMax
+    t_end = time.time() + tMax 
     while t_end > time.time() :
         try:
             barcode=lecture_barcode(int(round(t_end -time.time())))
@@ -303,12 +313,12 @@ def order():
             tokenVerif = json.loads(r.content)
         except requests.exceptions.RequestException as e:
             write_log("server", e)
-            printLCD("ERREUR seveur")
+            printLCD("ERREUR seveur") 
             time.sleep(m_timeout*2)
             email="""
 Bonjour chers Administrateurs,
 Il semblerait que le raspberry pi bar n'arrive pas a determiner le prix d'un produit.
-Il n'arrive pas a acceder  a l'adresse %s. Il y a de grandes chances que cela provienne d'une surchauffe du raspberry (celui-ci etant connecte au serveur en local).
+Il n'arrive pas a acceder  a l'adresse %s. Il y a de grandes chances que cela provienne d'une surchauffe du raspberry (celui-ci etant connecte au serveur en local). 
 Il vous est conseille de redemarrer le raspberry le plus rapidement possible (boutton rouge domino).
 Le probleme a eu lieu en %s pour l'utilisateur %s.
 Resume de l'exception : %s
@@ -316,7 +326,7 @@ Resume de l'exception : %s
             subject="Erreur de connexion detectee a %s" %(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             send_email(subject,email)
             stop()
-        if "message" not in tokenVerif: #si barcode valide
+        if "message" not in tokenVerif: #si barcode valide	
             if barcode not in products:
                 products[barcode]=[1, tokenVerif["name"]]
             else:
@@ -449,7 +459,7 @@ def send_email(subject, body):
 
 def printLCD(string):
     global q_lcd
-    q_lcd.put(string)
+    q_lcd.put(string) 
 
 def write_log(log, message):
     global q_log
