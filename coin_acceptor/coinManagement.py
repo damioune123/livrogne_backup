@@ -236,6 +236,10 @@ Le probleme a eu lieu a %s."
         available_money=str(tokenPyth['user']["user_accounts"][0]["available_balance"])
         current_money=str(tokenPyth['user']["user_accounts"][0]["money_balance"])
         accountId= tokenPyth['user']["user_accounts"][0]["id"]
+        printLCD("Welcome~"+uName)
+        time.sleep(m_timeout)
+        printLCD("Balance :~"+current_money+"euro")
+        time.sleep(m_timeout)
     else:
         printLCD("WRONG CARD")
         time.sleep(m_timeout)
@@ -260,7 +264,7 @@ def LCD_thread(q_lcd):
         data=q_lcd.get()
         try:
             print(data)
-            #pLCD(data)
+            pLCD(data)
         except Exception as e:
             write_log("lcd",str(e))
         finally:
