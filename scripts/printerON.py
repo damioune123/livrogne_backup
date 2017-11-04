@@ -16,7 +16,7 @@ for i in pinList:
     GPIO.output(i, GPIO.LOW)
 # time to sleep between operations in the main loop
 
-SleepTimeL=2
+SleepTimeL=0.5
 
 # main loop
 try:
