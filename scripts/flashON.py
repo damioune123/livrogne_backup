@@ -22,7 +22,7 @@ SleepTimeL=2
 try:
   for i in pinList:
     GPIO.output(i, GPIO.LOW)
-    time.sleep(SleepTimeL);  
+    time.sleep(0.2)
 
 # End program cleanly with keyboard
 except KeyboardInterrupt:

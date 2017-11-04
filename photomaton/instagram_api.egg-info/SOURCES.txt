@@ -1,0 +1,9 @@
+setup.py
+InstagramAPI/ImageUtils.py
+InstagramAPI/__init__.py
+instagram_api.egg-info/PKG-INFO
+instagram_api.egg-info/SOURCES.txt
+instagram_api.egg-info/dependency_links.txt
+instagram_api.egg-info/not-zip-safe
+instagram_api.egg-info/requires.txt
+instagram_api.egg-info/top_level.txt

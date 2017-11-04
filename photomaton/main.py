@@ -1,5 +1,9 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*
+import imageio
+imageio.plugins.ffmpeg.download()
+from moviepy.editor import *
+from InstagramAPI import InstagramAPI
 import RPi.GPIO as GPIO
 import time
 from datetime import datetime
@@ -8,18 +12,24 @@ import pygame
 from pygame.locals import *
 import os
 
+
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 pygame.init()
 screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 width, height = screen.get_size()
 
+user, pwd ='livrognebar', 'azerty123'
+InstagramAPI = InstagramAPI(user, pwd)
+def upload_insta(path):
+    InstagramAPI.login()
+    caption="HALLOWEEN 2017"
+    InstagramAPI.uploadPhoto(path, caption = caption)
 
 def takepic(imageName): #prend une photo (note: il faut selectionner la ligne qui correspond Ã  votre installation en enlevant le premier # )
     # command = "sudo raspistill -t 1000 -w 960 -h 720 -o "+ imageName +" -q 80" #prend une photo
     # command = "sudo raspistill -t 1000 -w 960 -h 720 -o "+ imageName +" -rot 90 -q 80" #prend une photo et la tourne de 90Â°
-    command = "sudo raspistill -t 1000 -w 960 -h 720 -o "+ imageName +" -rot 180 -q 80" #prend une photo et la tourne de 180Â°
+    command = "sudo raspistill -t 1000 -w 960 -h 720 -o "+ imageName +"  -q 80" #prend une photo et la tourne de 180Â°
     # command = "sudo raspistill -t 1000 -w 960 -h 720 -o "+ imageName +" -rot 270 -q 80" #prend une photo et la tourne de 270Â°
     os.system(command)
 
@@ -29,7 +39,6 @@ def loadpic(imageName): # affiche imagename
     background.convert_alpha()
     background = pygame.transform.scale(background,(width,height))
     screen.blit(background,(0,0),(0,0,width,height))
-    pygame.display.flip()
 
 
 def minuterie():
@@ -63,17 +72,21 @@ if (os.path.isdir("/home/pi/Desktop/photos") == False): # si le dossier pour sto
    os.chmod("/home/pi/Desktop/photos",0777)            # et on change les droits pour pouvoir effacer des photos
 
 
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(19, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 while True : #boucle jusqu'a interruption
   try:
         print "\n attente boucle"
 
         #on attend que le bouton soit pressÃ©
-        GPIO.wait_for_edge(18, GPIO.FALLING)
+        GPIO.wait_for_edge(19, GPIO.FALLING)
+
         # on a appuyÃ© sur le bouton...
 
 
         #on lance le decompte
         minuterie()
+        os.system("/home/pi/livrogne_backup/scripts/flashON.py")
 
 
         #on genere le nom de la photo avec heure_min_sec
@@ -84,16 +97,16 @@ while True : #boucle jusqu'a interruption
         #on prend la photo
         chemin_photo = '/home/pi/Desktop/photos/'+nom_image+'.jpeg'
         takepic(chemin_photo) #on prend la photo
+        os.system("/home/pi/livrogne_backup/scripts/flashOFF.py")
 
         #on affiche la photo
         loadpic(chemin_photo)
 
-        #on affiche un message
-        writemessagetransparent("et voila...")
 
-        if (GPIO.input(18) == 0): #si le bouton est encore enfoncÃ© (sont etat sera 0)
-              print("bouton  appuye, je dois sortir")
-              break # alors on sort du while
+        #on affiche un message
+        writemessagetransparent("magnifique !  ")
+        upload_insta(chemin_photo)
+
 
 
 
