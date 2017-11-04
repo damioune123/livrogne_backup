@@ -19,7 +19,10 @@ uName="NO AUTHENTICATION YET"
 
 m_timeout=1.5
 
-
+try:
+	ser = Serial('/dev/ttyUSB0',9600)
+except:
+    raise_error_arduino()
 def handler_alarm_arduino(signum, frame):
     write_log("coin", e)
     email="""
@@ -56,12 +59,7 @@ def get_coins():
 	return round(int(ibuffer.decode('ascii'))*0.1,2)
 def reset_coins():
 	ser.write('2'.encode('ascii')) # Convert the decimal number to ASCII then send it to the Arduino
-
-try:
-	ser = Serial('/dev/ttyUSB0',9600)
-    if not test_connection():
-        raise Exception("Le test de connection au arduino a echoue")
-except:
+def raise_error_arduino():
     write_log("coin", e)
     email="""
 Bonjour chers Administrateurs,
@@ -73,6 +71,9 @@ Resume de l'exception : %s
     write_log("coin", e)
     send_email(subject, email)
 	stop()
+
+
+
 
 old = 0.0
 new =0.0
@@ -163,6 +164,8 @@ def listen_rfid_validation():
 
 def transfert():
     global total_coins
+	if not test_connection():
+        raise_error_arduino()
     time.sleep(m_timeout)
     printLCD("INSERT COINS")
     old = 0.0
