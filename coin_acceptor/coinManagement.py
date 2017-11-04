@@ -16,40 +16,66 @@ serverIP="192.168.0.210"
 baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 currentDir="/home/pi/coin_acceptor/"
 uName="NO AUTHENTICATION YET"
+ser = None
 
 m_timeout=1.5
 
-try:
-	ser = Serial('/dev/ttyUSB0',9600)
-except:
-    raise_error_arduino()
+def raise_error_arduino():
+    write_log("coin", "erreur connexion arduino")
+    email="""
+Bonjour chers Administrateurs,
+Il semblerait que le raspberry pi photomaton ne soit pas connecte en usb au compteur de pieces.
+Le probleme a eu lieu pour l'utilisateur %s a %s.
+        """%(uName, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    subject="Erreur connexion usb connecteur pieces a %s" %(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    send_email(subject, email)
+    stop()
+
 def handler_alarm_arduino(signum, frame):
     write_log("coin", e)
     email="""
 Bonjour chers Administrateurs,
-Il semblerait que le raspberry pi photomaton ait un problème pour communiquer en serial (usb) avec le compteur de pieces.
+Il semblerait que le raspberry pi photomaton ait un probleme pour communiquer en serial (usb) avec le compteur de pieces.
 Le probleme a eu lieu pour l'utilisateur %s a %s.
 Resume de l'exception : %s
         """%(uName, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), e)
     subject="Erreur communication usb connecteur piece a %s" %(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     write_log("coin", e)
     send_email(subject, email)
-	stop()
+    stop()
 
-def test_connection():
-	signal.signal(signal.SIGALRM, handler_alarm_arduino)
-# Set the signal handler and a 5-second alarm
-	if not ser.isOpen():
-		return False
-	ser.flushInput()
-	ser.write('3'.encode('ascii')) # Convert the decimal number to ASCII then send it to the Arduino
-	signal.alarm(1)
-	ibuffer=ser.readline()
-	signal.signal(signal.SIGALRM, signal.SIG_IGN)
-	return ibuffer.decode('ascii').replace("\r\n","") =="OK"
+def get_arduino_connection():
+    global ser
+    if ser !=None and not ser.isOpen():
+        print("if")
+        signal.signal(signal.SIGALRM, handler_alarm_arduino)
+        ser.flushInput()
+        ser.write('3'.encode('ascii')) # Convert the decimal number to ASCII then send it to the Arduino
+        signal.alarm(1)
+        ibuffer=ser.readline()
+        signal.signal(signal.SIGALRM, signal.SIG_IGN)
+        if ibuffer.decode('ascii').replace("\r\n","") =="OK":
+            return ser
+    else:
+        try:
+	    ser = Serial('/dev/ttyUSB0',9600)
+        except:
+            raise raise_error_arduino()
+        if not ser.isOpen():
+            raise raise_error_arduino()
+            prin("toujours get")
+        signal.signal(signal.SIGALRM, handler_alarm_arduino)
+        ser.flushInput()
+        ser.write('3'.encode('ascii')) # Convert the decimal number to ASCII then send it to the Arduino
+        signal.alarm(1)
+        ibuffer=ser.readline()
+        signal.signal(signal.SIGALRM, signal.SIG_IGN)
+        if ibuffer.decode('ascii').replace("\r\n","") =="OK":
+            return ser
 
 
 def get_coins():
+        ser = get_arduino_connection()
 	signal.signal(signal.SIGALRM, handler_alarm_arduino)
 	ser.flushInput()
 	ser.write('1'.encode('ascii')) # Convert the decimal number to ASCII then send it to the Arduino
@@ -57,29 +83,10 @@ def get_coins():
 	ibuffer=ser.readline()
 	signal.signal(signal.SIGALRM, signal.SIG_IGN)
 	return round(int(ibuffer.decode('ascii'))*0.1,2)
+
 def reset_coins():
+        ser = get_arduino_connection()
 	ser.write('2'.encode('ascii')) # Convert the decimal number to ASCII then send it to the Arduino
-def raise_error_arduino():
-    write_log("coin", e)
-    email="""
-Bonjour chers Administrateurs,
-Il semblerait que le raspberry pi photomaton ne soit pas connecte en usb au compteur de pieces.
-Le probleme a eu lieu pour l'utilisateur %s a %s.
-Resume de l'exception : %s
-        """%(uName, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), e)
-    subject="Erreur connexion usb connecteur pieces a %s" %(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    write_log("coin", e)
-    send_email(subject, email)
-	stop()
-
-
-
-
-old = 0.0
-new =0.0
-lastpulse=datetime.now()
-quitable = False
-
 
 def email_thread(q_email):
     FROM="livrognebar@gmail.com"
@@ -164,8 +171,6 @@ def listen_rfid_validation():
 
 def transfert():
     global total_coins
-	if not test_connection():
-        raise_error_arduino()
     time.sleep(m_timeout)
     printLCD("INSERT COINS")
     old = 0.0
@@ -204,7 +209,7 @@ def auth():
         email="""
 Bonjour chers Administrateurs,
 Il semblerait que le raspberry pi photomaton n'ait pas reussi a envoyer la requete au serveur pour authentifier un utilisateur avec sa carte rfid.
-Il s'agit d'un probleme majeur, le serveur etant connecte en local. Il doit s'agir d'une surchauffe du raspberry pi bar ou d'une erreur réseau.
+Il s'agit d'un probleme majeur, le serveur etant connecte en local. Il doit s'agir d'une surchauffe du raspberry pi bar ou d'une erreur reseau.
 Pour resoudre le probleme, il faudrait le redemarrer au moyen du boutton rouge du domino.
 Resume de l'exception : %s \n
 Le probleme a eu lieu a %s."
@@ -255,7 +260,7 @@ def LCD_thread(q_lcd):
         data=q_lcd.get()
         try:
             print(data)
-            pLCD(data)
+            #pLCD(data)
         except Exception as e:
             write_log("lcd",str(e))
         finally:
@@ -291,11 +296,11 @@ def main():
     p2.setDaemon(True)
     p3.setDaemon(True)
     p4.setDaemon(True)
-    reset_coins()
     p1.start()
     p2.start()
     p3.start()
     auth()
     p4.start()
+    reset_coins()
     transfert()
 main()
