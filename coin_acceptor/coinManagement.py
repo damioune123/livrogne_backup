@@ -8,19 +8,21 @@ from Queue import Queue
 from threading import Thread
 import thread
 
-maxCoinTime=1.5
+maxCoinTime=1
 total_coins=0.0
 accountId=None
-tMax=30# temps transfert max
+tMax=15# temps transfert max
 serverIP="192.168.0.210"
 baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 currentDir="/home/pi/coin_acceptor/"
 uName="NO AUTHENTICATION YET"
 ser = None
-
+port_GPIO_COIN=26
 m_timeout=1.5
-
+def sigint_handler(signal, frame):
+    stop()
 def raise_error_arduino():
+    global q_arduino_send
     write_log("coin", "erreur connexion arduino")
     email="""
 Bonjour chers Administrateurs,
@@ -29,64 +31,90 @@ Le probleme a eu lieu pour l'utilisateur %s a %s.
         """%(uName, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     subject="Erreur connexion usb connecteur pieces a %s" %(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     send_email(subject, email)
-    stop()
+    try:
+        q_arduino_send.task_done()
+    except:
+        pass
+    os.kill(os.getpid(), signal.SIGINT)
+
+
 
 def handler_alarm_arduino(signum, frame):
-    write_log("coin", e)
+    global q_arduino_send
     email="""
 Bonjour chers Administrateurs,
 Il semblerait que le raspberry pi photomaton ait un probleme pour communiquer en serial (usb) avec le compteur de pieces.
 Le probleme a eu lieu pour l'utilisateur %s a %s.
-Resume de l'exception : %s
-        """%(uName, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), e)
+        """%(uName, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     subject="Erreur communication usb connecteur piece a %s" %(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    write_log("coin", e)
     send_email(subject, email)
-    stop()
+    try:
+        q_arduino_send.task_done()
+    except:
+        pass
+    os.kill(os.getpid(), signal.SIGINT)
+
+
+def switch_on_coin_acceptor():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(port_GPIO_COIN, GPIO.OUT)
+    GPIO.output(port_GPIO_COIN, GPIO.LOW)
+
+def switch_off_coin_acceptor():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(port_GPIO_COIN, GPIO.OUT)
+    GPIO.output(port_GPIO_COIN, GPIO.HIGH)
+
 
 def get_arduino_connection():
     global ser
     if ser !=None and not ser.isOpen():
-        print("if")
-        signal.signal(signal.SIGALRM, handler_alarm_arduino)
         ser.flushInput()
         ser.write('3'.encode('ascii')) # Convert the decimal number to ASCII then send it to the Arduino
-        signal.alarm(1)
         ibuffer=ser.readline()
-        signal.signal(signal.SIGALRM, signal.SIG_IGN)
         if ibuffer.decode('ascii').replace("\r\n","") =="OK":
             return ser
+        else:
+            raise_error_arduino()
     else:
         try:
-	    ser = Serial('/dev/ttyUSB0',9600)
+	    ser = Serial(port = '/dev/ttyUSB0',baudrate = 9600, timeout=1)
         except:
             raise raise_error_arduino()
-        if not ser.isOpen():
-            raise raise_error_arduino()
-            prin("toujours get")
-        signal.signal(signal.SIGALRM, handler_alarm_arduino)
-        ser.flushInput()
+        time.sleep(2.5)
         ser.write('3'.encode('ascii')) # Convert the decimal number to ASCII then send it to the Arduino
-        signal.alarm(1)
         ibuffer=ser.readline()
-        signal.signal(signal.SIGALRM, signal.SIG_IGN)
         if ibuffer.decode('ascii').replace("\r\n","") =="OK":
             return ser
+        else:
+            raise_error_arduino()
 
 
 def get_coins():
         ser = get_arduino_connection()
-	signal.signal(signal.SIGALRM, handler_alarm_arduino)
 	ser.flushInput()
 	ser.write('1'.encode('ascii')) # Convert the decimal number to ASCII then send it to the Arduino
-	signal.alarm(1)
 	ibuffer=ser.readline()
-	signal.signal(signal.SIGALRM, signal.SIG_IGN)
+        print(ibuffer)
 	return round(int(ibuffer.decode('ascii'))*0.1,2)
 
 def reset_coins():
         ser = get_arduino_connection()
 	ser.write('2'.encode('ascii')) # Convert the decimal number to ASCII then send it to the Arduino
+
+def arduino_thread(q_arduino_send, q_arduino_receive):
+    switch_on_coin_acceptor()
+    reset_coins()
+    while True:
+        data= q_arduino_send.get()
+        if data == "get":
+            q_arduino_receive.put(get_coins())
+        elif data =="poweroff":
+            reset_coins()
+            switch_off_coin_acceptor()
+        q_arduino_send.task_done()
+
+
 
 def email_thread(q_email):
     FROM="livrognebar@gmail.com"
@@ -117,10 +145,15 @@ def stop():
     global q_email
     global q_log
     global q_lcd
+    global q_arduino_receive
+    global q_arduino_send
     printLCD("Goodbye !")
+    switch_off_coin_acceptor()
     q_email.join()
     q_log.join()
     q_lcd.join()
+    q_arduino_receive.join()
+    q_arduino_send.join()
     sys.exit(0)
 
 def leave_program():
@@ -178,12 +211,14 @@ def transfert():
     lastpulse=datetime.now()
     while True:
     	old=new
-    	new = get_coins()
+    	new = send_get_arduino()
+        total_coins = new
     	if old != new:
     		lastpulse = datetime.now()
     		printLCD(str(new)+"euro")
     	elapsed = datetime.now() -lastpulse
     	if elapsed > timedelta(seconds=tMax) :
+                send_poweroff_arduino()
         	leave_program()
     	time.sleep(maxCoinTime)
 
@@ -274,6 +309,18 @@ def send_email(subject, body):
 	global q_email
 	q_email.put([subject,body])
 
+def send_get_arduino():
+    global q_arduino_send
+    global q_arduino_receive
+    q_arduino_send.put("get")
+    coin = q_arduino_receive.get()
+    q_arduino_receive.task_done()
+    return coin
+
+def send_poweroff_arduino():
+    global q_arduino_send
+    q_arduino_send.put("poweroff")
+
 def printLCD(string):
     global q_lcd
     q_lcd.put(string)
@@ -286,16 +333,21 @@ def main():
     global q_lcd
     global q_email
     global q_log
+    global q_arduino_send
+    global q_arduino_receive
     global p1
     global p2
     global p3
+    signal.signal(signal.SIGINT, sigint_handler)
     q_email= Queue()
     q_lcd= Queue()
     q_log= Queue()
+    q_arduino_send= Queue()
+    q_arduino_receive= Queue()
     p1=Thread(target=email_thread, args=(q_email,))
     p2=Thread(target=LCD_thread, args=(q_lcd,))
     p3=Thread(target=log_thread, args=(q_log,))
-    p4=Thread(target=listen_rfid_validation)
+    p4=Thread(target=arduino_thread, args=(q_arduino_send, q_arduino_receive,))
     p1.setDaemon(True)
     p2.setDaemon(True)
     p3.setDaemon(True)
@@ -303,8 +355,7 @@ def main():
     p1.start()
     p2.start()
     p3.start()
-    auth()
     p4.start()
-    reset_coins()
+    auth()
     transfert()
 main()

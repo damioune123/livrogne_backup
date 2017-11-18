@@ -27,6 +27,8 @@ MFRC522::MFRC522(){
   }
   bcm2835_gpio_fsel(RSTPIN, BCM2835_GPIO_FSEL_OUTP);
   bcm2835_gpio_write(RSTPIN, LOW);
+  setSPIConfig();
+
   // Set SPI bus to work with MFRC522 chip.
 } // End constructor
 

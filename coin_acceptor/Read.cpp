@@ -16,11 +16,7 @@
 #define TRUE 1
 #define FALSE 0
 
-static const char * CURRENT_DIR="/home/pi/coin_acceptor";
-
-
-
-
+static const char * CURRENT_DIR="/home/pi/livrogne_backup/coin_acceptor";
 
 void coinProcess(char * uid){
     char buffer[512];
@@ -42,23 +38,12 @@ void coinProcess(char * uid){
 }
 
 int main(){
-    int fd2 = open("/var/run/rfid.pid", O_RDWR|O_CREAT|O_TRUNC);
-    if (fd2 == -1) {
-        perror("Erreur ouverture fichier pid\n");
-        exit(1);
-    }
-    int current_pid = getpid();
-    char cPid[255];
-    sprintf(cPid, "%d", current_pid);
-    if (write(fd2, &cPid, strlen(cPid)) == -1) {
-        fprintf(stderr,"Erreur ecriture pid file\n");
-        exit(1);
-    }
     char buffer[512];
     char uid[521];
+    sprintf(buffer,"%s/displayC.py CARD_PLEASE... &", CURRENT_DIR);
+    system(buffer);
     MFRC522 mfrc;
     mfrc.PCD_Init();
-    mfrc.setSPIConfig();
     while(TRUE){
         usleep(275*1000);
         // Look for a card
@@ -69,11 +54,11 @@ int main(){
                   sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
               }
               printf("%s\n", uid);
+              coinProcess(uid);
           }
         }
         else{
           continue;
         }
-        coinProcess(uid);
     }
 }
