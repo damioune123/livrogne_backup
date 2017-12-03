@@ -5,7 +5,7 @@ from dateutil import parser
 from threading import Thread
 from Queue import Queue
 import thread
-serverIP="127.0.0.1"
+serverIP="10.0.2.2"
 baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 def stop():
     global q_email
