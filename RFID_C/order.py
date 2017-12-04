@@ -5,15 +5,17 @@ from Queue import Queue
 from threading import Thread
 import thread
 from dateutil import parser
+from requests_kerberos import HTTPKerberosAuth, REQUIRED
 
 products ={}
 tMax=5 # temps commande max
-serverIP="10.0.2.2"
+serverIP="livrogne"
 baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 currentDir="/home/alex/livrogne_backup/RFID_C/"
 uName="NO AUTHENTICATION YET"
 m_timeout=1.5
 delayBeforeOrder=5
+authKerb =HTTPKerberosAuth(principal="alex@IOT_IPL_UNIX")
     
 def stop():
     global q_log
@@ -54,12 +56,10 @@ def validate_order():
     if orderlines:
         printLCD("WAIT FOR~VALIDATION")
         try:
-            r = requests.post(url=url, data=json.dumps(payload), headers=headers)
+            r = requests.post(url=url, data=json.dumps(payload), auth=authKerb, headers=headers)
             tokenRetour = json.loads(r.content)
         except requests.exceptions.RequestException as e:
             stop()
-        if role=="ROLE_BARMAN":
-            openRegister()
         if "INSUFFICIENT_CASH" in tokenRetour:
             printLCD("NOT ENOUGH CASH~TOTAL:"+str(tokenRetour["order_total"])+"E")
             time.sleep(m_timeout*3)
@@ -94,7 +94,7 @@ def order():
             break
         url = baseURL+'/products/'+barcode
         try:
-            r =  requests.get(url, headers=headers)
+            r =  requests.get(url, headers=headers, auth=authKerb)
             tokenVerif = json.loads(r.content)
         except requests.exceptions.RequestException as e:
             write_log("server", e)
@@ -111,6 +111,12 @@ def order():
             print( barcode +" :  codebarre non reconnu !")
             printLCD(barcode[:15]+":~NOT AVAILABLE")
     leave_program()
+def www_auth(response):
+    auth_fields = {}
+    for field in response.headers.get("www-authenticate", "").split(","):
+        kind, __, details = field.strip().partition(" ")
+        auth_fields[kind.lower()] = details.strip()
+    return auth_fields
 
 def auth():
     global headers
@@ -126,17 +132,21 @@ def auth():
     uid = sys.argv[1]
     url=baseURL+"/rfid-auth-tokens"
     data={"card_id":uid}
+
     try:
-        r=requests.post(url=url, data=json.dumps(data))
+        r=requests.post(url=url, data=json.dumps(data), auth=authKerb)
+        print(r.content)
         tokenPyth=json.loads(r.content)
-    except requests.exceptions.RequestException as e:
-        printLCD("Erreur connexion serveur")
+    except Exception as e:
+        print("KERBEROS : PAS AUTHENTIFIE ")
+        print(e)
         time.sleep(m_timeout*2)
         stop()
     if "value" not in tokenPyth:
         printLCD("CARD NOT IN~THE SYSTEM!")
         time.sleep(m_timeout)
         stop()
+    print("KERBEROS :  AUTHENTIFIE ")
     tokenTemp=tokenPyth["value"]
     token = tokenTemp[1][1:len(tokenTemp[1])-1]
     token = tokenTemp.replace("\\", "")
