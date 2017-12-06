@@ -6,16 +6,19 @@ from threading import Thread
 import thread
 from dateutil import parser
 from requests_kerberos import HTTPKerberosAuth, REQUIRED
+import os
+print(os.path.dirname(__file__))
 
 products ={}
 tMax=5 # temps commande max
 serverIP="livrogne"
-baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
+baseURL="https://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 currentDir="/home/alex/livrogne_backup/RFID_C/"
 uName="NO AUTHENTICATION YET"
 m_timeout=1.5
 delayBeforeOrder=5
 authKerb =HTTPKerberosAuth(principal="alex@IOT_IPL_UNIX")
+certificat = os.path.dirname(__file__)+"/livrogne_key.pem"
     
 def stop():
     global q_log
@@ -56,7 +59,7 @@ def validate_order():
     if orderlines:
         printLCD("WAIT FOR~VALIDATION")
         try:
-            r = requests.post(url=url, data=json.dumps(payload), auth=authKerb, headers=headers)
+            r = requests.post(url=url,verify=certificat, data=json.dumps(payload), auth=authKerb, headers=headers)
             tokenRetour = json.loads(r.content)
         except requests.exceptions.RequestException as e:
             stop()
@@ -94,7 +97,7 @@ def order():
             break
         url = baseURL+'/products/'+barcode
         try:
-            r =  requests.get(url, headers=headers, auth=authKerb)
+            r =  requests.get(url, verify=certificat,headers=headers, auth=authKerb)
             tokenVerif = json.loads(r.content)
         except requests.exceptions.RequestException as e:
             write_log("server", e)
@@ -134,7 +137,7 @@ def auth():
     data={"card_id":uid}
 
     try:
-        r=requests.post(url=url, data=json.dumps(data), auth=authKerb)
+        r=requests.post(url=url, data=json.dumps(data), auth=authKerb, verify=certificat)
         print(r.content)
         tokenPyth=json.loads(r.content)
     except Exception as e:
