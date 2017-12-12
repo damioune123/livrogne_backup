@@ -99,23 +99,9 @@ void tabletteProcess(char * uid){
     wait(NULL);
 }
 int main(){
-    int fd2 = open("/var/run/rfid.pid", O_RDWR|O_CREAT|O_TRUNC);
-    if (fd2 == -1) { 
-        perror("Erreur ouverture fichier pid\n");
-        exit(1);
-    }
-    int current_pid = getpid();
-    char cPid[255];
-    sprintf(cPid, "%d", current_pid);
-    if (write(fd2, &cPid, strlen(cPid)) == -1) { 
-        fprintf(stderr,"Erreur ecriture pid file\n");
-        exit(1);
-    }
     char buffer[512];
     char uid[521];
     MFRC522 mfrc;
-//    sprintf(buffer,"%s/displayC.py CARD_PLEASE... &", CURRENT_DIR);
- //   system(buffer);
     int presentCS0=0; 
     while(1){
         presentCS0=0;

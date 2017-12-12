@@ -21,15 +21,15 @@ SleepTimeL = 1
 
 # main loop
 
-try:
-  for i in pinList:
-    GPIO.output(i, GPIO.LOW)
-    print i
-    time.sleep(SleepTimeL)
-  GPIO.setup(19, GPIO.OUT)
-  GPIO.setup(20, GPIO.OUT)
-  GPIO.output(19, GPIO.HIGH)
-  GPIO.output(20, GPIO.HIGH)
+#try:
+ # for i in pinList:
+  #  GPIO.output(i, GPIO.LOW)
+   # print i
+    #time.sleep(SleepTimeL)
+  #GPIO.setup(19, GPIO.OUT)
+  #GPIO.setup(20, GPIO.OUT)
+  #GPIO.output(19, GPIO.HIGH)
+  #GPIO.output(20, GPIO.HIGH)
 
 
 # End program cleanly with keyboard
