@@ -249,12 +249,12 @@ def lecture_fut_thread(q_fut, q_fut_out):
             break
         temp = lagrange(count)
         cl_fut=round((temp+temp*0.35)/10,2)
+        cl_stock_display = str(round((cl_stock -float(cl_fut))/100,2))
         if  (cl_fut*cl_price)+0.3 >= float(available_money):
             power_off_pump_and_flow_rate()
             q_list_butt.put("QUIT")
-        print(cl_fut)
         if(cl_fut>0.2):
-            pLCD_fut("FUT CL: "+str(cl_fut)+"~"+str(round(cl_fut*cl_price,2))+"euro")
+            pLCD_fut("FUT CL: "+str(cl_fut)+"~"+str(round(cl_fut*cl_price,2))+"euro~Bu fut: "+cl_stock_display+"l~"+uName)
         time.sleep(1)
     power_off_pump_and_flow_rate()
 
@@ -441,6 +441,7 @@ def auth():
     global available_money
     global current_money
     global cl_price
+    global cl_stock
     if len(sys.argv) ==1:
         print("Usage %s rfid_uid" %(sys.argv[0]))
         stop()
@@ -508,6 +509,8 @@ Le probleme a eu lieu a %s."
         available_money=str(tokenPyth['user']["user_accounts"][0]["available_balance"])
         current_money=str(tokenPyth['user']["user_accounts"][0]["money_balance"])
     cl_price_base=tokenPythFut["product_category"]["price"]
+    cl_stock = -int(tokenPythFut["amount_available_in_stock"])
+    print("cl stock : "+str(cl_stock))
     if role =="ROLE_USER" or role =="ROLE_BARMAN":
         cl_price=tokenPythFut["price_with_promotion_user"]
     elif role=="ROLE_ADMIN":
@@ -616,5 +619,6 @@ def main():
     p3.start()
     auth()
     p4.start()
+    pLCD_fut("test~test~test~test")
     enter_order()
 main()
