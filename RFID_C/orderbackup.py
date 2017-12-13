@@ -27,7 +27,6 @@ m_timeout=1.5
 delayBeforeOrder=15
 ssh=None
 paramiko.util.log_to_file(currentDir+"logs/ssh_paramiko.log")
-codebar_fut="biere_fut_cl_1"
 
 def email_thread(q_email):
     FROM="livrognebar@gmail.com"
@@ -125,17 +124,6 @@ def stop():
     sys.exit(0)
 
 def leave_program():
-    global q_fut
-    global g_fut_out
-    q_fut.put("QUIT")
-    cl=0
-    try:
-        cl=q_fut_out.get(True,1)
-    except:
-        print("Empty")
-        pass
-    if cl !=0:
-        products[codebar_fut]=[cl,codebar_fut]
     lightButtonBlink()
     closeFrigo()
     validate_order() 
@@ -197,44 +185,6 @@ Nom de l'utilisateur %s , arrive a %s
                					ss += hid[int(ord(c))]
 	fp.close()
 	return ss
-
-def power_on_pump_and_flow_rate():
-    print("allumer vanne et flow_rate")
-def power_off_pump_and_flow_rate():
-    print("eteindre vanne et flow_rate")
-def lecture_fut_thread(q_fut, q_fut_out):
-    global q_list_butt
-    cl_fut =0
-    if float(available_money) <= 0.1:
-            power_off_pump_and_flow_rate()
-            printLCD("NOT ENOUGH MONEY")
-            q_list_butt.put("QUIT")
-            os.kill(os.getpid(), signal.SIGUSR1)
-            return
-
-    power_on_pump_and_flow_rate()
-    mess=""
-    while True:
-        try:
-            mess=q_fut.get(False)
-        except :
-            pass
-        if mess=="QUIT":
-            print("QUIT reCU")
-            q_fut_out.put(round(cl_fut,2))
-            break
-        old_cl_fut = cl_fut
-        cl_fut=cl_fut+1#replace 2 lines with count pulses logic
-        time.sleep(1)
-        if  cl_fut*cl_price+0.1 >= float(available_money):
-            power_off_pump_and_flow_rate()
-            printLCD("NOT ENOUGH MONEY")
-            q_list_butt.put("QUIT")
-            os.kill(os.getpid(), signal.SIGUSR1)
-        if(cl_fut >0 and old_cl_fut != cl_fut):
-            printLCD("FUT CL: "+str(round(cl_fut,2))+"~"+str(round(cl_fut*cl_price,2))+"euro")
-    power_off_pump_and_flow_rate()
-
 
 def count_items(products):
     total = 0
@@ -314,8 +264,7 @@ Resume de la commande : %s
         if "INSUFFICIENT_CASH" in tokenRetour:
             printLCD("NOT ENOUGH CASH~TOTAL:"+str(tokenRetour["order_total"])+"E")
             time.sleep(m_timeout*3)
-            print(tokenRetour)
-            printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"E")
+            printLCD("CUR.BALANCE:"+str(tokenRetour["balance"])+"E~MONEY LIM.:"+str(tokenRetour["money_limit"])+"E")
             time.sleep(m_timeout*3)
             email="""
 Bonjour chers Administrateurs,
@@ -334,18 +283,10 @@ Veuillez faire venir un administrateur au bar le plus rapidement possible pour l
         printLCD("NO PRODUCT")
         time.sleep(m_timeout)
 
-def listen_button(q_list_butt):
+def listen_button():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(port_GPIO_BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     while True:
-        mess=""
-        try:
-            mess=q_list_butt.get(False)
-        except:
-            pass
-        if mess=="QUIT":
-            print("Quit message from fut thread received")
-            return
         input_state = GPIO.input(port_GPIO_BUTTON)
         if input_state == False:
            os.kill(os.getpid(), signal.SIGUSR1)
@@ -354,10 +295,8 @@ def listen_button(q_list_butt):
         time.sleep(0.05)
 
 def order():
-    global p5
     time.sleep(m_timeout)
     printLCD("ORDER STARTED")
-    p5.start()
     global products
     t_end = time.time() + tMax 
     while t_end > time.time() :
@@ -369,7 +308,6 @@ def order():
             write_log("scan", e)
             break
         url = baseURL+'/products/'+barcode
-        print(url)
         try:
             r =  requests.get(url, headers=headers)
             tokenVerif = json.loads(r.content)
@@ -416,7 +354,6 @@ def auth():
     global role
     global available_money
     global current_money
-    global cl_price
     if len(sys.argv) ==1:
         print("Usage %s rfid_uid" %(sys.argv[0]))
         stop()
@@ -453,44 +390,10 @@ Le probleme a eu lieu a %s."
     uName=uName[:15]
     uId=tokenPyth["user"]["id"]
     role=tokenPyth["user"]["role"]
-    print(tokenPyth)
-    headers = {"X-Auth-Token": token,"Content-Type": "application/json"}
-    url=baseURL+"/products/"+codebar_fut
-    print(url)
-    try:
-        r=requests.get(url=url, headers=headers)
-        tokenPythFut=json.loads(r.content)
-    except requests.exceptions.RequestException as e:
-        email="""
-Bonjour chers Administrateurs,
-Il semblerait que le raspberry pi n'ait pas reussi a envoyer la requete au serveur pour connaitre le prix de la bier au fut.
-Il s'agit d'un probleme majeur, le serveur etant connecte en local. Il doit s'agir d'une surchauffe du raspberry pi bar.
-Pour resoudre le probleme, il faudrait le redemarrer au moyenne du boutton rouge du domino.
-Resume de l'exception : %s \n
-Le probleme a eu lieu a %s."
-            """%(e, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        subject="Erreur de connexion pour l'authentification par carte a %s" %(datetime.now().strftime("%Y-%m_%d %H:%M:%S"))
-        send_email(subject, email)
-        write_log("server", e)
-        printLCD("Erreur connexion serveur")
-        time.sleep(m_timeout*2)
-        stop()
-    if "name" not in tokenPythFut:
-        printLCD("PRIX FUT~PROBLEME")
-        time.sleep(m_timeout)
-        stop()
-    print(tokenPythFut)
     if role =="ROLE_USER" or role =="ROLE_ADMIN":
         available_money=str(tokenPyth['user']["user_accounts"][0]["available_balance"])
         current_money=str(tokenPyth['user']["user_accounts"][0]["money_balance"])
-    cl_price_base=tokenPythFut["product_category"]["price"]
-    if role =="ROLE_USER" or role =="ROLE_BARMAN":
-        cl_price=tokenPythFut["price_with_promotion_user"]
-    elif role=="ROLE_ADMIN":
-        cl_price=tokenPythFut["price_with_promotion_admin"]
-    else:
-        stop()
-    print("price cl : "+str(cl_price))
+    headers = {"X-Auth-Token": token,"Content-Type": "application/json"}
 
 def enter_order():
     signal.signal(signal.SIGUSR1, handler_child_enter_order)
@@ -558,7 +461,6 @@ def printLCD(string):
     global q_lcd
     q_lcd.put(string) 
 
-
 def write_log(log, message):
     global q_log
     q_log.put([log,message])
@@ -567,26 +469,20 @@ def main():
     global q_lcd
     global q_email
     global q_log
-    global q_fut
-    global q_fut_out
-    global q_list_butt
-    global p5
+    global p1
+    global p2
+    global p3
     q_email= Queue()
     q_lcd= Queue()
     q_log= Queue()
-    q_fut= Queue()
-    q_fut_out= Queue()
-    q_list_butt= Queue()
     p1=Thread(target=email_thread, args=(q_email,))
     p2=Thread(target=LCD_thread, args=(q_lcd,))
     p3=Thread(target=log_thread, args=(q_log,))
-    p4=Thread(target=listen_button, args=(q_list_butt,))
-    p5=Thread(target=lecture_fut_thread, args=(q_fut,q_fut_out,))
+    p4=Thread(target=listen_button)
     p1.setDaemon(True)
     p2.setDaemon(True)
     p3.setDaemon(True)
     p4.setDaemon(True)
-    p5.setDaemon(True)
     p1.start()
     p2.start()
     p3.start()
