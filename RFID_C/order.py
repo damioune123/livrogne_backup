@@ -1,4 +1,6 @@
 #!/usr/bin/python2
+# -*-coding:utf-8 -*
+import unicodedata
 import  re, math, sys, time, signal, requests, json, os, time, paramiko, smtplib
 import RPi.GPIO as GPIO
 from datetime import datetime
@@ -66,7 +68,7 @@ def openSSH():
             ssh = paramiko.SSHClient()
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy()) 
             ssh.load_system_host_keys()
-            ssh.connect(hostnameCam, portCam, usernameCam, passwordCam, timeout=3)
+            ssh.connect(hostnameCam, portCam, usernameCam, passwordCam, timeout=1)
             return True
     except:
         email="""
@@ -255,7 +257,7 @@ def lecture_fut_thread(q_fut, q_fut_out):
             power_off_pump_and_flow_rate()
             q_list_butt.put("QUIT")
         if(cl_fut>0.2):
-            pLCD_fut("FUT CL: "+str(cl_fut)+"~"+str(round(cl_fut*cl_price,2))+"euro~Bu fut: "+cl_stock_display+"l~"+uName)
+            pLCD_fut(strip_accents("FUT CL: "+str(cl_fut)+"~"+str(round(cl_fut*cl_price,2))+"euro~Bu fut: "+cl_stock_display+"l~"+uName))
         time.sleep(1)
     power_off_pump_and_flow_rate()
 
@@ -567,12 +569,18 @@ def log_thread(q_log):
             log_scan_f.write(message)
         q_log.task_done()
 
+def strip_accents(text):
+   # text = unicode(text,"utf-8" )
+   # text = ''.join(c for c in unicodedata.normalize('NFKD', text) if unicodedata.category(c) != 'Mn')
+   # text=unicodedata.normalize('NFKD', text).encode('ascii','ignore')
+    return text
+    
 def LCD_thread(q_lcd):
     while True:
         data=q_lcd.get()
         try:
             print(data)
-            pLCD(data)
+            pLCD(strip_accents(data))
         except Exception as e:
             write_log("lcd",str(e))
         finally:

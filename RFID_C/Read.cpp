@@ -107,7 +107,7 @@ int main(){
         presentCS0=0;
         mfrc.PCD_Init();
         mfrc.setSPIConfig();
-        usleep(275*1000);
+        usleep(200*1000);
         // Look for a card
         if(mfrc.PICC_IsNewCardPresent())
             presentCS0=1;
