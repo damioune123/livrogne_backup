@@ -1,16 +1,14 @@
 #!/usr/bin/node
-var https=require('https');
 var request = require('request');
 var hdate = require('human-date')
 var path = require("path");
 var fs = require('fs');
-var sync = require('sync');
-var FormData= require('form-data');
 var FB = require('fb'),fb = new FB.Facebook({version: 'v2.11'});
-
+//A changer tous les 2 mois
+//https://developers.facebook.com/tools/accesstoken/ (s'etre connecter avec le ocmpte de l'ivrogne avant)
+var access_token ="EAAbSAPyAKP8BAD7mAEOyItYSvKiEGavwfMxq9hSFedXXviXKubYhy51dZCwbKZCTKTaaY62HHtemzDBcgsYHagOA56qAyY7nxaHazrg5UZAikqLv0iMa8VPI94rs8f1rIjZBeidNCpA5KOZBfo2ZAMV7k4HD26NTkZD";
 var citation_file_path=__dirname+"/citations.txt";
 var userID="162987154469540";
-var access_token ="EAAbSAPyAKP8BAD7mAEOyItYSvKiEGavwfMxq9hSFedXXviXKubYhy51dZCwbKZCTKTaaY62HHtemzDBcgsYHagOA56qAyY7nxaHazrg5UZAikqLv0iMa8VPI94rs8f1rIjZBeidNCpA5KOZBfo2ZAMV7k4HD26NTkZD";
 var date = hdate.prettyPrint(new Date());
 var photo_path =process.argv[2];
 
