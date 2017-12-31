@@ -6,40 +6,29 @@ var path = require("path");
 var fs = require('fs');
 var sync = require('sync');
 var FormData= require('form-data');
-
+var FB = require('fb'),fb = new FB.Facebook({version: 'v2.11'});
 
 var citation_file_path=__dirname+"/citations.txt";
-console.log(citation_file_path);
-var userID="162943101140612";
-var access_token ="EAACEdEose0cBAGGxnMrZA0fJBRGUlxrJNVbfzkfSop54zGPXY0TmwnRtN9x3tSLFp2AZCZCR84tvlWuJizIEzuLUczDEvvIfNyRUcBNd06yWerNNK1tXi3BdlFLTDEvnSbZAyiw0irLaTYwxzfnUcZArJJaYVcRAPLVXOPZBUMEEAPAZAwcUKwituQdsOiJupm9q5YX6io9mAZDZD";
+var userID="162987154469540";
+var access_token ="EAAbSAPyAKP8BAD7mAEOyItYSvKiEGavwfMxq9hSFedXXviXKubYhy51dZCwbKZCTKTaaY62HHtemzDBcgsYHagOA56qAyY7nxaHazrg5UZAikqLv0iMa8VPI94rs8f1rIjZBeidNCpA5KOZBfo2ZAMV7k4HD26NTkZD";
 var date = hdate.prettyPrint(new Date());
 var photo_path =process.argv[2];
-var options = {
-    host: 'graph.facebook.com',
-    path: '/me?access_token=' + access_token
-};
+
+FB.setAccessToken(access_token); 
+FB.api('me', { fields: ['id'] }, function (res) {
+    if(res.id !==  userID){
+	console.log("erreur auth");
+	process.exit();
+    }
+    console.log("LOGIN OK");
+});
+
 if(process.argv.length !=3){
 	console.log("veuillez mettre le nom de fichier en argument");
 	process.exit();
 }
-sync(https.get(options,function(res){
-    var data = '';
-
-    res.on('data', function (chunk) {
-        data += chunk;
-    });
-
-    res.on('end', function() {
-        console.log(data);
-	data = JSON.parse(data);
-	if(data.id===undefined){
-		console.log("erreur token ou connexion");
-		process.exit();
-	}
-    });
-}));
-
 const get_quote=function(){
+
      content=fs.readFileSync(citation_file_path,"utf-8");
      content = content.replace(/\r?\n|\r/g, " ");
 
@@ -54,68 +43,46 @@ const publish_photo = function(album_id){
 	console.log(caption);
 	console.log(photo_path);
 
-	var form = new FormData(); //Create multipart form
-	form.append('file', fs.createReadStream(photo_path)); //Put file
-	form.append('message', caption); //Put message
- 
-	//POST request options, notice 'path' has access_token parameter
-	var options = {
-    	    method: 'post',
-    	    host: 'graph.facebook.com',
-    	    path: "/"+album_id+"/photos?access_token="+access_token,
-    	    headers: form.getHeaders(),
-	}
- 
-	//Do POST request, callback for response
-	var request = https.request(options, function (res){
+	FB.api(album_id+'/photos', 'post', { source: fs.createReadStream(photo_path), caption: caption }, function (res) {
+  	    if(!res || res.error) {
+    		console.log(!res ? 'error occurred' : res.error);
+   		return;
+  	    }
+  	    console.log('Post Id: ' + res.post_id);
 	});
- 
-	//Binds form to request
-	form.pipe(request);
- 
-	//If anything goes wrong (request-wise not FB)
-	request.on('error', function (error) {
-     	    console.log(error);
-	});
+
 }
 
-request.get(
-    'https://graph.facebook.com/'+userID+"/albums?access_token=" + access_token,
-    function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-	    body = JSON.parse(body);
-	    var deja=false;
-	    var albumId="";
-	    body.data.forEach(function(alb){ 
-		if(alb.name === date){
-			deja=true;
-			albumId=alb.id;
-		}
-		else{
-		}
-	    });
-	    if(!deja){
-		request.post(
-    			'https://graph.facebook.com/'+userID+"/albums?access_token=" + access_token,
-    			{ json: { name: date } },
-    			function (error, response, body) {
-       	 			if (!error && response.statusCode == 200) {
-            				console.log(body.id);
-					albumId=body.id;	
-        			}
-				publish_photo(albumId);
-    			}
-		);    
-            }
-	    else{
-		publish_photo(albumId);
-	    }
-    	}
-	
+FB.api(
+    "me/albums",
+    function (res) {
+        if(!res || res.error){
+		console.log(!res ? "error occured" : res.error);
+		process.exit();
+	}
+	var deja=false;
+	var albumId="";
+	res.data.forEach(function(alb){ 
+	   if(alb.name === date){
+	       deja=true;
+	       albumId=alb.id;
+	   }
+	});
+	if(!deja){
+	    FB.api(
+    	         'me/albums',
+		 'post',
+    		 { name: date } ,
+    		 function (res) {
+       	 	     if (!res || res.error) {
+   		         console.log(!res ? 'error occurred' : res.error);
+			 process.exit();
+        	     }
+		     publish_photo(res.id);
+    		 });    
+         }else{ publish_photo(albumId);}
     }
 );
-
-
 
 
 

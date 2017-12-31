@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "fb": "^2.0.0",
     "human-date": "^1.4.0",
     "request": "^2.83.0",
     "sync": "^0.2.5"
