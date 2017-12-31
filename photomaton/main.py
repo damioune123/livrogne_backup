@@ -10,9 +10,11 @@ from datetime import datetime
 from PIL import Image
 import pygame
 from pygame.locals import *
+from quotes import get_quote
 import os
 
 
+print(get_quote())
 GPIO.setmode(GPIO.BCM)
 
 pygame.init()
@@ -23,7 +25,7 @@ user, pwd ='livrognebar', 'azerty123'
 InstagramAPI = InstagramAPI(user, pwd)
 def upload_insta(path):
     InstagramAPI.login()
-    caption="HALLOWEEN 2017"
+    caption=get_quote()
     InstagramAPI.uploadPhoto(path, caption = caption)
 
 def takepic(imageName): #prend une photo (note: il faut selectionner la ligne qui correspond Ã  votre installation en enlevant le premier # )
