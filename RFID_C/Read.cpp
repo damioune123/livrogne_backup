@@ -65,7 +65,6 @@ int cardScripts(char *uid){
 
 void orderProcess(char * uid){
     char buffer[512];
-    system("service sensors_cam stop");
     sprintf(buffer,"%s/order.py", CURRENT_DIR);
     wait(NULL);
     printf("%s\n", buffer); 
@@ -79,7 +78,6 @@ void orderProcess(char * uid){
         execl(buffer,"order.py", uid, NULL);
     }
     wait(NULL);
-    system("service sensors_cam start");
     sprintf(buffer,"%s/displayC.py CARD_PLEASE... &", CURRENT_DIR);
     system(buffer);
 }
@@ -134,7 +132,10 @@ int main(){
             printf("%s\n", uid);
         }
         if(cardScripts(uid)) continue;
-        if(presentCS0) orderProcess(uid);
+        if(presentCS0){
+            orderProcess(uid);
+            printf("print dans prog C\n");
+        }
         else{
             tabletteProcess(uid);
             sleep(5);
