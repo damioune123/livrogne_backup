@@ -1,3 +1,4 @@
+#!/usr/bin/node
 var https=require('https');
 var request = require('request');
 var hdate = require('human-date')
@@ -17,7 +18,10 @@ var options = {
     host: 'graph.facebook.com',
     path: '/me?access_token=' + access_token
 };
-
+if(process.argv.length !=3){
+	console.log("veuillez mettre le nom de fichier en argument");
+	process.exit();
+}
 sync(https.get(options,function(res){
     var data = '';
 
@@ -36,7 +40,7 @@ sync(https.get(options,function(res){
 }));
 
 const get_quote=function(){
-     content=fs.readFileSync(citation_file_path,"utf8");
+     content=fs.readFileSync(citation_file_path,"utf-8");
      content = content.replace(/\r?\n|\r/g, " ");
 
      quotes = content.split("%");
