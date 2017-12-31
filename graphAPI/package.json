@@ -1,0 +1,17 @@
+{
+  "name": "graphapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fb": "^2.0.0",
+    "human-date": "^1.4.0",
+    "request": "^2.83.0",
+    "sync": "^0.2.5"
+  }
+}

@@ -12,8 +12,14 @@ import pygame
 from pygame.locals import *
 from quotes import get_quote
 import os
-
-
+port_GPIO_BLUE=19
+port_GPIO_YELLOW=13
+port_GPIO_GREEN=6
+port_GPIO_RED=5
+up_face_script ="/home/pi/livrogne_backup/photomaton/graphAPI/up_facebook.js"
+last_photo=""
+last_insta_photo=""
+last_face_photo=""
 print(get_quote())
 GPIO.setmode(GPIO.BCM)
 
@@ -23,6 +29,10 @@ width, height = screen.get_size()
 
 user, pwd ='livrognebar', 'azerty123'
 InstagramAPI = InstagramAPI(user, pwd)
+
+def upload_face(path):
+    os.system(up_face_script+" "+path)
+
 def upload_insta(path):
     InstagramAPI.login()
     caption=get_quote()
@@ -60,11 +70,12 @@ def writemessage(message): # pour pouvoir afficher des messages sur un font noir
     screen.blit(textsurface,(35,40))
     pygame.display.update()
 
-
+textsurfaceT=""
 def writemessagetransparent(message): # pour pouvoir afficher des messages en conservant le font
+    global textsurfaceT
     font = pygame.font.SysFont("verdana", 50, bold=1)
-    textsurface = font.render(message, 1, pygame.Color(255,255,255))
-    screen.blit(textsurface,(35,40))
+    textsurfaceT = font.render(message, 1, pygame.Color(255,255,255))
+    screen.blit(textsurfaceT,(35,40))
     pygame.display.update()
 
 
@@ -75,42 +86,74 @@ if (os.path.isdir("/home/pi/Desktop/photos") == False): # si le dossier pour sto
 
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(19, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(port_GPIO_BLUE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(port_GPIO_YELLOW, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(port_GPIO_GREEN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(port_GPIO_RED, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+os.system("/home/pi/livrogne_backup/scripts/colorsON.py")
 while True : #boucle jusqu'a interruption
   try:
         print "\n attente boucle"
 
         #on attend que le bouton soit pressÃ©
-        GPIO.wait_for_edge(19, GPIO.FALLING)
+        if not GPIO.input(port_GPIO_BLUE):
+            #on lance le decompte
+            minuterie()
+            os.system("/home/pi/livrogne_backup/scripts/flashON.py")
+            #on genere le nom de la photo avec heure_min_sec
+            date_today = datetime.now()
+            nom_image = date_today.strftime('%d_%m_%H_%M_%S')
+            #on prend la photo
+            chemin_photo = '/home/pi/Desktop/photos/'+nom_image+'.jpeg'
+            takepic(chemin_photo) #on prend la photo
+            os.system("/home/pi/livrogne_backup/scripts/flashOFF.py")
+            #on affiche la photo
+            loadpic(chemin_photo)
+            #on affiche un message
+            writemessagetransparent("magnifique !  ")
+            last_photo=chemin_photo
+        if not GPIO.input(port_GPIO_YELLOW):
+            if last_photo =="":
+                continue
+            if last_photo==last_insta_photo:
+                loadpic(last_photo)
+                writemessagetransparent("Already uploaded on instagram")
+                loadpic(last_photo)
+                continue
 
-        # on a appuyÃ© sur le bouton...
+            loadpic(last_photo)
+            writemessagetransparent("Uploading on instagram ...  ")
+            loadpic(last_photo)
+            upload_insta(last_photo)
+            loadpic(last_photo)
+            writemessagetransparent("On instagram !  ")
+            loadpic(last_photo)
+            last_insta_photo=last_photo
+        if not GPIO.input(port_GPIO_GREEN):
+            if last_photo =="":
+                continue
+            if last_photo==last_face_photo:
+                loadpic(last_photo)
+                writemessagetransparent("Already uploaded on facebook")
+                loadpic(last_photo)
+                continue
+            loadpic(last_photo)
+            writemessagetransparent("Uploading on Facebook ...  ")
+            loadpic(last_photo)
+            upload_face(last_photo)
+            loadpic(last_photo)
+            writemessagetransparent("On Facebook !  ")
+            loadpic(last_photo)
+            last_face_photo=last_photo
+        if not GPIO.input(port_GPIO_RED):
+            if last_photo =="":
+                continue
+            loadpic(last_photo)
+            writemessagetransparent("Printing ... : Ask staff to confirm ")
+            loadpic(last_photo)
 
-
-        #on lance le decompte
-        minuterie()
-        os.system("/home/pi/livrogne_backup/scripts/flashON.py")
-
-
-        #on genere le nom de la photo avec heure_min_sec
-        date_today = datetime.now()
-        nom_image = date_today.strftime('%d_%m_%H_%M_%S')
-
-
-        #on prend la photo
-        chemin_photo = '/home/pi/Desktop/photos/'+nom_image+'.jpeg'
-        takepic(chemin_photo) #on prend la photo
-        os.system("/home/pi/livrogne_backup/scripts/flashOFF.py")
-
-        #on affiche la photo
-        loadpic(chemin_photo)
-
-
-        #on affiche un message
-        writemessagetransparent("magnifique !  ")
-        upload_insta(chemin_photo)
-
-
-
+        time.sleep(0.1)
 
   except KeyboardInterrupt:
     print 'sortie du programme!'
