@@ -4,7 +4,7 @@ from time import sleep
 # LCD Address
 #ADDRESS = 0x3F
 
-ADDRESS = 0x3f
+ADDRESS = 0x3b
 
 # I2C bus
 BUS = 1

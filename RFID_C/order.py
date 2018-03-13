@@ -1,5 +1,5 @@
 #!/usr/bin/python2
-import  re, math, sys, time, signal, requests, json, os, time, paramiko, smtplib
+import  re, math, sys, time, signal, requests, json, os, time, smtplib
 import RPi.GPIO as GPIO
 from datetime import datetime
 from display import printLCD as pLCD
@@ -11,7 +11,7 @@ from temp_logger import CPU
 
 products ={}
 tMax=90 # temps commande max
-serverIP="127.0.0.1"
+serverIP="192.168.0.210"
 baseURL="http://"+serverIP+"/ivrogne_api_raspberry/web/app.php/api"
 currentDir="/home/pi/RFID_C/"
 uName="NO AUTHENTICATION YET"
@@ -26,7 +26,6 @@ port_GPIO_FRIGO_LOCK=22
 m_timeout=1.5
 delayBeforeOrder=15
 ssh=None
-paramiko.util.log_to_file(currentDir+"logs/ssh_paramiko.log")
 
 def email_thread(q_email):
     FROM="livrognebar@gmail.com"
@@ -43,7 +42,7 @@ def email_thread(q_email):
         write_log("email", "Erreur login email")
     while(True):
         data= q_email.get()
-        SUBJECT = data[0]#to split
+        SUBJECT = "BAR CARA : "+data[0]#to split
         TEXT = data[1] #to split
         message = "From: %s\nTo: %s\nSubject: %s\n\n%s" % (FROM, ", ".join(TO), SUBJECT, TEXT)
         try:
@@ -117,17 +116,13 @@ def stop():
     global q_email
     global q_log
     global q_lcd
-    printLCD("Goodbye !")
     q_email.join()
     q_log.join()
     q_lcd.join()
     sys.exit(0)
 
 def leave_program():
-    lightButtonBlink()
-    closeFrigo()
     validate_order() 
-    stop_encoding()
     stop()
 def handler_child_leave_order(signum, frame):
     leave_program()
@@ -136,8 +131,6 @@ def handler_child_leave_order(signum, frame):
 def handler_child_enter_order(signum, frame):
     signal.signal(signal.SIGUSR1, handler_child_leave_order)
     lightButtonOn()
-    start_encoding()
-    openFrigo()
     order()
 
 def lecture_barcode(timeout):
@@ -414,10 +407,6 @@ def enter_order():
             time.sleep(m_timeout)
             printLCD("MONEY BALANCE :~"+current_money+"euro")
             time.sleep(m_timeout)
-        cpu=CPU()
-        printLCD(cpu[0])
-        time.sleep(m_timeout)
-        printLCD(cpu[1])
         time.sleep(m_timeout)
         t_left=int(round(t_end-time.time()))
         if t_left > 0 :

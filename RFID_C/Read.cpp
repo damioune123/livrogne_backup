@@ -81,21 +81,6 @@ void orderProcess(char * uid){
     sprintf(buffer,"%s/displayC.py CARD_PLEASE... &", CURRENT_DIR);
     system(buffer);
 }
-void tabletteProcess(char * uid){
-    char buffer[512];
-    pid_t child_pid;
-    sprintf(buffer,"%s/login_rfid.py", CURRENT_DIR);
-    wait(NULL);
-    printf("%s\n", buffer); 
-    if ((child_pid = fork())== -1){
-        perror("Erreur fork\n");
-        exit(1);
-    }
-    if(child_pid == 0){
-        execl(buffer,"login_rfid.py", uid, NULL);
-    }
-    wait(NULL);
-}
 int main(){
     char buffer[512];
     char uid[521];
@@ -119,26 +104,12 @@ int main(){
             printf("%s\n", uid);
         }
         if(presentCS0 ==0){
-            mfrc.PCD_Init();
-            mfrc.setSPIConfigCS1();
-            if(!mfrc.PICC_IsNewCardPresent())
-                continue;
-            *uid='\0';
-            if( mfrc.PICC_ReadCardSerial()){
-                for(byte i = 0; i < mfrc.uid.size; ++i){
-                    sprintf(uid,"%s%d",uid, mfrc.uid.uidByte[i]);
-                }
-            }   
-            printf("%s\n", uid);
+	    continue;
         }
         if(cardScripts(uid)) continue;
         if(presentCS0){
             orderProcess(uid);
             printf("print dans prog C\n");
-        }
-        else{
-            tabletteProcess(uid);
-            sleep(5);
         }
     }
 }
