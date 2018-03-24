@@ -5,8 +5,8 @@ import requests, json, time, sys
 appKey="597b3cab2768a91069e47ef24ed7daee"
 headers = {"Authorization": "Bearer "+appKey,"Accept": "application/json"}
 baseURL="https://opendata-api.stib-mivb.be/OperationMonitoring/1.0/PassingTimeByPoint/"
-TIME_ATTEMPT=30
-MAX_ATTEMPT=5
+TIME_ATTEMPT=5
+MAX_ATTEMPT=15
 
 """
 ARRETS_ID:
@@ -287,9 +287,13 @@ def getDicoBienfaiteurs():
        try:
 	    counter+=1
             dico=mergeDicts(dico, get3299PassingTimes())
+	    print("1/12 requests done")
             dico=mergeDicts(dico, get6210PassingTimes())
+	    print("2/12 requests done")
             dico=mergeDicts(dico, get3308FPassingTimes())
+	    print("3/12 requests done")
             dico=mergeDicts(dico, get3360FPassingTimes())
+	    print("4/12 requests done")
 	    break
        except ValueError, e:
            print(str(e))
@@ -310,9 +314,13 @@ def getDicoChazal():
 	try:
 	   counter+=1
 	   dico=mergeDicts(dico, get2916PassingTimes())
+	   print("9/12 requests done")
            dico=mergeDicts(dico, get2976PassingTimes())
+	   print("10/12 requests done")
     	   dico=mergeDicts(dico, get5355PassingTimes())
+	   print("11/12 requests done")
     	   dico=mergeDicts(dico, get5307PassingTimes())
+	   print("12/12 requests done")
 	   break
         except ValueError, e:
            print(str(e))
@@ -332,9 +340,13 @@ def getDicoCoteaux():
 	try:
             counter+=1
     	    dico=mergeDicts(dico, get6203PassingTimes())
+	    print("5/12 requests done")
     	    dico=mergeDicts(dico, get3164PassingTimes())
+	    print("6/12 requests done")
     	    dico=mergeDicts(dico, get3309PassingTimes())
+	    print("7/12 requests done")
             dico=mergeDicts(dico, get3112PassingTimes())
+	    print("8/12 requests done")
 	    break
         except ValueError, e:
            print(str(e))
@@ -355,10 +367,6 @@ def mergeString():
     retour+=passingTimesToString("Chazal", "9 min de marche  - 750m ", getDicoChazal())
     return retour
 
-try:
-    print(mergeString())
-    sys.exit(0)
-except Exception,e:
-    print(str(e))
-    sys.exit(1)
+print("Warning : as the STIB doesn't allow more than 20 requests every minute, please set the MAX_ATTEMPT and TIME_ATTEMPT accordingly to your needs")
+print(mergeString())
 
