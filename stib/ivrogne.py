@@ -358,7 +358,7 @@ def getDicoCoteaux():
     sortMinutesDelta(dico)
     return dico
 
-def mergeString():
+def getStibInfo():
     retour=""
     retour+=passingTimesToString("Bienfaiteurs", "2 min de marche  - 180m ", getDicoBienfaiteurs())
     retour+="\n"
@@ -368,5 +368,5 @@ def mergeString():
     return retour
 
 print("Warning : as the STIB doesn't allow more than 20 requests every minute, please set the MAX_ATTEMPT and TIME_ATTEMPT accordingly to your needs")
-print(mergeString())
+print(getStibInfo())
 
