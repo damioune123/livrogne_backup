@@ -68,6 +68,8 @@ def get2916PassingTimes():
     #2916 : 64 PORTE DE NAMUR / 65 GARE CENTRALE
     r =  requests.get(baseURL+"2916", headers=headers)
     rJson = json.loads(r.content)
+    if len(rJson["points"])==0:
+        raise ValueError("No bus/trams passing time in next minutes, try aggain tomorrow")
     for e in rJson["points"][0]["passingTimes"]:
        if e["lineId"] =="64":
 	   delta=getMinutesDelta(parser.parse(e["expectedArrivalTime"]))
@@ -82,6 +84,8 @@ def get2976PassingTimes():
     #2976 : 64 MACHELEN 
     r =  requests.get(baseURL+"2976", headers=headers)
     rJson = json.loads(r.content)
+    if len(rJson["points"])==0:
+        raise ValueError("No bus/trams passing time in next minutes, try aggain tomorrow")
     for e in rJson["points"][0]["passingTimes"]:
        if e["lineId"] =="64":
 	   delta=getMinutesDelta(parser.parse(e["expectedArrivalTime"]))
@@ -96,6 +100,8 @@ def get5355PassingTimes():
     #5355 : 7 HEYZEL
     r =  requests.get(baseURL+"5355", headers=headers)
     rJson = json.loads(r.content)
+    if len(rJson["points"])==0:
+        raise ValueError("No bus/trams passing time in next minutes, try aggain tomorrow")
     for e in rJson["points"][0]["passingTimes"]:
        if e["lineId"] =="7":
 	   delta=getMinutesDelta(parser.parse(e["expectedArrivalTime"]))
@@ -110,6 +116,8 @@ def get5307PassingTimes():
     #5307 : 7 VANDERKINDERE
     r =  requests.get(baseURL+"5307", headers=headers)
     rJson = json.loads(r.content)
+    if len(rJson["points"])==0:
+        raise ValueError("No bus/trams passing time in next minutes, try aggain tomorrow")
     for e in rJson["points"][0]["passingTimes"]:
        if e["lineId"] =="7":
 	   delta=getMinutesDelta(parser.parse(e["expectedArrivalTime"]))
@@ -124,6 +132,8 @@ def get6203PassingTimes():
     #6203 : 66 PEAGE
     r =  requests.get(baseURL+"6203", headers=headers)
     rJson = json.loads(r.content)
+    if len(rJson["points"])==0:
+        raise ValueError("No bus/trams passing time in next minutes, try aggain tomorrow")
     for e in rJson["points"][0]["passingTimes"]:
        if e["lineId"] =="66":
 	   delta=getMinutesDelta(parser.parse(e["expectedArrivalTime"]))
@@ -138,6 +148,8 @@ def get3309PassingTimes():
     #3309 : 66 DE BROUCKERE
     r =  requests.get(baseURL+"3309", headers=headers)
     rJson = json.loads(r.content)
+    if len(rJson["points"])==0:
+        raise ValueError("No bus/trams passing time in next minutes, try aggain tomorrow")
     for e in rJson["points"][0]["passingTimes"]:
        if e["lineId"] =="66":
 	   delta=getMinutesDelta(parser.parse(e["expectedArrivalTime"]))
@@ -152,6 +164,8 @@ def get3164PassingTimes():
     #3164 : 59 BORDET STATION
     r =  requests.get(baseURL+"3164", headers=headers)
     rJson = json.loads(r.content)
+    if len(rJson["points"])==0:
+        raise ValueError("No bus/trams passing time in next minutes, try aggain tomorrow")
     for e in rJson["points"][0]["passingTimes"]:
        if e["lineId"] =="59":
 	   delta=getMinutesDelta(parser.parse(e["expectedArrivalTime"]))
@@ -166,6 +180,8 @@ def get3112PassingTimes():
     #3112 : 59 HOPITAL ETTERBEEK-IXELLES
     r =  requests.get(baseURL+"3112", headers=headers)
     rJson = json.loads(r.content)
+    if len(rJson["points"])==0:
+        raise ValueError("No bus/trams passing time in next minutes, try aggain tomorrow")
     for e in rJson["points"][0]["passingTimes"]:
        if e["lineId"] =="59":
 	   delta=getMinutesDelta(parser.parse(e["expectedArrivalTime"]))
@@ -180,6 +196,8 @@ def get3308FPassingTimes():
     #3308F : 25 VERS ROGIER / 62 CIM. DE JETTE
     r =  requests.get(baseURL+"3308F", headers=headers)
     rJson = json.loads(r.content)
+    if len(rJson["points"])==0:
+        raise ValueError("No bus/trams passing time in next minutes, try aggain tomorrow")
     for e in rJson["points"][0]["passingTimes"]:
        if e["lineId"] =="25":
 	   delta=getMinutesDelta(parser.parse(e["expectedArrivalTime"]))
@@ -200,6 +218,8 @@ def get6210PassingTimes():
     #6210 : 65 gare centrale / N04 gare centrale
     r =  requests.get(baseURL+"6210", headers=headers)
     rJson = json.loads(r.content)
+    if len(rJson["points"])==0:
+        raise ValueError("No bus/trams passing time in next minutes, try aggain tomorrow")
     for e in rJson["points"][0]["passingTimes"]:
        if e["lineId"] =="65":
 	   delta=getMinutesDelta(parser.parse(e["expectedArrivalTime"]))
@@ -220,6 +240,8 @@ def get3299PassingTimes():
     #3299 : 65 BOURGET / N04 cimetiere de bruxelles    
     r =  requests.get(baseURL+"3299", headers=headers)
     rJson = json.loads(r.content)
+    if len(rJson["points"])==0:
+        raise ValueError("No bus/trams passing time in next minutes, try aggain tomorrow")
     for e in rJson["points"][0]["passingTimes"]:
        if e["lineId"] =="65":
 	   delta=getMinutesDelta(parser.parse(e["expectedArrivalTime"]))
@@ -240,6 +262,8 @@ def get3360FPassingTimes():
     #3360F : 25 VERS GARE BOONDAEL / 62 EUROCONTROL
     r =  requests.get(baseURL+"3360F", headers=headers)
     rJson = json.loads(r.content)
+    if len(rJson["points"])==0:
+        raise ValueError("No bus/trams passing time in next minutes, try aggain tomorrow")
     for e in rJson["points"][0]["passingTimes"]:
        if e["lineId"] =="25":
 	   delta=getMinutesDelta(parser.parse(e["expectedArrivalTime"]))
@@ -267,6 +291,9 @@ def getDicoBienfaiteurs():
             dico=mergeDicts(dico, get3308FPassingTimes())
             dico=mergeDicts(dico, get3360FPassingTimes())
 	    break
+       except ValueError, e:
+           print(str(e))
+	   sys.exit(1)
        except:
 	    print("STIB QUOTA REACHED, TRYING AGAIN TO FETCH DATA / TOTAL ATTEMPT : "+str(counter))
 	    time.sleep(TIME_ATTEMPT)
@@ -287,6 +314,8 @@ def getDicoChazal():
     	   dico=mergeDicts(dico, get5355PassingTimes())
     	   dico=mergeDicts(dico, get5307PassingTimes())
 	   break
+        except ValueError, e:
+           print(str(e))
 	except:
 	    print("STIB QUOTA REACHED, TRYING AGAIN TO FETCH DATA / TOTAL ATTEMPT : "+str(counter))
 	    time.sleep(TIME_ATTEMPT)
@@ -307,6 +336,8 @@ def getDicoCoteaux():
     	    dico=mergeDicts(dico, get3309PassingTimes())
             dico=mergeDicts(dico, get3112PassingTimes())
 	    break
+        except ValueError, e:
+           print(str(e))
 	except:
 	    print("STIB QUOTA REACHED, TRYING AGAIN TO FETCH DATA / TOTAL ATTEMPT : "+str(counter))
 	    time.sleep(TIME_ATTEMPT)
